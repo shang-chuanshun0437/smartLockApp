@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">牧童安居</string>
+    <string name="skip">3</string>
+    <string name="skip_text">s跳过</string>
+
+    <string name="permission_name_calendar">Calendar</string>
+    <string name="permission_name_camera">Camera</string>
+    <string name="permission_name_contacts">Contacts</string>
+    <string name="permission_name_location">地理位置</string>
+    <string name="permission_name_microphone">Microphone</string>
+    <string name="permission_name_phone">Phone</string>
+    <string name="permission_name_sensors">Body Sensors</string>
+    <string name="permission_name_sms">SMS</string>
+    <string name="permission_name_storage">Storage</string>
+
+    <string name="message_permission_always_failed">为了搜索附近的蓝牙，牧童安居需要以下权限:\n\n%1$s</string>
+    <string name="title_dialog">权限申请:</string>
+    <string name="setting">设置</string>
+    <string name="cancel">取消</string>
+    <string name="message_setting_comeback">The user comes back from the settings page.</string>
+    <string name="message_permission_rationale">Grant the following permissions to continue the program:\n\n%1$s</string>
+    <string name="resume">Resume</string>
+</resources>

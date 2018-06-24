@@ -1,0 +1,18 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">#FF0000</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="MTAJ.THEM" parent="@style/Theme.AppCompat.Light.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:statusBarColor">#a1bbce</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+
+</resources>

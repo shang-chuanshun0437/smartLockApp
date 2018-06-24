@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    tools:actionBarNavMode="@mipmap/zufang"
+    tools:context="mutong.com.mtaj.main.MainActivity">
+
+    <TextView
+        android:id="@+id/app_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_weight="1"
+        android:text="@string/app_name"
+        android:textAlignment="center"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="572dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewPager"
+                android:layout_width="380dp"
+                android:layout_height="203dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/dotlayout"
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:layout_marginTop="192dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/viewPager">
+
+                <View
+                    android:id="@+id/dot_0"
+                    android:layout_width="10dip"
+                    android:layout_height="10dip"
+                    android:layout_marginLeft="162dip"
+                    android:layout_marginRight="10dip"
+                    android:background="@drawable/dot_focused" />
+
+                <View
+                    android:id="@+id/dot_1"
+                    android:layout_width="10dip"
+                    android:layout_height="10dip"
+                    android:layout_marginLeft="0dip"
+                    android:layout_marginRight="10dip"
+                    android:background="@drawable/dot_normal" />
+
+                <View
+                    android:id="@+id/dot_2"
+                    android:layout_width="10dip"
+                    android:layout_height="10dip"
+                    android:layout_marginLeft="2dip"
+                    android:layout_marginRight="2dip"
+                    android:background="@drawable/dot_normal" />
+            </LinearLayout>
+
+            <mutong.com.mtaj.common.GridViewRowDivide
+                android:id="@+id/mainGridView"
+                android:layout_width="0dp"
+                android:layout_height="168dp"
+                android:layout_marginTop="208dp"
+                android:columnWidth="100dp"
+                android:gravity="center"
+                android:numColumns="3"
+                android:stretchMode="columnWidth"
+                android:verticalSpacing="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/viewPager" />
+
+            <View
+                android:id="@+id/dividView1"
+                android:layout_width="1000dp"
+                android:layout_height="6dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="388dp"
+                android:background="#CDC5BF"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.536"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/dividView2"
+                android:layout_width="4dp"
+                android:layout_height="18dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="402dp"
+                android:background="#8B8989"
+                android:gravity="center"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/newDynamic"
+                android:layout_width="208dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="125dp"
+                android:layout_marginTop="400dp"
+                android:layout_weight="1"
+                android:text=" 最新动态"
+                android:textColor="#000000"
+                android:textSize="18dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/dividView3"
+                android:layout_width="1000dp"
+                android:layout_height="1dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="430dp"
+                android:background="#878787"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.534"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@mipmap/smversion"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dividView3" />
+
+        </android.support.constraint.ConstraintLayout>
+
+    </ScrollView>
+
+
+</android.support.constraint.ConstraintLayout>
