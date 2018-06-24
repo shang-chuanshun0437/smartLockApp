@@ -112,7 +112,6 @@ public class DeviceActivity extends AppCompatActivity implements View.OnClickLis
                 Intent intent = new Intent(this, BindDeviceActivity.class);
                 startActivity(intent);
                 break;
-
             //绑定用户
             case R.id.device_user:
                 break;
