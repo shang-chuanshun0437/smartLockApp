@@ -8,12 +8,12 @@ import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -27,6 +27,8 @@ public class ReadyOpenDoorActivity extends AppCompatActivity implements View.OnC
     private TextView readyOpendoor;
     private ImageView imageView;
     private AnimationDrawable animationDrawable;
+    private EditText editText;
+    private String bluetoothMac;
     /**
      * 自定义的打开 Bluetooth 的请求码，与 onActivityResult 中返回的 requestCode 匹配。
      */
@@ -39,6 +41,9 @@ public class ReadyOpenDoorActivity extends AppCompatActivity implements View.OnC
 
         readyOpendoor = (TextView)findViewById(R.id.readyOpendoor);
         imageView = (ImageView)findViewById(R.id.readyOpendoorImage);
+        editText = (EditText)findViewById(R.id.editText);
+
+        editText.setFocusable(false);
 
         animationDrawable = (AnimationDrawable) imageView.getBackground();
         imageView.setOnClickListener(this);
@@ -54,7 +59,7 @@ public class ReadyOpenDoorActivity extends AppCompatActivity implements View.OnC
 
         System.out.println("ReadyOpenDoorActivity thread:" + Thread.currentThread().getName());
         readyOpendoor.setText(bundle.getString("deviceName"));
-
+        bluetoothMac = bundle.getString("bloothMac");
         PermissionUtils.requestPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION);
         //PermissionUtils.requestPermission(this,Settings.ACTION_LOCATION_SOURCE_SETTINGS);
         //PermissionUtils.coarseLocation(this);
@@ -74,7 +79,7 @@ public class ReadyOpenDoorActivity extends AppCompatActivity implements View.OnC
                 {
                     System.out.println("start animationDrawable");
                     animationDrawable.start();
-                    bluetoothManagerService.connect("vv");
+                    bluetoothManagerService.connect(bluetoothMac);
                 }
                 break;
         }
@@ -151,6 +156,30 @@ public class ReadyOpenDoorActivity extends AppCompatActivity implements View.OnC
     }
 
     private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg)
+        {
+            Bundle bundle = msg.getData();
+            String temp = editText.getText().toString();
+            switch (msg.what)
+            {
+                case Constant.BLE_READ:
+                    String ret = bundle.getString("bleread");
+                    temp += ret += "\n";
+                    editText.setText(temp);
+                    break;
 
+                case Constant.BLE_CONNECT:
+                    String retConnect = bundle.getString("bleconnect");
+                    temp += retConnect += "\n";
+                    editText.setText(temp);
+                    break;
+                case Constant.BLE_SERVICE:
+                    String retService = bundle.getString("bleservice");
+                    temp += retService += "\n";
+                    editText.setText(temp);
+                    break;
+            }
+        }
     };
 }

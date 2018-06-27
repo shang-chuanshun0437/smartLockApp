@@ -83,7 +83,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         map.put("password",pwd.getText().toString());
 
         HttpUtil httpUtil = new HttpUtil(handler,this);
-        httpUtil.post(map,"user/addUser");
+        httpUtil.post(map,"/user/addUser");
 
         /*RequestQueue mQueue = Volley.newRequestQueue(this);
 

@@ -12,12 +12,17 @@ import android.bluetooth.BluetoothManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 
+import java.net.ContentHandlerFactory;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+
+import mutong.com.mtaj.common.Constant;
 
 public class BluetoothManagerService
 {
@@ -39,6 +44,7 @@ public class BluetoothManagerService
 
     private BluetoothGattService bluetoothGattServices;
 
+    //private Handler handler
     /**
      * 自定义的打开 Bluetooth 的请求码，与 onActivityResult 中返回的 requestCode 匹配。
      */
@@ -49,7 +55,6 @@ public class BluetoothManagerService
         this.context = context;
         this.handler = handler;
         this.activity = (Activity)context;
-        scanCallback = new ScanCallback(context,bluetoothAdapter);
 
         bluetoothManager = (BluetoothManager) context.getSystemService(Context.BLUETOOTH_SERVICE);
         bluetoothAdapter = bluetoothManager.getAdapter();
@@ -124,14 +129,17 @@ public class BluetoothManagerService
             return false;
         }
 
-        final BluetoothDevice device = bluetoothAdapter.getRemoteDevice("08:7C:BE:EA:38:F8");
+        final BluetoothDevice device = bluetoothAdapter.getRemoteDevice(address);
         if (device == null)
         {
             System.out.println("BluetoothDevice can not find");
+
             return false;
         }
 
-        bluetoothGatt = device.connectGatt(context, true, gattcallback);
+        bluetoothGatt = device.connectGatt(context, false, gattcallback);
+
+        System.out.println("address connect");
         return true;
     }
 
@@ -146,21 +154,21 @@ public class BluetoothManagerService
             {
                 //已经连接
                 case BluetoothGatt.STATE_CONNECTED:
-                    System.out.println("已连接蓝牙");
+                    System.out.println("已连接蓝牙，thread：" + Thread.currentThread().getName());
+                    Bundle bundle = new Bundle();
+                    bundle.putString("bleconnect","已连接蓝牙");
+
+                    Message msg = new Message();
+                    msg.what = Constant.BLE_CONNECT;
+                    msg.setData(bundle);
+
+                    handler.sendMessage(msg);
                     //该方法用于获取设备的服务，寻找服务
                     bluetoothGatt.discoverServices();
-                    break;
-                //正在连接
-                case BluetoothGatt.STATE_CONNECTING:
-                    System.out.println("正在连接蓝牙");
                     break;
                 //连接断开
                 case BluetoothGatt.STATE_DISCONNECTED:
                     System.out.println("蓝牙已断开");
-                    break;
-                //正在断开
-                case BluetoothGatt.STATE_DISCONNECTING:
-                    System.out.println("正在断开蓝牙");
                     break;
             }
         }
@@ -172,7 +180,17 @@ public class BluetoothManagerService
             //寻找到服务时
             if (status == bluetoothGatt.GATT_SUCCESS)
             {
-                System.out.println("已经寻找到蓝牙服务");
+                System.out.println("已经寻找到蓝牙服务，thread：" + Thread.currentThread().getName());
+
+                Bundle bundle = new Bundle();
+                bundle.putString("bleservice","已经寻找到蓝牙服务");
+
+                Message msg = new Message();
+                msg.what = Constant.BLE_SERVICE;
+                msg.setData(bundle);
+
+                handler.sendMessage(msg);
+
                 final List<BluetoothGattService> services = bluetoothGatt.getServices();
 
                 for (final BluetoothGattService bluetoothGattService : services)
@@ -188,33 +206,20 @@ public class BluetoothManagerService
                         if( (properties & BluetoothGattCharacteristic.PROPERTY_READ) != 0)
                         {
                             System.out.println("蓝牙的Characteristic UUID:" + characteristic.getUuid() + ",properties:" + properties + ",属性为可读.");
+                            bluetoothGatt.readCharacteristic(characteristic);
                         }
-                        if( (properties & BluetoothGattCharacteristic.PROPERTY_WRITE) != 0)
-                        {
-                            System.out.println("蓝牙的Characteristic UUID:" + characteristic.getUuid() + ",properties:" + properties + ",属性为可写.");
-                        }
-                        //找到透传特征值
-                        // 00002a06-0000-1000-8000-00805f9b34fb 小米手环震动特征值 0x01震动 0x02强震
-                        if (characteristic.getUuid().toString().equals("00002a06-0000-1000-8000-00805f9b34fb")) {
-                            //设备 震动特征值
-                            //characteristic_zd = charac;
 
-                        }
-                        else if (characteristic.getUuid().toString().equals("0000ff06-0000-1000-8000-00805f9b34fb")) {
-                            //设备 步数
-                            //characteristic_jb = charac;
-                            //bluetoothGatt.readCharacteristic(characteristic_jb);
+                        System.out.println("蓝牙的Characteristic UUID:" + characteristic.getUuid() + ",properties:" + properties + ",属性为可写.");
 
-                        }
-                        else if (characteristic.getUuid().toString().equals("")) {
-                            //设备 电量特征值
-                        }
+                        //bluetoothGatt.setCharacteristicNotification(characteristic,true);
+                        //characteristic.setWriteType(BluetoothGattCharacteristic.WRITE_TYPE_NO_RESPONSE);
+                        characteristic.setValue("123");
+                        Boolean flags = false;
+                        flags = bluetoothGatt.writeCharacteristic(characteristic);
+                        System.out.println("写入数据成功标志位：flags = " + flags);
+
                     }
-                    //serviceslist.add(bluetoothGattService.getUuid().toString());
                 }
-//                        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-//                                MainActivity.this, android.R.layout.simple_expandable_list_item_1, serviceslist);
-                //list.setAdapter(adapter);
             }
         }
         //当读取设备时会回调该函数
@@ -224,7 +229,16 @@ public class BluetoothManagerService
             super.onCharacteristicRead(gatt, characteristic, status);
             if (status == bluetoothGatt.GATT_SUCCESS)
             {
-                System.out.println("读取蓝牙数据onCharacteristicRead: " + characteristic.getValue()[0]);
+                System.out.println("读取蓝牙数据: " + characteristic.getValue()[0] + "," + characteristic.getStringValue(0) + ",UUID:" + characteristic.getUuid());
+
+                Bundle bundle = new Bundle();
+                bundle.putString("bleread","读取蓝牙数据:" + characteristic.getStringValue(0));
+
+                Message msg = new Message();
+                msg.what = Constant.BLE_READ;
+                msg.setData(bundle);
+
+                handler.sendMessage(msg);
             }
         }
 

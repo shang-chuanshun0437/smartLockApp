@@ -36,4 +36,13 @@ public class Constant
 
     //申请定位权限
     public static final int LOCATION_PERMISSION = 10002;
+
+    //蓝牙读标志位
+    public static final int BLE_READ = 10003;
+
+    //蓝牙连接标志位
+    public static final int BLE_CONNECT = 10004;
+
+    //蓝牙服务标志位
+    public static final int BLE_SERVICE = 10005;
 }
