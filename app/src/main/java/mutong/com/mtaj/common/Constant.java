@@ -45,4 +45,7 @@ public class Constant
 
     //蓝牙服务标志位
     public static final int BLE_SERVICE = 10005;
+
+    //蓝牙发送数据成功标志位
+    public static final int BLE_SEND_SUCCESS = 10006;
 }

@@ -137,7 +137,7 @@ public class BluetoothManagerService
             return false;
         }
 
-        bluetoothGatt = device.connectGatt(context, false, gattcallback);
+        bluetoothGatt = device.connectGatt(context, true, gattcallback);
 
         System.out.println("address connect");
         return true;
@@ -254,6 +254,8 @@ public class BluetoothManagerService
         public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status)
         {
             super.onCharacteristicWrite(gatt, characteristic, status);
+
+           handler.sendEmptyMessage(Constant.BLE_SEND_SUCCESS);
 
             System.out.println("向特性中写数据onCharacteristicWrite: " + characteristic.getValue()[0]);
 

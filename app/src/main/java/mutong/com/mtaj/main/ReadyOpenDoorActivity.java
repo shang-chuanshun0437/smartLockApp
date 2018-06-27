@@ -179,6 +179,9 @@ public class ReadyOpenDoorActivity extends AppCompatActivity implements View.OnC
                     temp += retService += "\n";
                     editText.setText(temp);
                     break;
+                case Constant.BLE_SEND_SUCCESS:
+                    editText.setText(temp + "写数据成功");
+                    break;
             }
         }
     };
