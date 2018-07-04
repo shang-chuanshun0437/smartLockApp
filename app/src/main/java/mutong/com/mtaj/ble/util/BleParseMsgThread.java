@@ -8,6 +8,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
+import mutong.com.mtaj.utils.StringUtil;
+
 import static mutong.com.mtaj.ble.util.BleConstant.D;
 
 
@@ -34,7 +36,7 @@ public class BleParseMsgThread extends Thread
 	 * The queue for message. 
 	 * @see BleQueue	
 	 */
-	private BleUtil.BleQueue mQueue;
+	private BleQueue mQueue;
 	
 	/**
 	 * The constructor for {@link BleParseMsgThread}.
@@ -46,7 +48,7 @@ public class BleParseMsgThread extends Thread
 		mInnerCondition = mInnerLock.newCondition();
 
 		mHandler = handler;
-		mQueue = new BleUtil.BleQueue(128);
+		mQueue = BleQueue.getInstance();
 		// mMessage = null;
 		mIsRun = true;
 		Log.i(TAG, "We are running the BleParseMsg thread.");
@@ -64,7 +66,7 @@ public class BleParseMsgThread extends Thread
 			return;
 		}
 		
-		mQueue.addElement(message);
+		mQueue.addReciveElement(message);
 		
 		mInnerLock.lock();
 		mInnerCondition.signalAll();	// UnLock
@@ -165,7 +167,12 @@ public class BleParseMsgThread extends Thread
 	 */
 	private byte[] getMessageFromBuffer()
 	{
-		return mQueue.getAllBytes();
+		String sendData = mQueue.getSendElement();
+		if(StringUtil.isEmpty(sendData))
+		{
+			return null;
+		}
+
+		return sendData.getBytes();
 	}
-		
 }

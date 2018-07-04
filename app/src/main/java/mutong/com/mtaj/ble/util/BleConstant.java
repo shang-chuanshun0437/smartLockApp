@@ -25,12 +25,31 @@ public final class BleConstant {
     public final static int HM_BLE_DISCONNECTED	= 0x04;
     /**	读写准备就绪	*/
     public final static int HM_BLE_READY		= 0x05;
-    /**	读写准备失败	*/
-    public final static int HM_BLE_READY_FAIL	= 0xFE;
-    /**	命令写入蓝牙成功	*/
-    public final static int HM_CMD_WRITED		= 0x06;
-    /**	命令写入蓝牙失败	*/
-    public final static int HM_CMD_FAILURE		= 0xFD;
+    /**	写UUID没找到	*/
+    public final static int BLE_WRITE_NOTFOUND	= 0xFE;
+    /**	写UUID已找到	*/
+    public final static int BLE_WRITE_FOUND	= 1003;
+
+    /**	读UUID没找到	*/
+    public final static int BLE_READ_NOTFOUND	= 1004;
+    /**	读UUID已找到	*/
+    public final static int BLE_READ_FOUND	= 1005;
+
+    /**	读取成功*/
+    public final static int BLE_READ_SUCCESS = 1006;
+    /**	读取失败	*/
+    public final static int BLE_READ_FAIL	= 1007;
+
+    /**	写失败	*/
+    public final static int BLE_WRITE_FAIL	= 1002;
+    /**	写成功	*/
+    public final static int BLE_WRITE_SUCCESS	= 1009;
+
+    /**	收到通知	*/
+    public final static int BLE_NOTIFY_SUCCESS	= 1008;
+
+    /**	找不到蓝牙	*/
+    public final static int BLE_NOTFOUND	= 1010;
 
     /**	Toast, 系统信息(测试用)	*/
     public final static int HM_DEBUG_TOAST		= 0x88;
@@ -48,10 +67,14 @@ public final class BleConstant {
 	public final static boolean D = true;
 	
     /**	The UUID of the characteristic for write	*/
-    public final static UUID UUID_WRITE = 
-    		UUID.fromString("00002a00-0000-1000-8000-00805f9b34fb");
+    public final static UUID UUID_WRITE = UUID.fromString("0000fef1-0000-1000-8000-00805f9b34fb");
+    //public final static UUID UUID_WRITE = UUID.fromString("00002902-0000-1000-8000-00805f9b34fc");
     /**	The UUID of the characteristic for read	*/
-    public final static UUID UUID_READ = 
-    		UUID.fromString("00002a00-0000-1000-8000-00805f9b34fb");
+    public final static UUID UUID_READ = UUID.fromString("0000fef2-0000-1000-8000-00805f9b34fb");
+    //public final static UUID UUID_READ = UUID.fromString("00002902-0000-1000-8000-00805f9b34fc");
+    /**	The UUID of the service */
+    public final static UUID UUID_SERVICE = UUID.fromString("0000fef0-0000-1000-8000-00805f9b34fb");
+    //public final static UUID UUID_SERVICE = UUID.fromString("00002902-0000-1000-8000-00805f9b34fb");
+
 
 }

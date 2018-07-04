@@ -41,6 +41,7 @@ public class HomePageActivity extends Fragment
         //设置ViewPager
         this.setViewPager();
 
+        broadcast();
         return view;
     }
 
@@ -56,13 +57,12 @@ public class HomePageActivity extends Fragment
         mainGridView.setOnItemClickListener(new GridViewItemClickListener(this.getContext()));
     }
 
-    private List<Map<String,Object>> getData()
+    private List<Map<String,Object>>  getData()
     {
         List<Map<String,Object>> dataMap = new ArrayList<Map<String,Object>>();
 
-        int []icon = {R.mipmap.opendevice,R.mipmap.movehome,R.mipmap.fixdevice,
-                       R.mipmap.pay,R.mipmap.settings,R.mipmap.zufang,
-                        R.mipmap.other,};
+        int []icon = {R.mipmap.opendevice,R.mipmap.talk,R.mipmap.smartlockshow,
+                       R.mipmap.zufang,R.mipmap.liveservice, R.mipmap.community,};
         String []title = {"芝麻开门","客服","智能锁", "租房","生活服务","社区服务",};
 
         for (int i = 0;i < title.length;i++)
@@ -127,7 +127,24 @@ public class HomePageActivity extends Fragment
     /**
      * 利用线程池定时执行viewPager轮播
      */
-    @Override
+    private void broadcast()
+    {
+        ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
+        scheduledExecutorService.scheduleWithFixedDelay(
+                new Runnable() {
+                    @Override
+                    public void run()
+                    {
+                        int nextItem = (viewPager.getCurrentItem() + 1) % 3;
+                        handler.sendEmptyMessage(nextItem);
+                    }
+                },
+                2,
+                5,
+                TimeUnit.SECONDS);
+    }
+
+    /*@Override
     public void onStart()
     {
         super.onStart();
@@ -144,7 +161,7 @@ public class HomePageActivity extends Fragment
                 2,
                 5,
                 TimeUnit.SECONDS);
-    }
+    }*/
 
     /**
      * 接收子线程传递过来的数据

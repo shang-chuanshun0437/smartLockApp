@@ -18,7 +18,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import mutong.com.mtaj.R;
+import mutong.com.mtaj.ble.BleHelper;
 import mutong.com.mtaj.ble.BluetoothManagerService;
+import mutong.com.mtaj.ble.util.BleConstant;
 import mutong.com.mtaj.common.Constant;
 import mutong.com.mtaj.utils.PermissionUtils;
 
@@ -29,6 +31,7 @@ public class ReadyOpenDoorActivity extends AppCompatActivity implements View.OnC
     private AnimationDrawable animationDrawable;
     private EditText editText;
     private String bluetoothMac;
+    private BleHelper bleHelper;
     /**
      * 自定义的打开 Bluetooth 的请求码，与 onActivityResult 中返回的 requestCode 匹配。
      */
@@ -74,12 +77,12 @@ public class ReadyOpenDoorActivity extends AppCompatActivity implements View.OnC
         {
             case R.id.readyOpendoorImage:
                 System.out.println("readyOpendoorImage click");
-                BluetoothManagerService bluetoothManagerService = new BluetoothManagerService(this,handler);
-                if( bluetoothManagerService.isSupoortBluetooth() && !animationDrawable.isRunning())
+                bleHelper = new BleHelper(this,handler,bluetoothMac);
+                if( bleHelper.initialize() && !animationDrawable.isRunning())
                 {
                     System.out.println("start animationDrawable");
                     animationDrawable.start();
-                    bluetoothManagerService.connect(bluetoothMac);
+                    bleHelper.connectByMac(bluetoothMac);
                 }
                 break;
         }
@@ -159,30 +162,73 @@ public class ReadyOpenDoorActivity extends AppCompatActivity implements View.OnC
         @Override
         public void handleMessage(Message msg)
         {
-            Bundle bundle = msg.getData();
             String temp = editText.getText().toString();
             switch (msg.what)
             {
-                case Constant.BLE_READ:
-                    String ret = bundle.getString("bleread");
-                    temp += ret += "\n";
+                case BleConstant.BLE_WRITE_NOTFOUND:
+                    temp += "写特征值没找到：" + BleConstant.UUID_WRITE;
+                    temp += "\n";
+                    editText.setText(temp);
+                    break;
+                case BleConstant.BLE_WRITE_FOUND:
+                    temp += "写特征值已找到：" + BleConstant.UUID_WRITE;
+                    temp += "\n";
+                    editText.setText(temp);
+                    break;
+                case BleConstant.BLE_NOTIFY_SUCCESS:
+                    temp += "已收到通知：" + msg.obj;
+                    temp += "\n";
+                    editText.setText(temp);
+                    break;
+                case BleConstant.BLE_READ_NOTFOUND:
+                    temp += "读特征值没找到：" + BleConstant.UUID_READ;
+                    temp += "\n";
+                    editText.setText(temp);
+                    break;
+                case BleConstant.BLE_READ_FOUND:
+                    temp += "读特征值已找到：" + BleConstant.UUID_READ;
+                    temp += "\n";
+                    editText.setText(temp);
+                    break;
+                case BleConstant.BLE_READ_SUCCESS:
+                    temp += "读UUID成功," + msg.obj ;
+                    temp += "\n";
                     editText.setText(temp);
                     break;
 
-                case Constant.BLE_CONNECT:
-                    String retConnect = bundle.getString("bleconnect");
-                    temp += retConnect += "\n";
+                case BleConstant.HM_BLE_DISCONNECTED:
+                    temp += "蓝牙断开连接";
+                    temp += "\n";
                     editText.setText(temp);
                     break;
-                case Constant.BLE_SERVICE:
-                    String retService = bundle.getString("bleservice");
-                    temp += retService += "\n";
+                case BleConstant.HM_BLE_CONNECTED:
+                    temp += "蓝牙连接成功";
+                    temp += "\n";
                     editText.setText(temp);
                     break;
-                case Constant.BLE_SEND_SUCCESS:
-                    editText.setText(temp + "写数据成功");
+                case BleConstant.BLE_WRITE_SUCCESS:
+                    editText.setText(temp + "写数据成功," + msg.obj + "\n");
+                    break;
+                case BleConstant.BLE_WRITE_FAIL:
+                    editText.setText(temp + "写数据失败," + "\n");
+                    break;
+
+                case BleConstant.BLE_NOTFOUND:
+                    editText.setText(temp + "找不到指定的蓝牙：" + msg.obj + "\n");
                     break;
             }
         }
     };
+
+    @Override
+    protected void onStop()
+    {
+        super.onStop();
+        if (bleHelper != null)
+        {
+            bleHelper.close();
+        }
+    }
+
+
 }

@@ -1,5 +1,6 @@
 package mutong.com.mtaj.ble.util;
 
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -9,6 +10,8 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+
+import mutong.com.mtaj.utils.StringUtil;
 
 import static mutong.com.mtaj.ble.util.BleConstant.D;
 
@@ -32,7 +35,7 @@ public class BleSendCmdThread extends Thread {
 	/** 
 	 * The queue for command.
 	 */
-	private BleUtil.BleQueue mQueue;
+	private BleQueue mQueue;
 	
 	public BleSendCmdThread(BluetoothGatt btGatt, BluetoothGattCharacteristic btChactacteristic, Handler handler)
 	{
@@ -41,7 +44,7 @@ public class BleSendCmdThread extends Thread {
 		mWriteCharacteristic = btChactacteristic;
 		mHandler = handler;
 		
-		mQueue = new BleUtil.BleQueue(128);
+		mQueue = BleQueue.getInstance();
 		mIsRun = true;
 		
 		mInnerLock = new ReentrantLock();
@@ -57,49 +60,44 @@ public class BleSendCmdThread extends Thread {
 	{
 		if (null == command)
 		{
-			if (D) Log.i(TAG, "The message is null!");
 			return;
 		}
 		
-		mQueue.addElement(command);
-		
+		mQueue.addSendElement(command);
+
 		mInnerLock.lock();
-		mInnerCondition.signalAll();
-		if (D)	Log.i(TAG, "InnerLock UnLock!");
+		mInnerCondition.signalAll();	// UnLock
 		mInnerLock.unlock();
-		
-		if (D) Log.i(TAG, "Add the command!");
-		
-		return;
+
 	}
 	
 	@Override
 	public void run()
 	{
-		byte[] command = null;
+		String command = "";
 		while (mIsRun)
 		{
 			command = getCommandFromBuffer();
 			
-			if (null != command)
+			if (!StringUtil.isEmpty(command))
 			{
-				sendCmdToBle(command);
+				sendCmdToBle(command.getBytes());
 			}
 			else
 			{
 				mInnerLock.lock();
 				try
 				{
-					System.out.println("We're waiting the command.");
-					mInnerCondition.await();
+					System.out.println("进入BleSend线程，正在等待添加数据");
+					mInnerCondition.await(1000, TimeUnit.MILLISECONDS);
 				}
 				catch (Exception e)
 				{
 					e.printStackTrace();
 				}
-				finally
-				{
+				finally {
 					mInnerLock.unlock();
+					System.out.println("锁已释放");
 				}
 			}
 		}
@@ -124,9 +122,9 @@ public class BleSendCmdThread extends Thread {
 	 * Getting command from the {@link BleSendCmdThread#mQueue}.
 	 * @return The command included in the buffer.
 	 */
-	private byte[] getCommandFromBuffer()
+	private String getCommandFromBuffer()
 	{
-		return mQueue.getAllBytes();
+		return mQueue.getSendElement();
 	}
 	
     /**
@@ -139,34 +137,54 @@ public class BleSendCmdThread extends Thread {
      */
     private void sendCmdToBle(byte[] cmd)
 	{
-    	int length = cmd.length;
-    	if (length <= 20)
-    	{	// 每次最多写入20字节
-    		mWriteCharacteristic.setValue(cmd);
-            mBluetoothGatt.writeCharacteristic(mWriteCharacteristic);
-    	}
-    	else
+		Boolean flags = false;
+		try
 		{
-			// Every times send 20 bytes
-    		byte[] subCmd = new byte[20];
-    		int count = length / 20;
-    		int remainder = length % 20;
-    		for (int i = 0; i < count; ++i)
-    		{
-    			System.arraycopy(cmd, i * 20,
-    					subCmd, 0, 20);
-    			
-    			mWriteCharacteristic.setValue(subCmd);
-    			mBluetoothGatt.writeCharacteristic(mWriteCharacteristic);
-    		}
+			//BluetoothGattService gattService = mBluetoothGatt.getService(BleConstant.UUID_WRITE);
+			//BluetoothGattCharacteristic characteristic = gattService.getCharacteristic(BleConstant.UUID_WRITE);
+			int length = cmd.length;
+			if (length <= 20)
+			{	// 每次最多写入20字节
+				mWriteCharacteristic.setValue(cmd);
+				flags = mBluetoothGatt.writeCharacteristic(mWriteCharacteristic);
+			}
+			else
+			{
+				// Every times send 20 bytes
+				byte[] subCmd = new byte[20];
+				int count = length / 20;
+				int remainder = length % 20;
+				for (int i = 0; i < count; ++i)
+				{
+					System.arraycopy(cmd, i * 20,
+							subCmd, 0, 20);
 
-    		byte[] remaindCmd = new byte[remainder];
-    		System.arraycopy(cmd, count * 20,
-    				remaindCmd, 0, remainder);
-    		
-			mWriteCharacteristic.setValue(remaindCmd);
-			mBluetoothGatt.writeCharacteristic(mWriteCharacteristic);
-    	}
+					mWriteCharacteristic.setValue(subCmd);
+					flags = mBluetoothGatt.writeCharacteristic(mWriteCharacteristic);
+				}
+
+				byte[] remaindCmd = new byte[remainder];
+				System.arraycopy(cmd, count * 20,
+						remaindCmd, 0, remainder);
+
+				mWriteCharacteristic.setValue(remaindCmd);
+				flags = mBluetoothGatt.writeCharacteristic(mWriteCharacteristic);
+			}
+			if(flags == false)
+			{
+				//mHandler.sendEmptyMessage(BleConstant.BLE_WRITE_FAIL);
+			}
+			else
+			{
+				mHandler.sendEmptyMessage(BleConstant.BLE_WRITE_SUCCESS);
+			}
+			System.out.println("写标志位：flags：" + flags + ",写入的数据:" + new String(cmd));
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		mIsRun = false;
     }
 	
     /**
@@ -183,5 +201,8 @@ public class BleSendCmdThread extends Thread {
     	mHandler.sendMessage(msg);
         if (D)	Log.d(TAG, "" + what);
     }
-	
+
+	public boolean ismIsRun() {
+		return mIsRun;
+	}
 }

@@ -4,30 +4,39 @@
 
     <item
         android:drawable="@mipmap/opendoor0"
-        android:duration="200" />
+        android:duration="60" />
     <item
         android:drawable="@mipmap/opendoor1"
-        android:duration="200" />
+        android:duration="60" />
     <item
         android:drawable="@mipmap/opendoor2"
-        android:duration="200" />
+        android:duration="60" />
     <item
         android:drawable="@mipmap/opendoor3"
-        android:duration="200" />
+        android:duration="60" />
     <item
         android:drawable="@mipmap/opendoor4"
-        android:duration="200" />
+        android:duration="60" />
     <item
         android:drawable="@mipmap/opendoor5"
-        android:duration="200" />
+        android:duration="60" />
     <item
         android:drawable="@mipmap/opendoor6"
-        android:duration="200" />
+        android:duration="60" />
     <item
         android:drawable="@mipmap/opendoor7"
-        android:duration="200" />
+        android:duration="60" />
     <item
         android:drawable="@mipmap/opendoor8"
-        android:duration="200" />
+        android:duration="60" />
+    <item
+        android:drawable="@mipmap/opendoor9"
+        android:duration="60" />
+    <item
+        android:drawable="@mipmap/opendoor10"
+        android:duration="60" />
+    <item
+        android:drawable="@mipmap/opendoor11"
+        android:duration="60" />
 
 </animation-list>
