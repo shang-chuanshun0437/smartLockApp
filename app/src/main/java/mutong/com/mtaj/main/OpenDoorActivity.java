@@ -2,6 +2,8 @@ package mutong.com.mtaj.main;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.SimpleAdapter;
 
 import java.util.ArrayList;
@@ -17,9 +19,10 @@ import mutong.com.mtaj.listener.OpenDoorGrideViewListener;
 import mutong.com.mtaj.repository.Device;
 import mutong.com.mtaj.repository.User;
 
-public class OpenDoorActivity extends AppCompatActivity
+public class OpenDoorActivity extends AppCompatActivity implements View.OnClickListener
 {
     private GridViewRowDivide openDoorGridView;
+    private ImageView backView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +30,9 @@ public class OpenDoorActivity extends AppCompatActivity
         setContentView(R.layout.open_door);
 
         openDoorGridView = (GridViewRowDivide)findViewById(R.id.openDoorGridView);
+        backView = (ImageView)findViewById(R.id.opendoorback);
+
+        backView.setOnClickListener(this);
 
         setOpenDoorGridView();
     }
@@ -74,5 +80,16 @@ public class OpenDoorActivity extends AppCompatActivity
             dataMap.add(map);
         }
         return dataMap;
+    }
+
+    @Override
+    public void onClick(View view)
+    {
+        switch (view.getId())
+        {
+            case R.id.opendoorback:
+                finish();
+                break;
+        }
     }
 }

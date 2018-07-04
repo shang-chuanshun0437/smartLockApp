@@ -8,26 +8,47 @@
     tools:actionBarNavMode="@mipmap/zufang"
     tools:context="mutong.com.mtaj.main.MainActivity">
 
+    <ImageView
+        android:id="@+id/opendoorback"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="10dp"
+        android:src="@mipmap/back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/openDoorSelected"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="18dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:layout_weight="1"
         android:text="芝麻开门"
         android:textAlignment="center"
         android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/opendoorback"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/dividView1"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="6dp"
+        android:background="#CDC5BF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/openDoorSelected" />
 
     <mutong.com.mtaj.common.GridViewRowDivide
         android:id="@+id/openDoorGridView"
         android:layout_width="0dp"
-        android:layout_height="540dp"
+        android:layout_height="514dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
         android:columnWidth="100dp"
         android:gravity="center"
         android:numColumns="2"
@@ -36,6 +57,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/openDoorSelected" />
+        app:layout_constraintTop_toTopOf="@+id/openDoorSelected" />
+
+
 
 </android.support.constraint.ConstraintLayout>

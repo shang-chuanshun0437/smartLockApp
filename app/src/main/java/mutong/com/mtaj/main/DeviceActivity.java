@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.util.ArrayMap;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -34,9 +36,11 @@ public class DeviceActivity extends AppCompatActivity implements View.OnClickLis
 
     private ListView deviceListView;
 
-    private TextView deviceAdd;
+    private ImageView deviceAdd;
 
-    private TextView deviceUser;
+    private ImageView deviceUser;
+
+    private ImageView backImage;
 
     private JSONObject jsonObject = null;
 
@@ -49,11 +53,13 @@ public class DeviceActivity extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.device);
 
         deviceListView = (ListView)findViewById(R.id.device_listView);
-        deviceAdd = (TextView)findViewById(R.id.device_add);
-        deviceUser = (TextView)findViewById(R.id.device_user);
+        deviceAdd = (ImageView) findViewById(R.id.add_divice);
+        deviceUser = (ImageView) findViewById(R.id.add_user);
+        backImage = (ImageView)findViewById(R.id.deviceback);
 
         deviceAdd.setOnClickListener(this);
         deviceUser.setOnClickListener(this);
+        backImage.setOnClickListener(this);
 
         //Todo 先从服务器中获取设备列表
         User user = userCommonService.getLoginUser();
@@ -81,7 +87,6 @@ public class DeviceActivity extends AppCompatActivity implements View.OnClickLis
 
         DeviceItemAdapter adapter = new DeviceItemAdapter(this,R.layout.device_item,deviceItems);
         deviceListView.setAdapter(adapter);
-        //deviceListView.setSelection(adapter.getCount());
     }
 
     private void initDeviceItems(Device[] devices)
@@ -107,13 +112,16 @@ public class DeviceActivity extends AppCompatActivity implements View.OnClickLis
 
         switch (id)
         {
+            case R.id.deviceback:
+                finish();
+                break;
             //绑定设备
-            case R.id.device_add:
+            case R.id.add_divice:
                 Intent intent = new Intent(this, BindDeviceActivity.class);
                 startActivity(intent);
                 break;
             //绑定用户
-            case R.id.device_user:
+            case R.id.add_user:
                 break;
         }
     }

@@ -8,26 +8,35 @@
     tools:actionBarNavMode="@mipmap/zufang"
     tools:context="mutong.com.mtaj.main.MainActivity">
 
+    <ImageView
+        android:id="@+id/deviceback"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="9dp"
+        android:src="@mipmap/back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/selected"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:layout_weight="1"
         android:text="我的设备"
         android:textAlignment="center"
         android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/deviceback"
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
         android:id="@+id/deviceDividView2"
         android:layout_width="0dp"
-        android:layout_height="6dp"
+        android:layout_height="1dp"
         android:layout_marginTop="8dp"
         android:background="#CDC5BF"
         app:layout_constraintEnd_toEndOf="parent"
@@ -35,29 +44,26 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/selected" />
 
-    <TextView
-        android:id="@+id/device_add"
+    <ImageView
+        android:id="@+id/add_divice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="64dp"
         android:layout_marginTop="16dp"
-        android:text="添加新设备?"
-        android:textSize="19dp"
+        android:src="@mipmap/add_divice"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/deviceDividView2" />
 
-    <TextView
-        android:id="@+id/device_user"
+    <ImageView
+        android:id="@+id/add_user"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:text="添加新用户?"
-        android:textSize="19dp"
+        android:src="@mipmap/add_user"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.975"
-        app:layout_constraintStart_toEndOf="@+id/device_add"
+        app:layout_constraintStart_toEndOf="@+id/add_divice"
         app:layout_constraintTop_toBottomOf="@+id/deviceDividView2" />
 
     <View
@@ -69,17 +75,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/device_add" />
+        app:layout_constraintTop_toBottomOf="@+id/add_divice" />
 
     <ListView
         android:id="@+id/device_listView"
         android:layout_width="0dp"
-        android:layout_height="443dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/device_user">
+        app:layout_constraintTop_toBottomOf="@+id/deviceDividView3">
 
     </ListView>
 
