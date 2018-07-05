@@ -5,118 +5,102 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
-    tools:actionBarNavMode="@mipmap/zufang"
     tools:context="mutong.com.mtaj.main.MainActivity">
 
-    <TextView
-        android:id="@+id/me"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:text="我的"
-        android:textColor="#000000"
-        android:textSize="19dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.466"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/constraintLayout2"
         android:layout_width="0dp"
-        android:layout_height="132dp"
-        android:layout_marginTop="12dp"
-        android:background="#000000"
+        android:layout_height="133dp"
+        android:background="#1b82d1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/me">
+        app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/me_login"
+        <TextView
+            android:id="@+id/me"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="28dp"
-            android:background="@mipmap/login"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="4dp"
+            android:text="我的"
+            android:textColor="#FFFFFF"
+            android:textSize="19dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/me_loginText"
+            android:id="@+id/me_page_settings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="登录/注册"
+            android:layout_marginEnd="44dp"
+            android:layout_marginTop="4dp"
+            android:text="设置"
             android:textColor="#FFFFFF"
-            android:textSize="21dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:textSize="19dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <mutong.com.mtaj.common.CircleImageView
+            android:id="@+id/head_portrait"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:src="@mipmap/xiaoxiong"
+            app:civ_border_color="#FFFFFF"
+            app:civ_border_width="2dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/me_login"
-            app:layout_constraintVertical_bias="0.2" />
+            app:layout_constraintTop_toBottomOf="@+id/me"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/nickname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="12dp"
+            android:text="未填写昵称"
+            android:textColor="#FFFFFF"
+            android:textSize="19dp"
+            app:layout_constraintStart_toEndOf="@+id/head_portrait"
+            app:layout_constraintTop_toBottomOf="@+id/me" />
+
+        <TextView
+            android:id="@+id/account_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="账号："
+            android:textColor="#FFFFFF"
+            android:textSize="19dp"
+            app:layout_constraintStart_toEndOf="@+id/head_portrait"
+            app:layout_constraintTop_toBottomOf="@+id/nickname" />
+
+        <TextView
+            android:id="@+id/account_number_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="未登录"
+            android:textColor="#FFFFFF"
+            android:textSize="19dp"
+            app:layout_constraintStart_toEndOf="@+id/account_number"
+            app:layout_constraintTop_toBottomOf="@+id/nickname" />
+
+        <ImageView
+            android:id="@+id/me_forward"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="20dp"
+            android:src="@mipmap/forward"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/me" />
+
 
     </android.support.constraint.ConstraintLayout>
-
-    <View
-        android:id="@+id/meDividView1"
-        android:layout_width="0dp"
-        android:layout_height="5dp"
-        android:background="#CDC5BF"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout2" />
-
-    <TextView
-        android:id="@+id/me_devicetext"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="我的设备"
-        android:textSize="17dp"
-        app:layout_constraintStart_toEndOf="@+id/me_deviceimage"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout2" />
-
-    <ImageView
-        android:id="@+id/me_deviceimage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:src="@mipmap/my_device"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/meDividView1" />
-
-    <ImageView
-        android:id="@+id/me_forwardfirst"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="14dp"
-        android:src="@mipmap/forward"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.964"
-        app:layout_constraintStart_toEndOf="@+id/me_devicetext"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout2" />
-
-    <View
-        android:id="@+id/meDividView2"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_marginTop="8dp"
-        android:background="#CDC5BF"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/me_deviceimage" />
-
 </android.support.constraint.ConstraintLayout>

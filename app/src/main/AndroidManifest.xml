@@ -45,6 +45,10 @@
             android:name=".main.PermissionActivity">
         </activity>
 
+        <activity
+            android:name=".main.ModifyNickNameActivity">
+        </activity>
+
         <activity android:name=".animation.animation">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -15,4 +15,9 @@
         <item name="android:windowLightStatusBar">true</item>
     </style>
 
+    <style name="MyEditText" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">#00ffff</item>
+        <item name="colorControlActivated">#00ffff</item>
+    </style>
+
 </resources>

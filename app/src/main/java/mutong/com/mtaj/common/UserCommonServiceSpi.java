@@ -38,12 +38,14 @@ public class UserCommonServiceSpi
             String usertoken = cursor.getString(cursor.getColumnIndex("usertoken"));
             String refreshtoken = cursor.getString(cursor.getColumnIndex("refreshtoken"));
             String password = cursor.getString(cursor.getColumnIndex("password"));
+            String nickName = cursor.getString(cursor.getColumnIndex("nickname"));
 
             user = new User();
             user.setUserName(username);
             user.setUserToken(usertoken);
             user.setRefreshToken(refreshtoken);
             user.setPassword(password);
+            user.setNickName(nickName);
         }
         db.close();
         return user;
@@ -59,6 +61,7 @@ public class UserCommonServiceSpi
         values.put("password",user.getPassword());
         values.put("usertoken",user.getUserToken());
         values.put("refreshtoken",user.getRefreshToken());
+        values.put("nickname",user.getNickName());
 
         db.insert("login_user",null,values);
 

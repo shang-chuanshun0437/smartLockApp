@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import mutong.com.mtaj.R;
+import mutong.com.mtaj.common.CircleImageView;
 import mutong.com.mtaj.common.UserCommonServiceSpi;
 import mutong.com.mtaj.repository.User;
 import mutong.com.mtaj.utils.StringUtil;
@@ -20,13 +21,13 @@ public class MePageActivity extends Fragment implements View.OnClickListener
 
     private View view;
 
-    private ImageView meLogin;
-    private TextView meLoginText;
+    private CircleImageView headPortrait;
+    private TextView nickname;
 
-    private TextView meDeviceText;
-    private ImageView meDeviceImage;
-    private ImageView meForwardFirst;
+    private TextView accountNumberEdit;
+    private ImageView meForward;
 
+    private TextView settings;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -35,19 +36,18 @@ public class MePageActivity extends Fragment implements View.OnClickListener
 
         userCommonService = new UserCommonServiceSpi(getContext());
 
-        meLogin = (ImageView)view.findViewById(R.id.me_login);
-        meLoginText = (TextView)view.findViewById(R.id.me_loginText);
+        headPortrait = (CircleImageView) view.findViewById(R.id.head_portrait);
+        nickname = (TextView)view.findViewById(R.id.nickname);
+        accountNumberEdit = (TextView)view.findViewById(R.id.account_number_edit);
+        meForward = (ImageView)view.findViewById(R.id.me_forward);
+        settings = (TextView) view.findViewById(R.id.me_page_settings);
 
-        meDeviceText = (TextView)view.findViewById(R.id.me_devicetext);
-        meDeviceImage = (ImageView)view.findViewById(R.id.me_deviceimage);
-        meForwardFirst = (ImageView)view.findViewById(R.id.me_forwardfirst);
-
-        meLogin.setOnClickListener(this);
-        meLoginText.setOnClickListener(this);
-
-        meDeviceText.setOnClickListener(this);
-        meDeviceImage.setOnClickListener(this);
-        meForwardFirst.setOnClickListener(this);
+        headPortrait.setOnClickListener(this);
+        nickname.setOnClickListener(this);
+        accountNumberEdit.setOnClickListener(this);
+        meForward.setOnClickListener(this);
+        settings.setOnClickListener(this);
+        //meForwardFirst.setOnClickListener(this);
 
         return view;
     }
@@ -60,7 +60,12 @@ public class MePageActivity extends Fragment implements View.OnClickListener
         if (user != null && !StringUtil.isEmpty(user.getUserName()) && !StringUtil.isEmpty(user.getUserToken()))
         {
             //meLogin.setBackground();
-            meLoginText.setText(user.getUserName());
+            accountNumberEdit.setText(user.getUserName());
+
+            if (!StringUtil.isEmpty(user.getNickName()))
+            {
+                nickname.setText(user.getNickName());
+            }
         }
     }
 
@@ -70,9 +75,11 @@ public class MePageActivity extends Fragment implements View.OnClickListener
         int id = view.getId();
         switch (id)
         {
-            case R.id.me_login:
-            case R.id.me_loginText:
-                if(meLoginText.getText().toString().equals("登录/注册"))
+            case R.id.head_portrait:
+            case R.id.account_number_edit:
+            case R.id.nickname:
+            case R.id.me_forward:
+                if(accountNumberEdit.getText().toString().equals("未登录"))
                 {
                     Intent intent = new Intent(this.getContext(), LoginActivity.class);
                     startActivity(intent);
@@ -83,9 +90,7 @@ public class MePageActivity extends Fragment implements View.OnClickListener
                     startActivity(intent);
                 }
                 break;
-            case R.id.me_devicetext:
-            case R.id.me_deviceimage:
-            case R.id.me_forwardfirst:
+            case R.id.me_page_settings:
                 Intent intent = new Intent(this.getContext(), DeviceActivity.class);
                 startActivity(intent);
                 break;

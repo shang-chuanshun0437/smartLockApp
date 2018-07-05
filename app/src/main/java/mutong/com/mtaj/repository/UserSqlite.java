@@ -55,6 +55,10 @@ public class UserSqlite extends SQLiteOpenHelper
                     String sqlBloothMac = "alter table device_user add bloothmac bloothmac(36)";
                     db.execSQL(sqlBloothMac);
                     break;
+                case 5:
+                    String nickname = "alter table login_user add nickname varchar(48)";
+                    db.execSQL(nickname);
+                    break;
             }
         }
     }
