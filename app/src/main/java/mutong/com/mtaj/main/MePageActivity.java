@@ -57,7 +57,7 @@ public class MePageActivity extends Fragment implements View.OnClickListener
     {
         super.onResume();
         User user = userCommonService.getLoginUser();
-        if (user != null && !StringUtil.isEmpty(user.getUserName()) && !StringUtil.isEmpty(user.getUserToken()))
+        if (user != null )
         {
             //meLogin.setBackground();
             accountNumberEdit.setText(user.getUserName());
@@ -66,6 +66,11 @@ public class MePageActivity extends Fragment implements View.OnClickListener
             {
                 nickname.setText(user.getNickName());
             }
+        }
+        else
+        {
+            accountNumberEdit.setText("未登录");
+            nickname.setText("未设置昵称");
         }
     }
 

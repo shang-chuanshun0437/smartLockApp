@@ -19,4 +19,8 @@ public class ErrorCode
 
     //用户未登录
     public static final String NOT_LOGIN = "100009";
+
+    //密码错误
+    public static final String PASSWORD_ERROR = "100007";
+
 }

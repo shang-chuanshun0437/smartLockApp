@@ -8,7 +8,7 @@
     tools:context="mutong.com.mtaj.main.MainActivity">
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/setting"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="28dp"
@@ -16,11 +16,11 @@
         android:text="设置"
         android:textColor="#000000"
         android:textSize="20dp"
-        app:layout_constraintStart_toEndOf="@+id/modify_back"
+        app:layout_constraintStart_toEndOf="@+id/setting_back"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/modify_back"
+        android:id="@+id/setting_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -37,7 +37,7 @@
         android:background="#EBEBEB"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        app:layout_constraintTop_toBottomOf="@+id/setting" />
 
     <ListView
         android:id="@+id/settings_list"
