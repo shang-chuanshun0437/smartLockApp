@@ -91,7 +91,7 @@ public class MePageActivity extends Fragment implements View.OnClickListener
                 }
                 break;
             case R.id.me_page_settings:
-                Intent intent = new Intent(this.getContext(), DeviceActivity.class);
+                Intent intent = new Intent(this.getContext(), SettingActivity.class);
                 startActivity(intent);
                 break;
         }
