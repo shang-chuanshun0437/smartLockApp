@@ -3,6 +3,7 @@ package mutong.com.mtaj.main;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.SimpleAdapter;
 
@@ -21,7 +22,7 @@ import mutong.com.mtaj.repository.User;
 
 public class OpenDoorActivity extends AppCompatActivity implements View.OnClickListener
 {
-    private GridViewRowDivide openDoorGridView;
+    private GridView openDoorGridView;
     private ImageView backView;
 
     @Override
@@ -29,8 +30,8 @@ public class OpenDoorActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.open_door);
 
-        openDoorGridView = (GridViewRowDivide)findViewById(R.id.openDoorGridView);
-        backView = (ImageView)findViewById(R.id.opendoorback);
+        openDoorGridView = (GridView) findViewById(R.id.openDoorGridView);
+        backView = (ImageView)findViewById(R.id.back);
 
         backView.setOnClickListener(this);
 
@@ -75,7 +76,7 @@ public class OpenDoorActivity extends AppCompatActivity implements View.OnClickL
             Map<String,Object> map = new HashMap<>();
 
             //map.put("icon",R.mipmap.device_mid);
-            map.put("icon",R.mipmap.device_mid);
+            map.put("icon",R.mipmap.device_big);
             map.put("title",title[i]);
             dataMap.add(map);
         }
@@ -87,7 +88,7 @@ public class OpenDoorActivity extends AppCompatActivity implements View.OnClickL
     {
         switch (view.getId())
         {
-            case R.id.opendoorback:
+            case R.id.back:
                 finish();
                 break;
         }

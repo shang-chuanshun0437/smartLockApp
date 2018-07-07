@@ -11,8 +11,6 @@
     <style name="MTAJ.THEM" parent="@style/Theme.AppCompat.Light.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="android:statusBarColor">#a1bbce</item>
-        <item name="android:windowLightStatusBar">true</item>
     </style>
 
     <style name="MyEditText" parent="Theme.AppCompat.Light">

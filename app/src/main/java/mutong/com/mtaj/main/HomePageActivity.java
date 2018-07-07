@@ -23,6 +23,7 @@ import java.util.concurrent.TimeUnit;
 import mutong.com.mtaj.R;
 import mutong.com.mtaj.common.GridViewRowDivide;
 import mutong.com.mtaj.listener.GridViewItemClickListener;
+import mutong.com.mtaj.utils.StatusBarUtil;
 
 public class HomePageActivity extends Fragment
 {
@@ -34,6 +35,12 @@ public class HomePageActivity extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.home_page, container, false);
+
+        //设置状态栏颜色
+        StatusBarUtil.setStatusBarColor(this.getActivity(),R.color.white);
+        //设置状态栏黑色文字
+        StatusBarUtil.setBarTextLightMode(this.getActivity());
+
         mainGridView = (GridViewRowDivide) view.findViewById(R.id.mainGridView);
         viewPager = (ViewPager) view.findViewById(R.id.viewPager);
         //设置主界面

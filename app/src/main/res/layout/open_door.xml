@@ -4,60 +4,58 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:background="@color/divide"
     tools:context="mutong.com.mtaj.main.MainActivity">
 
-    <ImageView
-        android:id="@+id/opendoorback"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="10dp"
-        android:src="@mipmap/back"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/openDoorText"
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/constraintLayout4"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="18dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_weight="1"
-        android:text="芝麻开门"
-        android:textAlignment="center"
-        android:textSize="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/opendoorback"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <View
-        android:id="@+id/dividView1"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_marginTop="6dp"
-        android:background="#CDC5BF"
+        android:background="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/openDoorText" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <mutong.com.mtaj.common.GridViewRowDivide
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="11dp"
+            android:src="@mipmap/back"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.21" />
+
+        <TextView
+            android:id="@+id/back_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="芝麻开门"
+            android:textSize="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/back"
+            app:layout_constraintTop_toTopOf="parent" />
+    </android.support.constraint.ConstraintLayout>
+
+    <GridView
         android:id="@+id/openDoorGridView"
         android:layout_width="0dp"
-        android:layout_height="471dp"
-        android:layout_marginBottom="48dp"
-        android:columnWidth="100dp"
-        android:gravity="center"
+        android:layout_height="0dp"
+        android:layout_marginTop="32dp"
+        android:horizontalSpacing="3dp"
         android:numColumns="2"
         android:stretchMode="columnWidth"
-        android:verticalSpacing="10dp"
+        android:verticalSpacing="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dividView1"
-        app:layout_constraintVertical_bias="0.528" />
-
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout4" />
 
 </android.support.constraint.ConstraintLayout>
