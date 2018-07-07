@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mutong.com.mtaj.repository.Device;
+import mutong.com.mtaj.repository.Preference;
 import mutong.com.mtaj.repository.User;
 import mutong.com.mtaj.repository.UserSqlite;
 import mutong.com.mtaj.utils.StringUtil;
@@ -27,6 +28,10 @@ public class UserCommonServiceSpi
         this.context = context;
         this.userSqlite = new UserSqlite(context,DBNAME,null,Constant.DBVERSION);
     }
+
+    /*
+    * 获取用户的登录信息
+    **/
     public User getLoginUser()
     {
         User user = null;
@@ -39,6 +44,7 @@ public class UserCommonServiceSpi
             String refreshtoken = cursor.getString(cursor.getColumnIndex("refreshtoken"));
             String password = cursor.getString(cursor.getColumnIndex("password"));
             String nickName = cursor.getString(cursor.getColumnIndex("nickname"));
+            String headPortrait = cursor.getString(cursor.getColumnIndex("headportrait"));
 
             user = new User();
             user.setUserName(username);
@@ -46,11 +52,15 @@ public class UserCommonServiceSpi
             user.setRefreshToken(refreshtoken);
             user.setPassword(password);
             user.setNickName(nickName);
+            user.setHeadPortraitPath(headPortrait);
         }
         db.close();
         return user;
     }
 
+    /*
+    * 存储用户的登录信息
+    */
     public void insertUser(User user)
     {
         SQLiteDatabase db = userSqlite.getWritableDatabase();
@@ -62,8 +72,9 @@ public class UserCommonServiceSpi
         values.put("usertoken",user.getUserToken());
         values.put("refreshtoken",user.getRefreshToken());
         values.put("nickname",user.getNickName());
+        values.put("headportrait",user.getHeadPortraitPath());
 
-        db.insert("login_user",null,values);
+        db.insert(Constant.LOGIN_USER_TABLE,null,values);
 
         db.close();
     }
@@ -83,7 +94,7 @@ public class UserCommonServiceSpi
         values.put("attachedtime",device.getAttachedTime());
         values.put("bloothmac",device.getBloothMac());
 
-        db.insert("device_user",null,values);
+        db.insert(Constant.DEVICE_USER_TABLE,null,values);
 
         db.close();
     }
@@ -129,20 +140,6 @@ public class UserCommonServiceSpi
         return devices.toArray(new Device[devices.size()]);
     }
 
-    public boolean isLogin()
-    {
-        User user = getLoginUser();
-        if(user != null)
-        {
-            System.out.println(user.toString());
-            if (user.getUserToken() != null)
-            {
-                return false;
-            }
-        }
-        return false;
-    }
-
     //sql为空，则清空表数据
     public void deleteDataFromSqlite(String table,String sql)
     {
@@ -155,6 +152,70 @@ public class UserCommonServiceSpi
         {
             db.execSQL(sql);
         }
+        db.close();
+    }
+
+    /*
+    * 获取用户的设置信息
+    **/
+    public Preference getPreference(String userName)
+    {
+        Preference preference = null;
+
+        SQLiteDatabase db = userSqlite.getReadableDatabase();
+
+        Cursor cursor = db.query(Constant.PREFERENCE, null, "username = ?",
+                new String[] { userName }, null, null, null);
+        while(cursor.moveToNext())
+        {
+            preference = new Preference();
+
+            String username = cursor.getString(cursor.getColumnIndex("username"));
+            String nickName = cursor.getString(cursor.getColumnIndex("nickname"));
+            String headportrait = cursor.getString(cursor.getColumnIndex("headportrait"));
+
+            preference.setUserName(username);
+            preference.setNickName(nickName);
+            preference.setHeadPortraitPath(headportrait);
+
+        }
+        db.close();
+        return preference;
+    }
+
+    /*
+    * 存储用户的设置信息
+    */
+    public void insertPreference(Preference preference)
+    {
+        SQLiteDatabase db = userSqlite.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+
+        values.put("username",preference.getUserName());
+        values.put("nickname",preference.getNickName());
+        values.put("headportrait",preference.getHeadPortraitPath());
+
+        db.insert(Constant.PREFERENCE,null,values);
+
+        db.close();
+    }
+
+    /*
+   * 更新用户的设置信息
+   */
+    public void updatePreference(Preference preference)
+    {
+        SQLiteDatabase db = userSqlite.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+
+        values.put("username",preference.getUserName());
+        values.put("nickname",preference.getNickName());
+        values.put("headportrait",preference.getHeadPortraitPath());
+
+        db.update(Constant.PREFERENCE,values,"username = ?",new String[]{preference.getUserName()});
+        //update(String table,ContentValues values,String whereClause, String[] whereArgs)：
         db.close();
     }
 }

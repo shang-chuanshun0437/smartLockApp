@@ -1,6 +1,8 @@
 package mutong.com.mtaj.main;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -9,9 +11,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.File;
+
 import mutong.com.mtaj.R;
 import mutong.com.mtaj.common.CircleImageView;
 import mutong.com.mtaj.common.UserCommonServiceSpi;
+import mutong.com.mtaj.repository.Preference;
 import mutong.com.mtaj.repository.User;
 import mutong.com.mtaj.utils.StringUtil;
 
@@ -59,18 +64,30 @@ public class MePageActivity extends Fragment implements View.OnClickListener
         User user = userCommonService.getLoginUser();
         if (user != null )
         {
-            //meLogin.setBackground();
+            Preference preference = userCommonService.getPreference(user.getUserName());
+
             accountNumberEdit.setText(user.getUserName());
 
-            if (!StringUtil.isEmpty(user.getNickName()))
+            if(preference != null)
             {
-                nickname.setText(user.getNickName());
+                if (!StringUtil.isEmpty(preference.getNickName()))
+                {
+                    nickname.setText(preference.getNickName());
+                }
+
+                if(preference.getHeadPortraitPath() != null)
+                {
+                    Bitmap bitmap = BitmapFactory.decodeFile(preference.getHeadPortraitPath());
+                    headPortrait.setImageBitmap(bitmap);
+                }
             }
+
         }
         else
         {
             accountNumberEdit.setText("未登录");
             nickname.setText("未设置昵称");
+            headPortrait.setImageResource(R.mipmap.xiaoxiong);
         }
     }
 

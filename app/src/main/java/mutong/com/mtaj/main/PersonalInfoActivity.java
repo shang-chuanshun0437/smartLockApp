@@ -21,6 +21,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +32,7 @@ import mutong.com.mtaj.R;
 import mutong.com.mtaj.common.CircleImageView;
 import mutong.com.mtaj.common.PhotoPopupWindow;
 import mutong.com.mtaj.common.UserCommonServiceSpi;
+import mutong.com.mtaj.repository.Preference;
 import mutong.com.mtaj.repository.User;
 import mutong.com.mtaj.utils.StringUtil;
 
@@ -48,13 +50,16 @@ public class PersonalInfoActivity extends AppCompatActivity implements View.OnCl
     private TextView personalNickName;
     private TextView headPoatrity;
     private CircleImageView headImage;
+    private TextView personalText;
+    private ImageView back;
 
     private UserCommonServiceSpi userCommonService;
     //更换头像
     private PhotoPopupWindow mPhotoPopupWindow;
     private Uri mImageUri;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.personal_info);
 
@@ -65,11 +70,15 @@ public class PersonalInfoActivity extends AppCompatActivity implements View.OnCl
         personalNickName = (TextView)findViewById(R.id.personal_nickname);
         headPoatrity = (TextView)findViewById(R.id.personal_head);
         headImage = (CircleImageView)findViewById(R.id.circleImageView);
+        personalText = (TextView)findViewById(R.id.personal_info_text);
+        back = (ImageView)findViewById(R.id.personal_back);
 
         personalNickNameEdit.setOnClickListener(this);
         personalNickName.setOnClickListener(this);
         headImage.setOnClickListener(this);
         headPoatrity.setOnClickListener(this);
+        personalText.setOnClickListener(this);
+        back.setOnClickListener(this);
     }
 
     @Override
@@ -78,16 +87,22 @@ public class PersonalInfoActivity extends AppCompatActivity implements View.OnCl
         super.onResume();
 
         User user = userCommonService.getLoginUser();
-        if (user != null && !StringUtil.isEmpty(user.getUserName()) && !StringUtil.isEmpty(user.getUserToken()))
+        if (user != null)
         {
-            if (!StringUtil.isEmpty(user.getUserName()))
-            {
-                personalAccountEdit.setText(user.getUserName());
-            }
+            personalAccountEdit.setText(user.getUserName());
 
-            if (!StringUtil.isEmpty(user.getNickName()))
+            Preference preference = userCommonService.getPreference(user.getUserName());
+            if (preference != null)
             {
-                personalNickNameEdit.setText(user.getNickName());
+                if (!StringUtil.isEmpty(preference.getNickName()))
+                {
+                    personalNickNameEdit.setText(preference.getNickName());
+                }
+                if (preference.getHeadPortraitPath() != null)
+                {
+                    Bitmap bitmap = BitmapFactory.decodeFile(preference.getHeadPortraitPath());
+                    headImage.setImageBitmap(bitmap);
+                }
             }
         }
     }
@@ -103,6 +118,10 @@ public class PersonalInfoActivity extends AppCompatActivity implements View.OnCl
                 startActivity(intent);
                 break;
 
+            case R.id.personal_info_text:
+            case R.id.personal_back:
+                finish();
+                break;
             case R.id.personal_head:
             case R.id.circleImageView:
                 mPhotoPopupWindow = new PhotoPopupWindow(PersonalInfoActivity.this, new View.OnClickListener() {
@@ -184,74 +203,62 @@ public class PersonalInfoActivity extends AppCompatActivity implements View.OnCl
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // 回调成功
-        if (resultCode == RESULT_OK) {
-            switch (requestCode) {
-                // 小图切割
-                case REQUEST_SMALL_IMAGE_CUTTING:
-                    if (data != null) {
-                        setPicToView(data);
-                    }
-                    break;
+        if (resultCode == RESULT_OK)
+        {
+            switch (requestCode)
+            {
                 // 大图切割
                 case REQUEST_BIG_IMAGE_CUTTING:
+                    if(mImageUri == null)
+                    {
+                        Toast.makeText(this,"无法获取图片",Toast.LENGTH_LONG).show();
+                        return;
+                    }
+                    //将头像数路径存入sqlite  preference
+                    User user = userCommonService.getLoginUser();
+                    if (user != null)
+                    {
+                        Preference preference = userCommonService.getPreference(user.getUserName());
+
+                        if (preference == null)
+                        {
+                            preference = new Preference();
+                            preference.setUserName(user.getUserName());
+                            preference.setHeadPortraitPath(mImageUri.getEncodedPath());
+                            userCommonService.insertPreference(preference);
+                        }
+                        else
+                        {
+                            preference.setHeadPortraitPath(mImageUri.getEncodedPath());
+                            userCommonService.updatePreference(preference);
+                        }
+
+                    }
+
                     Bitmap bitmap = BitmapFactory.decodeFile(mImageUri.getEncodedPath());
                     headImage.setImageBitmap(bitmap);
                     break;
                 // 相册选取
                 case REQUEST_IMAGE_GET:
-                    try {
-                        // startSmallPhotoZoom(data.getData());
+                    try
+                    {
                         startBigPhotoZoom(data.getData());
-                    } catch (NullPointerException e) {
+                    }
+                    catch (NullPointerException e)
+                    {
                         e.printStackTrace();
                     }
                     break;
                 // 拍照
                 case REQUEST_IMAGE_CAPTURE:
                     File temp = new File(Environment.getExternalStorageDirectory() + "/" + IMAGE_FILE_NAME);
-                    // startSmallPhotoZoom(Uri.fromFile(temp));
                     startBigPhotoZoom(temp);
             }
         }
     }
 
-    /**
-     * 小图模式中，保存图片后，设置到视图中
-     * 将图片保存设置到视图中
-     */
-    private void setPicToView(Intent data) {
-        Bundle extras = data.getExtras();
-        if (extras != null) {
-            Bitmap photo = extras.getParcelable("data");
-            // 创建 smallIcon 文件夹
-            if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-                String storage = Environment.getExternalStorageDirectory().getPath();
-                File dirFile = new File(storage + "/smallIcon");
-                if (!dirFile.exists()) {
-                    if (!dirFile.mkdirs()) {
-                        Log.e("TAG", "文件夹创建失败");
-                    } else {
-                        Log.e("TAG", "文件夹创建成功");
-                    }
-                }
-                File file = new File(dirFile, System.currentTimeMillis() + ".jpg");
-                // 保存图片
-                FileOutputStream outputStream;
-                try {
-                    outputStream = new FileOutputStream(file);
-                    photo.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
-                    outputStream.flush();
-                    outputStream.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-            // 在视图中显示图片
-            headImage.setImageBitmap(photo);
-        }
-    }
-
-    public Uri getImageContentUri(Context context, File imageFile) {
+    public Uri getImageContentUri(Context context, File imageFile)
+    {
         String filePath = imageFile.getAbsolutePath();
         Cursor cursor = context.getContentResolver().query(
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
@@ -276,20 +283,29 @@ public class PersonalInfoActivity extends AppCompatActivity implements View.OnCl
         }
     }
 
-    public void startBigPhotoZoom(Uri uri) {
+    public void startBigPhotoZoom(Uri uri)
+    {
+        User user = userCommonService.getLoginUser();
+        if (user == null)
+        {
+            finish();
+        }
         // 创建大图文件夹
         Uri imageUri = null;
-        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED))
+        {
             String storage = Environment.getExternalStorageDirectory().getPath();
-            File dirFile = new File(storage + "/bigIcon");
-            if (!dirFile.exists()) {
-                if (!dirFile.mkdirs()) {
-                    Log.e("TAG", "文件夹创建失败");
-                } else {
-                    Log.e("TAG", "文件夹创建成功");
+            File dirFile = new File(storage + "/weasy");
+            if (!dirFile.exists())
+            {
+                if (!dirFile.mkdirs())
+                {
+                    Toast.makeText(this,"创建文件夹失败，请稍后重试",Toast.LENGTH_LONG).show();
+                    return;
                 }
             }
-            File file = new File(dirFile, System.currentTimeMillis() + ".jpg");
+            File file = new File(dirFile,   user.getUserName() + ".jpg");
+            System.out.println("file:::" + file.getAbsolutePath());
             imageUri = Uri.fromFile(file);
             mImageUri = imageUri; // 将 uri 传出，方便设置到视图中
         }
@@ -307,7 +323,6 @@ public class PersonalInfoActivity extends AppCompatActivity implements View.OnCl
         intent.putExtra("return-data", false); // 不直接返回数据
         intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri); // 返回一个文件
         intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
-        // intent.putExtra("noFaceDetection", true); // no face detection
         startActivityForResult(intent, REQUEST_BIG_IMAGE_CUTTING);
     }
 
@@ -315,20 +330,26 @@ public class PersonalInfoActivity extends AppCompatActivity implements View.OnCl
      * 大图模式切割图片
      * 直接创建一个文件将切割后的图片写入
      */
-    public void startBigPhotoZoom(File inputFile) {
+    public void startBigPhotoZoom(File inputFile)
+    {
+        User user = userCommonService.getLoginUser();
+        if(user == null)
+        {
+            finish();
+        }
         // 创建大图文件夹
         Uri imageUri = null;
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             String storage = Environment.getExternalStorageDirectory().getPath();
             File dirFile = new File(storage + "/bigIcon");
             if (!dirFile.exists()) {
-                if (!dirFile.mkdirs()) {
-                    Log.e("TAG", "文件夹创建失败");
-                } else {
-                    Log.e("TAG", "文件夹创建成功");
+                if (!dirFile.mkdirs())
+                {
+                    Toast.makeText(this,"创建文件夹失败，请稍后重试",Toast.LENGTH_LONG).show();
+                    return;
                 }
             }
-            File file = new File(dirFile, "touxiang" + ".jpg");
+            File file = new File(dirFile, user.getUserName() + ".jpg");
             System.out.println(file.getAbsolutePath());
             try
             {

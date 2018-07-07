@@ -7,6 +7,7 @@ import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,6 +38,8 @@ public class ChangePwdActivity extends AppCompatActivity implements View.OnClick
     private TextView newPwd;
     private TextView confirmNewPwd;
     private TextView changPwd;
+    private TextView modifyPwdText;
+    private ImageView back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +52,11 @@ public class ChangePwdActivity extends AppCompatActivity implements View.OnClick
         newPwd = (TextView)findViewById(R.id.new_pwd_edit);
         confirmNewPwd = (TextView)findViewById(R.id.confirm_pwd_edit);
         changPwd = (TextView)findViewById(R.id.confirm);
+        back = (ImageView)findViewById(R.id.back);
+        modifyPwdText = (TextView)findViewById(R.id.modify_pwd_text);
 
+        back.setOnClickListener(this);
+        modifyPwdText.setOnClickListener(this);
         changPwd.setOnClickListener(this);
     }
 
@@ -86,6 +93,11 @@ public class ChangePwdActivity extends AppCompatActivity implements View.OnClick
                 String url = "/user/modifyPwd";
                 HttpUtil httpUtil = new HttpUtil(handler,this);
                 httpUtil.post(map,url);
+                break;
+
+            case R.id.back:
+            case R.id.modify_pwd_text:
+                finish();
                 break;
         }
     }

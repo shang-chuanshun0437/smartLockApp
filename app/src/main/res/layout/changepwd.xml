@@ -4,55 +4,51 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/divide"
+    android:background="#FFFFFF"
     tools:context="mutong.com.mtaj.main.MainActivity">
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/constraintLayout4"
-        android:layout_width="0dp"
-        android:layout_height="46dp"
-        android:background="#FFFFFF"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+    <TextView
+        android:id="@+id/modify_pwd_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="修改密码"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/back"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="12dp"
+        android:src="@mipmap/back"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/textView7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="8dp"
-            android:text="修改密码"
-            android:textColor="#000000"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/back"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0" />
-
-        <ImageView
-            android:id="@+id/back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="14dp"
-            android:src="@mipmap/back"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </android.support.constraint.ConstraintLayout>
+    <View
+        android:id="@+id/bindDeviedividView2"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/divide"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/modify_pwd_text" />
 
     <TextView
         android:id="@+id/nowpwd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="32dp"
         android:text="当前密码:"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout4" />
+        app:layout_constraintTop_toBottomOf="@+id/bindDeviedividView2" />
 
     <EditText
         android:id="@+id/old_pwd_edit"
@@ -63,6 +59,7 @@
         android:inputType="textPassword"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nowpwd" />
 

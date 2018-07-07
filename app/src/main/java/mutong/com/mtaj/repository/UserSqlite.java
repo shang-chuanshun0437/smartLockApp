@@ -59,6 +59,14 @@ public class UserSqlite extends SQLiteOpenHelper
                     String nickname = "alter table login_user add nickname varchar(48)";
                     db.execSQL(nickname);
                     break;
+                case 6:
+                    String head = "alter table login_user add headportrait varchar(256)";
+                    db.execSQL(head);
+                    break;
+                case 7:
+                    String preference = "create table preference(username varchar(11) PRIMARY KEY,headportrait varchar(256),nickname varchar(32))";
+                    db.execSQL(preference);
+                    break;
             }
         }
     }

@@ -16,6 +16,9 @@ public class User
 
     private String nickName;
 
+    //头像保存的路径
+    private String headPortraitPath;
+
     public String getUserName() {
         return userName;
     }
@@ -64,5 +67,13 @@ public class User
                 ", refreshToken='" + refreshToken + '\'' +
                 ", password='" + password + '\'' +
                 '}';
+    }
+
+    public String getHeadPortraitPath() {
+        return headPortraitPath;
+    }
+
+    public void setHeadPortraitPath(String headPortraitPath) {
+        this.headPortraitPath = headPortraitPath;
     }
 }

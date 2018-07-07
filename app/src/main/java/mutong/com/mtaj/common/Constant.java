@@ -5,7 +5,7 @@ public class Constant
     public static int MAIN_GRID_VIEW_ROW_DIVID = 15;
 
     //sqlite版本
-    public static int DBVERSION = 5;
+    public static int DBVERSION = 7;
 
     //手机号位数
     public static int PHONUM_COUNT = 11;
@@ -18,6 +18,9 @@ public class Constant
 
     //login_user表
     public static String LOGIN_USER_TABLE = "login_user";
+
+    //preference表
+    public static String PREFERENCE = "preference";
 
     //device_user表
     public static String DEVICE_USER_TABLE = "device_user";

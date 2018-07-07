@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import mutong.com.mtaj.R;
 import mutong.com.mtaj.common.UserCommonServiceSpi;
+import mutong.com.mtaj.repository.Preference;
 import mutong.com.mtaj.repository.User;
 import mutong.com.mtaj.utils.StringUtil;
 
@@ -20,6 +21,7 @@ public class ModifyNickNameActivity extends AppCompatActivity implements View.On
     private EditText modifyNickName;
     private TextView modifySave;
     private ImageView back;
+    private TextView modifyBackText;
 
     private User user;
     private UserCommonServiceSpi userCommonService;
@@ -32,9 +34,11 @@ public class ModifyNickNameActivity extends AppCompatActivity implements View.On
         modifyNickName = (EditText)findViewById(R.id.modify_nick_name);
         modifySave = (TextView)findViewById(R.id.modify_save);
         back = (ImageView)findViewById(R.id.modify_back);
+        modifyBackText = (TextView)findViewById(R.id.modify_back_text);
 
         modifySave.setOnClickListener(this);
         back.setOnClickListener(this);
+        modifyBackText.setOnClickListener(this);
 
         userCommonService = new UserCommonServiceSpi(this);
         user = userCommonService.getLoginUser();
@@ -63,6 +67,7 @@ public class ModifyNickNameActivity extends AppCompatActivity implements View.On
         switch (view.getId())
         {
             case R.id.modify_back:
+            case R.id.modify_back_text:
                 finish();
                 break;
 
@@ -70,8 +75,19 @@ public class ModifyNickNameActivity extends AppCompatActivity implements View.On
                 String nickName = modifyNickName.getText().toString();
                 if (user != null )
                 {
-                    user.setNickName(nickName);
-                    userCommonService.insertUser(user);
+                    Preference preference = userCommonService.getPreference(user.getUserName());
+                    if(preference == null)
+                    {
+                        preference = new Preference();
+                        preference.setUserName(user.getUserName());
+                        preference.setNickName(nickName);
+                        userCommonService.insertPreference(preference);
+                    }
+                    else
+                    {
+                        preference.setNickName(nickName);
+                        userCommonService.updatePreference(preference);
+                    }
                     Toast.makeText(this,"恭喜，更改成功！", Toast.LENGTH_LONG).show();
                     finish();
                 }
