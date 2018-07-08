@@ -6,11 +6,18 @@ import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.util.ArrayMap;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Map;
 
 import mutong.com.mtaj.R;
+import mutong.com.mtaj.common.ErrorCode;
 import mutong.com.mtaj.common.UserCommonServiceSpi;
 import mutong.com.mtaj.repository.User;
 import mutong.com.mtaj.utils.HttpUtil;
@@ -22,6 +29,9 @@ public class OpenDoorHistoryActivity extends AppCompatActivity implements View.O
     private String deviceNum;
     private UserCommonServiceSpi userCommonService;
 
+    private TextView historytext;
+    private ImageView back;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +42,11 @@ public class OpenDoorHistoryActivity extends AppCompatActivity implements View.O
         //设置状态栏黑色文字
         StatusBarUtil.setBarTextLightMode(this);
 
+        back = (ImageView)findViewById(R.id.back);
+        historytext = (TextView)findViewById(R.id.history_text);
+
+        back.setOnClickListener(this);
+        historytext.setOnClickListener(this);
         //获取设备编号
         deviceNum = getIntent().getStringExtra("deviceNum");
 
@@ -52,7 +67,10 @@ public class OpenDoorHistoryActivity extends AppCompatActivity implements View.O
     {
         switch (view.getId())
         {
-
+            case R.id.back:
+            case R.id.history_text:
+                finish();
+                break;
         }
     }
 
@@ -61,10 +79,38 @@ public class OpenDoorHistoryActivity extends AppCompatActivity implements View.O
         @Override
         public void handleMessage(Message msg)
         {
+            JSONObject jsonObject = (JSONObject)msg.obj;
             switch (msg.what)
             {
                 case 1:
-
+                    try
+                    {
+                        JSONObject result = jsonObject.getJSONObject("result");
+                        String retCode = result.getString("retcode");
+                        switch (retCode)
+                        {
+                            case ErrorCode.SUCEESS:
+                                JSONArray historys = jsonObject.getJSONArray("openDoorHistories");
+                                if(historys != null)
+                                {
+                                    for (int i = 0;i < historys.length();i++)
+                                    {
+                                        JSONObject history = historys.getJSONObject(i);
+                                        String userName = history.getString("userName");
+                                        String openTime = history.getString("openTime");
+                                        System.out.println(userName + "," + openTime);
+                                    }
+                                }
+                                break;
+                            case ErrorCode.NOT_LOGIN:
+                                Toast.makeText(OpenDoorHistoryActivity.this,"您还没有登录，请登录后再进行操作",Toast.LENGTH_LONG).show();
+                                break;
+                        }
+                    }
+                    catch (JSONException e)
+                    {
+                        e.printStackTrace();
+                    }
                     break;
             }
         }
