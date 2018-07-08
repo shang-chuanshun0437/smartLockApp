@@ -32,9 +32,14 @@ public class ReadyOpenDoorActivity extends AppCompatActivity implements View.OnC
     private TextView readyOpendoor;
     private ImageView imageView;
     private AnimationDrawable animationDrawable;
-    private EditText editText;
     private String bluetoothMac;
     private BleHelper bleHelper;
+    private ImageView back;
+    private TextView progress;
+    private TextView openHistory;
+    private String deviceNum;
+    //是否正在开锁
+    private boolean isopening = false;
     /**
      * 自定义的打开 Bluetooth 的请求码，与 onActivityResult 中返回的 requestCode 匹配。
      */
@@ -51,13 +56,15 @@ public class ReadyOpenDoorActivity extends AppCompatActivity implements View.OnC
         StatusBarUtil.setBarTextLightMode(this);
 
         readyOpendoor = (TextView)findViewById(R.id.readyOpendoor);
+        back = (ImageView)findViewById(R.id.back);
         imageView = (ImageView)findViewById(R.id.readyOpendoorImage);
-        editText = (EditText)findViewById(R.id.editText);
+        progress = (TextView)findViewById(R.id.progress);
+        openHistory = (TextView)findViewById(R.id.open_history);
 
-        editText.setFocusable(false);
-
-        animationDrawable = (AnimationDrawable) imageView.getBackground();
+        readyOpendoor.setOnClickListener(this);
+        back.setOnClickListener(this);
         imageView.setOnClickListener(this);
+        openHistory.setOnClickListener(this);
 
         Bundle bundle = getIntent().getBundleExtra("device");
 
@@ -68,14 +75,14 @@ public class ReadyOpenDoorActivity extends AppCompatActivity implements View.OnC
 
         }
 
-        System.out.println("ReadyOpenDoorActivity thread:" + Thread.currentThread().getName());
         readyOpendoor.setText(bundle.getString("deviceName"));
         bluetoothMac = bundle.getString("bloothMac");
-        PermissionUtils.requestPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION);
-        //PermissionUtils.requestPermission(this,Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-        //PermissionUtils.coarseLocation(this);
-        PermissionUtils.location(this);
+        deviceNum = bundle.getString("deviceNum");
 
+        animationDrawable = (AnimationDrawable) imageView.getBackground();
+
+        PermissionUtils.requestPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION);
+        PermissionUtils.location(this);
     }
 
     @Override
@@ -84,14 +91,47 @@ public class ReadyOpenDoorActivity extends AppCompatActivity implements View.OnC
         switch (view.getId())
         {
             case R.id.readyOpendoorImage:
-                System.out.println("readyOpendoorImage click");
-                bleHelper = new BleHelper(this,handler,bluetoothMac);
-                if( bleHelper.initialize() && !animationDrawable.isRunning())
+                System.out.println("readyOpendoorImage click,isopening:" + isopening);
+                if (isopening)
                 {
-                    System.out.println("start animationDrawable");
-                    animationDrawable.start();
-                    bleHelper.connectByMac(bluetoothMac);
+                    if (bleHelper != null)
+                    {
+                        bleHelper.close();
+                        bleHelper = null;
+                    }
+                    //if(animationDrawable != null)
+                    animationDrawable.selectDrawable(0);
+                    animationDrawable.stop();
+                    progress.setText("开锁进展：开锁失败，被手动停止。");
+                    isopening = false;
                 }
+                else
+                {
+                    if (bleHelper == null)
+                    {
+                        bleHelper = new BleHelper(this,handler,bluetoothMac);
+                    }
+
+                    if( bleHelper.initialize() && !animationDrawable.isRunning())
+                    {
+                        System.out.println("start animationDrawable");
+                        animationDrawable.start();
+                        bleHelper.connectByMac(bluetoothMac);
+                    }
+                    isopening = true;
+                }
+                System.out.println("readyOpendoorImage click,isopening:" + isopening);
+                break;
+
+            case R.id.back:
+            case R.id.readyOpendoor:
+                finish();
+                break;
+
+            case R.id.open_history:
+                Intent intent = new Intent(this, OpenDoorHistoryActivity.class);
+                intent.putExtra("deviceNum",deviceNum);
+                startActivity(intent);
                 break;
         }
     }
@@ -170,59 +210,56 @@ public class ReadyOpenDoorActivity extends AppCompatActivity implements View.OnC
         @Override
         public void handleMessage(Message msg)
         {
-            String temp = editText.getText().toString();
+            String temp = "开锁进展：";
             switch (msg.what)
             {
                 case BleConstant.BLE_WRITE_NOTFOUND:
                     temp += "写特征值没找到：" + BleConstant.UUID_WRITE;
-                    temp += "\n";
-                    editText.setText(temp);
+                    progress.setText(temp);
                     break;
                 case BleConstant.BLE_WRITE_FOUND:
                     temp += "写特征值已找到：" + BleConstant.UUID_WRITE;
-                    temp += "\n";
-                    editText.setText(temp);
+                    progress.setText(temp);
                     break;
                 case BleConstant.BLE_NOTIFY_SUCCESS:
                     temp += "已收到通知：" + msg.obj;
                     temp += "\n";
-                    editText.setText(temp);
+                    progress.setText(temp);
                     break;
                 case BleConstant.BLE_READ_NOTFOUND:
                     temp += "读特征值没找到：" + BleConstant.UUID_READ;
-                    temp += "\n";
-                    editText.setText(temp);
+                    progress.setText(temp);
                     break;
                 case BleConstant.BLE_READ_FOUND:
                     temp += "读特征值已找到：" + BleConstant.UUID_READ;
-                    temp += "\n";
-                    editText.setText(temp);
+                    progress.setText(temp);
                     break;
                 case BleConstant.BLE_READ_SUCCESS:
                     temp += "读UUID成功," + msg.obj ;
-                    temp += "\n";
-                    editText.setText(temp);
+                    progress.setText(temp);
                     break;
 
                 case BleConstant.HM_BLE_DISCONNECTED:
                     temp += "蓝牙断开连接";
-                    temp += "\n";
-                    editText.setText(temp);
+                    progress.setText(temp);
                     break;
                 case BleConstant.HM_BLE_CONNECTED:
                     temp += "蓝牙连接成功";
-                    temp += "\n";
-                    editText.setText(temp);
+                    progress.setText(temp);
                     break;
                 case BleConstant.BLE_WRITE_SUCCESS:
-                    editText.setText(temp + "写数据成功," + msg.obj + "\n");
+                    progress.setText(temp + "写数据成功,");
                     break;
                 case BleConstant.BLE_WRITE_FAIL:
-                    editText.setText(temp + "写数据失败," + "\n");
+                    progress.setText(temp + "写数据失败,");
                     break;
 
                 case BleConstant.BLE_NOTFOUND:
-                    editText.setText(temp + "找不到指定的蓝牙：" + msg.obj + "\n");
+                    progress.setText(temp + "找不到指定的蓝牙：");
+                    break;
+
+                case BleConstant.BLE_SEARCH:
+                    progress.setText(temp + "正在搜素蓝牙设备...");
                     break;
             }
         }

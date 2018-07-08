@@ -159,7 +159,7 @@ public class BleHelper extends Service
         }
 
         mBluetoothGatt = device.connectGatt(context, true, mGattCallback);
-        System.out.println("######");
+        broadcastUpdate(BleConstant.BLE_SEARCH,address);
         mConnectionState = ConnectionState.STATE_CONNECTING;
         return true;
     }

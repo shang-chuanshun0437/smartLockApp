@@ -56,10 +56,8 @@ public class GridViewRowDivide extends GridView
         for (; i < rowCount; i++)
         {
             //画横线
-            canvas.drawLine(view0.getLeft() ,
-                    view0.getBottom() * i + Constant.MAIN_GRID_VIEW_ROW_DIVID * i,
-                    viewColLast.getRight(),
-                    viewColLast.getBottom() * i + Constant.MAIN_GRID_VIEW_ROW_DIVID * i,
+            canvas.drawLine(view0.getLeft() +  Constant.MAIN_GRID_VIEW_ROW_DIVID * 2*i,view0.getBottom() * i + Constant.MAIN_GRID_VIEW_ROW_DIVID * i,
+                    viewColLast.getRight() - Constant.MAIN_GRID_VIEW_ROW_DIVID * 2*i, viewColLast.getBottom() * i + Constant.MAIN_GRID_VIEW_ROW_DIVID * i,
                     paint);
         }
     }

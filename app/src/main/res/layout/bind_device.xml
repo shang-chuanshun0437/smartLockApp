@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
-    tools:actionBarNavMode="@mipmap/zufang"
-    tools:context="mutong.com.mtaj.main.MainActivity">
+    tools:context="mutong.com.mtaj.main.BindDeviceActivity">
 
     <TextView
         android:id="@+id/selected"

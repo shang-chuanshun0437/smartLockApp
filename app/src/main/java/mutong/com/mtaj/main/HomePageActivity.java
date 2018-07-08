@@ -1,6 +1,8 @@
 package mutong.com.mtaj.main;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -9,6 +11,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.SimpleAdapter;
 
@@ -92,7 +95,7 @@ public class HomePageActivity extends Fragment
         for (int i = 0;i < images.length;i++)
         {
             ImageView imageView = new ImageView(this.getContext());
-            imageView.setBackgroundResource(images[i]);
+            imageView.setImageResource(images[i]);
             list.add(imageView);
         }
 

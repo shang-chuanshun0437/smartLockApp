@@ -51,6 +51,9 @@ public final class BleConstant {
     /**	找不到蓝牙	*/
     public final static int BLE_NOTFOUND	= 1010;
 
+    /**	正在搜寻蓝牙	*/
+    public final static int BLE_SEARCH	= 1011;
+
     /**	Toast, 系统信息(测试用)	*/
     public final static int HM_DEBUG_TOAST		= 0x88;
     /**	Command(测试用)	*/

@@ -61,6 +61,10 @@
             android:name=".main.AboutAppActivity">
         </activity>
 
+        <activity
+            android:name=".main.OpenDoorHistoryActivity">
+        </activity>
+
         <activity android:name=".animation.animation">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
