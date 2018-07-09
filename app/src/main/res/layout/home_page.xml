@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
-    tools:actionBarNavMode="@mipmap/zufang"
     tools:context="mutong.com.mtaj.main.MainActivity">
 
     <TextView
@@ -94,7 +93,7 @@
                 android:numColumns="3"
                 android:stretchMode="columnWidth"
                 android:verticalSpacing="10dp"
-                android:listSelector="@color/divide"
+                android:drawSelectorOnTop="true"
                 android:focusable="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"

@@ -6,6 +6,7 @@ import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.util.ArrayMap;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,24 +15,31 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
 
 import mutong.com.mtaj.R;
 import mutong.com.mtaj.common.ErrorCode;
 import mutong.com.mtaj.common.UserCommonServiceSpi;
+import mutong.com.mtaj.common.listview.StickyListHeadersListView;
+import mutong.com.mtaj.common.listview.TestBaseAdapter;
 import mutong.com.mtaj.repository.User;
 import mutong.com.mtaj.utils.HttpUtil;
 import mutong.com.mtaj.utils.StatusBarUtil;
 import mutong.com.mtaj.utils.StringUtil;
 
-public class OpenDoorHistoryActivity extends AppCompatActivity implements View.OnClickListener
+public class OpenDoorHistoryActivity extends AppCompatActivity implements View.OnClickListener,AdapterView.OnItemClickListener
 {
     private String deviceNum;
     private UserCommonServiceSpi userCommonService;
 
     private TextView historytext;
     private ImageView back;
-
+    private TestBaseAdapter baseAdapter;
+    private View footerview;
+    //listview
+    private StickyListHeadersListView stickyList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +55,7 @@ public class OpenDoorHistoryActivity extends AppCompatActivity implements View.O
 
         back.setOnClickListener(this);
         historytext.setOnClickListener(this);
+        setListView();
         //获取设备编号
         deviceNum = getIntent().getStringExtra("deviceNum");
 
@@ -60,6 +69,7 @@ public class OpenDoorHistoryActivity extends AppCompatActivity implements View.O
 
         //去后台获取登录历史
         getHistory();
+
     }
 
     @Override
@@ -129,6 +139,29 @@ public class OpenDoorHistoryActivity extends AppCompatActivity implements View.O
         map.put("deviceNum",deviceNum);
 
         String url = "/query/openDoorHistory";
-        httpUtil.post(map,url);
+        //httpUtil.post(map,url);
+    }
+
+    //设置listview
+    private void setListView()
+    {
+        baseAdapter = new TestBaseAdapter(this);
+        footerview = getLayoutInflater().inflate(R.layout.list_footer, null);
+
+        stickyList = (StickyListHeadersListView)findViewById(R.id.history_list_view);
+        stickyList.setOnItemClickListener(this);
+        stickyList.setAdapter(baseAdapter);
+        stickyList.addFooterView(footerview);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+    {
+        if(id == -1)
+        {
+            baseAdapter.loadDatas(new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.opendoorhistory2))));
+            baseAdapter.notifyDataSetChanged();
+            stickyList.setEnd(true);
+        }
     }
 }

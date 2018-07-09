@@ -20,4 +20,74 @@
     <string name="message_setting_comeback">The user comes back from the settings page.</string>
     <string name="message_permission_rationale">Grant the following permissions to continue the program:\n\n%1$s</string>
     <string name="resume">Resume</string>
+
+    <string-array name="opendoorhistory">
+        <item>201706021701</item>
+        <item>201706021701</item>
+        <item>201706021701</item>
+
+        <item>201807031701</item>
+        <item>201807031701</item>
+
+        <item>201807041701</item>
+        <item>201807041701</item>
+
+        <item>201807051701</item>
+        <item>201807051701</item>
+        <item>201807051701</item>
+        <item>201807061701</item>
+        <item>201807061701</item>
+        <item>201807061701</item>
+        <item>201807061701</item>
+        <item>201807061701</item>
+        <item>201807061701</item>
+        <item>201807061701</item>
+        <item>201807061701</item>
+
+    </string-array>
+
+    <string-array name="opendoorhistory2">
+
+        <item>201807061701</item>
+        <item>201807061701</item>
+        <item>201807061701</item>
+        <item>201807061701</item>
+
+        <item>201807081701</item>
+        <item>201807081701</item>
+        <item>201807081701</item>
+        <item>201807081701</item>
+        <item>201807081701</item>
+        <item>201807081701</item>
+        <item>201807081701</item>
+        <item>201807081701</item>
+        <item>201807081701</item>
+
+        <item>201807091701</item>
+        <item>201807091701</item>
+        <item>201807091701</item>
+        <item>201807091701</item>
+        <item>201807091701</item>
+        <item>201807091701</item>
+        <item>201807091701</item>
+        <item>201807091701</item>
+    </string-array>
+
+
+    <string name="restore">Restore</string>
+    <string name="update">Update</string>
+    <string name="clear">Clear</string>
+    <string name="empty">Empty Adapter</string>
+    <string name="drawer_open">Drawer Open</string>
+    <string name="drawer_close">Drawer Close</string>
+    <string name="options">OPTIONS</string>
+    <string name="actions">ACTIONS</string>
+    <string name="restore_list">Restore list</string>
+    <string name="open_expandable_list">Open expandable list</string>
+    <string name="update_list">Update list</string>
+    <string name="clear_list">Clear list</string>
+    <string name="sticky_header">Sticky header</string>
+    <string name="fade_header">Fade header</string>
+    <string name="draw_behind_header">Draw behind header</string>
+    <string name="fast_scroll">Fast scroll</string>
 </resources>
