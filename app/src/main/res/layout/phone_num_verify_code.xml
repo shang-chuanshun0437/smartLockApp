@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
-    tools:context="mutong.com.mtaj.main.RegisterActivity">
+    tools:context="mutong.com.mtaj.main.PhoneNumVerifyCodeActivity">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintLayout6"
@@ -28,105 +28,79 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/register"
+            android:id="@+id/verify_code"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:text="注册"
+            android:text="短信验证码"
             android:textColor="@color/black"
-            android:textSize="20dp"
+            android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/back"
             app:layout_constraintTop_toTopOf="parent" />
     </android.support.constraint.ConstraintLayout>
 
     <TextView
-        android:id="@+id/place_belonging"
+        android:id="@+id/send_to"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="40dp"
-        android:text="手机号归属地"
-        android:textSize="19sp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:text="短信验证码已发送至"
+        android:textColor="@color/black"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout6" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/phone_num"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="48dp"
-        android:layout_marginTop="44dp"
-        android:text="中国"
-        android:textColor="@color/colorMainGreen"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout6" />
-
-    <View
-        android:id="@+id/divide"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="8dp"
-        android:background="@color/divide"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/place_belonging" />
-
-    <TextView
-        android:id="@+id/textView86"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="18dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
         android:text="+86"
-        android:textSize="17sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divide" />
+        android:textColor="@color/colorMainGreen"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@+id/send_to"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout6" />
 
-    <EditText
-        android:id="@+id/phone_num_input"
-        android:layout_width="273dp"
+    <TextView
+        android:id="@+id/next_send"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
-        android:inputType="phone|number"
-        android:maxLength="13"
-        android:background="@null"
-        android:textSize="19sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView86"
-        app:layout_constraintTop_toBottomOf="@+id/divide" />
-
-    <View
-        android:id="@+id/divide2"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="4dp"
-        android:background="@color/divide"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:text="60s后重新发送"
+        android:textSize="17sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/phone_num_input" />
+        app:layout_constraintTop_toBottomOf="@+id/send_to" />
 
     <Button
         android:id="@+id/next_button"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="56dp"
+        android:layout_height="51dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
         android:background="@color/colorMainGreen"
         android:text="下一步"
         android:textSize="19sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divide2" />
+        app:layout_constraintTop_toBottomOf="@+id/verificationCodeInput" />
 
+    <mutong.com.mtaj.common.VerificationCodeInput
+        android:id="@+id/verificationCodeInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="48dp"
+        android:digits="1234567890"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/next_send" />
 </android.support.constraint.ConstraintLayout>

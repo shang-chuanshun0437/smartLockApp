@@ -65,6 +65,14 @@
             android:name=".main.OpenDoorHistoryActivity">
         </activity>
 
+        <activity
+            android:name=".main.PhoneNumVerifyCodeActivity">
+        </activity>
+
+        <activity
+            android:name=".main.StartRegisterActivity">
+        </activity>
+
         <activity android:name=".animation.animation">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

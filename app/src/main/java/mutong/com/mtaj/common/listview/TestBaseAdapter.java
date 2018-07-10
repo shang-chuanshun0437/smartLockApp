@@ -8,18 +8,23 @@ import android.widget.BaseAdapter;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import mutong.com.mtaj.R;
 import mutong.com.mtaj.utils.DateUtil;
+import mutong.com.mtaj.utils.JSONArrayUtil;
 
 public class TestBaseAdapter extends BaseAdapter implements
         StickyListHeadersAdapter, SectionIndexer {
 
     private final Context mContext;
-    private ArrayList<String> datas;
+    private JSONArray datas;
     private int[] mSectionIndices;//每个分段有多少项
     private String[] mSectionLetters;//每个分段的首字母
     private LayoutInflater mInflater;
@@ -27,44 +32,77 @@ public class TestBaseAdapter extends BaseAdapter implements
     public TestBaseAdapter(Context context) {
         mContext = context;
         mInflater = LayoutInflater.from(context);
-        datas = new ArrayList<String>(Arrays.asList(context.getResources().getStringArray(R.array.opendoorhistory)));
-        mSectionIndices = getSectionIndices();
-        mSectionLetters = getSectionLetters();
     }
 
     private int[] getSectionIndices() {
         ArrayList<Integer> sectionIndices = new ArrayList<Integer>();
-        String lastFirstChar = datas.get(0).substring(0,8);
-        sectionIndices.add(0);
-        for (int i = 1; i < datas.size(); i++) {
-            if (!datas.get(i).substring(0,8).equals(lastFirstChar)) {
-                lastFirstChar = datas.get(i).substring(0,8);
-                sectionIndices.add(i);
+        try
+        {
+            //String userName = datas.getJSONObject(0).getString("userName");
+            if(datas != null)
+            {
+                String openTime = datas.getJSONObject(0).getString("openTime");
+                String lastFirstChar = openTime.substring(0,8);
+                sectionIndices.add(0);
+                for (int i = 1; i < datas.length(); i++)
+                {
+                    JSONObject history = datas.getJSONObject(i);
+
+                    if (!history.getString("openTime").substring(0,8).equals(lastFirstChar))
+                    {
+                        lastFirstChar = history.getString("openTime").substring(0,8);
+                        sectionIndices.add(i);
+                    }
+                }
+                int[] sections = new int[sectionIndices.size()];
+                for (int i = 0; i < sectionIndices.size(); i++) {
+                    sections[i] = sectionIndices.get(i);
+                }
+                return sections;
             }
         }
-        int[] sections = new int[sectionIndices.size()];
-        for (int i = 0; i < sectionIndices.size(); i++) {
-            sections[i] = sectionIndices.get(i);
+        catch (JSONException e)
+        {
+            e.printStackTrace();
         }
-        return sections;
+
+        return new int[0];
     }
 
-    private String[] getSectionLetters() {
+    private String[] getSectionLetters()
+    {
         String[] letters = new String[mSectionIndices.length];
-        for (int i = 0; i < mSectionIndices.length; i++) {
-            letters[i] = datas.get(mSectionIndices[i]).substring(0,8);
+        for (int i = 0; i < mSectionIndices.length; i++)
+        {
+            try
+            {
+                letters[i] =  datas.getJSONObject(i).getString("openTime").substring(0,8);
+            }
+            catch (JSONException e)
+            {
+                e.printStackTrace();
+            }
         }
         return letters;
     }
 
     @Override
     public int getCount() {
-        return datas.size();
+        return datas == null ? 0 : datas.length();
     }
 
     @Override
-    public Object getItem(int position) {
-        return datas.get(position);
+    public Object getItem(int position)
+    {
+        try
+        {
+            return datas == null ? null : datas.getJSONObject(position).getString("openTime");
+        }
+        catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
@@ -81,12 +119,27 @@ public class TestBaseAdapter extends BaseAdapter implements
             holder = new ViewHolder();
             convertView = mInflater.inflate(R.layout.test_list_item_layout, parent, false);
             holder.text = (TextView) convertView.findViewById(R.id.text);
+            holder.phoneType = (TextView)convertView.findViewById(R.id.phoen_type);
+            holder.time = (TextView)convertView.findViewById(R.id.time);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.text.setText(datas.get(position));
+        try
+        {
+            if(datas != null)
+            {
+                holder.text.setText(datas.getJSONObject(position).getString("userName"));
+                holder.phoneType.setText(datas.getJSONObject(position).getString("phoneType"));
+                holder.time.setText(DateUtil.convert2String(datas.getJSONObject(position).getString("openTime"),1));
+            }
+
+        }
+        catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
 
         return convertView;
     }
@@ -108,10 +161,17 @@ public class TestBaseAdapter extends BaseAdapter implements
 
         // set header text as first char in name
         //CharSequence headerChar = mCountries[position].substring(0,8);
-        String date = DateUtil.convert2String(datas.get(position),0);
-        String week = DateUtil.dateToWeek(datas.get(position).substring(0,8));
-        holder.text.setText(date);
-        holder.weekDay.setText(week);
+        try
+        {
+            String date = DateUtil.convert2String(datas.getJSONObject(position).getString("openTime"),0);
+            String week = DateUtil.dateToWeek(datas.getJSONObject(position).getString("openTime").substring(0,8));
+            holder.text.setText(date);
+            holder.weekDay.setText(week);
+        }
+        catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
 
         return convertView;
     }
@@ -125,12 +185,21 @@ public class TestBaseAdapter extends BaseAdapter implements
     public long getHeaderId(int position) {
         // return the first character of the country as ID because this is what
         // headers are based upon
-        return datas.get(position).substring(0,8).charAt(7);
+        //第7个字符表示哪一天
+        try
+        {
+            return datas.getJSONObject(position).getString("openTime").charAt(7);
+        }
+        catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     @Override
     public int getPositionForSection(int section) {
-        if (mSectionIndices.length == 0) {
+        if (mSectionIndices == null || mSectionIndices.length == 0) {
             return 0;
         }
 
@@ -143,7 +212,12 @@ public class TestBaseAdapter extends BaseAdapter implements
     }
 
     @Override
-    public int getSectionForPosition(int position) {
+    public int getSectionForPosition(int position)
+    {
+        if (mSectionIndices == null)
+        {
+            return 0;
+        }
         for (int i = 0; i < mSectionIndices.length; i++) {
             if (position < mSectionIndices[i]) {
                 return i - 1;
@@ -164,12 +238,18 @@ public class TestBaseAdapter extends BaseAdapter implements
 
     class ViewHolder {
         TextView text;
+        TextView phoneType;
+        TextView time;
     }
 
-    //加载数据，当数据加载完毕时，end为true
-    public void loadDatas(ArrayList<String> extral)
+    //加载数据
+    public void loadDatas(JSONArray jsonArray)
     {
-        datas.addAll(extral);
+        if (jsonArray == null)
+        {
+            return;
+        }
+        datas = JSONArrayUtil.joinJSONArray(datas,jsonArray);
         mSectionIndices = getSectionIndices();
         mSectionLetters = getSectionLetters();
     }

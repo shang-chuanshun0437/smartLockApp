@@ -1,10 +1,14 @@
 package mutong.com.mtaj.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -27,26 +31,24 @@ import mutong.com.mtaj.utils.StringUtil;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener
 {
-    private EditText phoneNum;
-    private EditText pwd;
-    private EditText verify;
-    private TextView query_verify;
-    private Button registBtn;
-
+    private EditText phoneNumInput;
+    private Button nextButton;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register);
 
-        phoneNum = (EditText)findViewById(R.id.regist_name);
-        pwd = (EditText)findViewById(R.id.register_pwd);
-        verify = (EditText)findViewById(R.id.verify);
-        query_verify = (TextView) findViewById(R.id.query_verify);
-        registBtn = (Button)findViewById(R.id.registBtn);
+        phoneNumInput = (EditText)findViewById(R.id.phone_num_input);
+        nextButton = (Button)findViewById(R.id.next_button);
 
-        query_verify.setOnClickListener(this);
-        registBtn.setOnClickListener(this);
+        phoneNumInput.addTextChangedListener(textWatcher);
+        nextButton.setOnClickListener(this);
+        //EditText获取焦点并显示软键盘
+        phoneNumInput.setFocusable(true);
+        phoneNumInput.setFocusableInTouchMode(true);
+        phoneNumInput.requestFocus();
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
     }
 
     @Override
@@ -54,16 +56,14 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     {
         switch (view.getId())
         {
-            case R.id.query_verify:
-                System.out.println(R.id.query_verify);
-                break;
-
-            case R.id.registBtn:
-                if( !NetworkService.isNetworkOpen(this))
+            case R.id.next_button:
+                String phoneNum = checkPhoneNum();
+                if (!StringUtil.isEmpty(phoneNum))
                 {
-                    return;
+                    Intent intent = new Intent(this,PhoneNumVerifyCodeActivity.class);
+                    intent.putExtra("phoneNum",phoneNumInput.getText().toString());
+                    startActivity(intent);
                 }
-                regist();
                 break;
         }
     }
@@ -73,17 +73,13 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         //Todo 对二维码的处理稍后再做
 
         //校验用户名和密码是否合法
-        if( !checkUserNameAndPwd())
-        {
-            return;
-        }
         //请求服务器进行注册
-        Map<String, String> map = new HashMap<String, String>();
+        /*Map<String, String> map = new HashMap<String, String>();
         map.put("userName",phoneNum.getText().toString());
         map.put("password",pwd.getText().toString());
 
         HttpUtil httpUtil = new HttpUtil(handler,this);
-        httpUtil.post(map,"/user/addUser");
+        httpUtil.post(map,"/user/addUser");*/
 
         /*RequestQueue mQueue = Volley.newRequestQueue(this);
 
@@ -95,24 +91,17 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     }
 
-    private boolean checkUserNameAndPwd()
+    private String checkPhoneNum()
     {
-        String userName = phoneNum.getText().toString();
-        String password = pwd.getText().toString();
-
-        if(StringUtil.isEmpty(userName) || userName.length() != Constant.PHONUM_COUNT)
+        //去空格
+        String phoneNum = phoneNumInput.getText().toString().replace(" ","");
+        if(StringUtil.isEmpty(phoneNum) || phoneNum.length() != Constant.PHONUM_COUNT)
         {
             Toast.makeText(RegisterActivity.this,
-                    "用户名不合法，请重新输入11位的手机号...", Toast.LENGTH_LONG).show();
-            return false;
+                    "手机号输入有误，请重新输入11位的手机号...", Toast.LENGTH_LONG).show();
+            return null;
         }
-
-        if(StringUtil.isEmpty(password) || password.length() < Constant.MIN_PWD)
-        {
-            Toast.makeText(RegisterActivity.this, "密码不合法，请输入6-12位的密码...", Toast.LENGTH_LONG).show();
-            return false;
-        }
-        return true;
+        return phoneNum;
     }
 
     private Handler handler = new Handler()
@@ -128,8 +117,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     UserCommonServiceSpi userCommonService = new UserCommonServiceSpi(RegisterActivity.this);
                     User user = new User();
 
-                    user.setUserName(phoneNum.getText().toString());
-                    user.setPassword(pwd.getText().toString());
+                    //user.setUserName(phoneNum.getText().toString());
+                    //user.setPassword(pwd.getText().toString());
 
                     userCommonService.insertUser(user);
                     finish();
@@ -138,4 +127,50 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         }
     };
 
+    private TextWatcher textWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count)
+        {
+            if (s == null || s.length() == 0)
+                return;
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < s.length(); i++) {
+                if (i != 3 && i != 8 && s.charAt(i) == ' ') {
+                    continue;
+                } else {
+                    sb.append(s.charAt(i));
+                    if ((sb.length() == 4 || sb.length() == 9)
+                            && sb.charAt(sb.length() - 1) != ' ') {
+                        sb.insert(sb.length() - 1, ' ');
+                    }
+                }
+            }
+            if (!sb.toString().equals(s.toString())) {
+                int index = start + 1;
+                if (sb.charAt(start) == ' ') {
+                    if (before == 0) {
+                        index++;
+                    } else {
+                        index--;
+                    }
+                } else {
+                    if (before == 1) {
+                        index--;
+                    }
+                }
+                phoneNumInput.setText(sb.toString());
+                phoneNumInput.setSelection(index);
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+    };
 }

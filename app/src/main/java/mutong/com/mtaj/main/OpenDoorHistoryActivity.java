@@ -103,13 +103,8 @@ public class OpenDoorHistoryActivity extends AppCompatActivity implements View.O
                                 JSONArray historys = jsonObject.getJSONArray("openDoorHistories");
                                 if(historys != null)
                                 {
-                                    for (int i = 0;i < historys.length();i++)
-                                    {
-                                        JSONObject history = historys.getJSONObject(i);
-                                        String userName = history.getString("userName");
-                                        String openTime = history.getString("openTime");
-                                        System.out.println(userName + "," + openTime);
-                                    }
+                                    baseAdapter.loadDatas(historys);
+                                    baseAdapter.notifyDataSetChanged();
                                 }
                                 break;
                             case ErrorCode.NOT_LOGIN:
@@ -139,7 +134,7 @@ public class OpenDoorHistoryActivity extends AppCompatActivity implements View.O
         map.put("deviceNum",deviceNum);
 
         String url = "/query/openDoorHistory";
-        //httpUtil.post(map,url);
+        httpUtil.post(map,url);
     }
 
     //设置listview
@@ -157,11 +152,11 @@ public class OpenDoorHistoryActivity extends AppCompatActivity implements View.O
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id)
     {
+        System.out.println("position:" + position + " id" + id);
         if(id == -1)
         {
-            baseAdapter.loadDatas(new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.opendoorhistory2))));
-            baseAdapter.notifyDataSetChanged();
-            stickyList.setEnd(true);
+            getHistory();
+            //stickyList.setEnd(true);
         }
     }
 }
