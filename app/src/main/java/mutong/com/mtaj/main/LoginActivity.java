@@ -18,16 +18,18 @@ import java.util.Map;
 
 import mutong.com.mtaj.R;
 import mutong.com.mtaj.common.Constant;
+import mutong.com.mtaj.common.ErrorCode;
 import mutong.com.mtaj.common.TerminalInfo;
 import mutong.com.mtaj.common.UserCommonServiceSpi;
 import mutong.com.mtaj.repository.User;
 import mutong.com.mtaj.utils.HttpUtil;
+import mutong.com.mtaj.utils.StatusBarUtil;
 import mutong.com.mtaj.utils.StringUtil;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener
 {
     private TextView rigisterView;
-    private TextView userNameView;
+    private TextView phoneNum;
     private TextView loginPwd;
     private Button loginBtn;
     private UserCommonServiceSpi userCommonService;
@@ -36,9 +38,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
+        //设置状态栏颜色
+        StatusBarUtil.setStatusBarColor(this,R.color.title);
+        //设置状态栏黑色文字
+        StatusBarUtil.setBarTextLightMode(this);
+
         rigisterView = (TextView)findViewById(R.id.newUserRegist);
-        userNameView = (TextView)findViewById(R.id.login_username) ;
-        loginPwd = (TextView)findViewById(R.id.login_pwd);
+        phoneNum = (TextView)findViewById(R.id.phone_num) ;
+        loginPwd = (TextView)findViewById(R.id.pwd);
         loginBtn = (Button) findViewById(R.id.login_btnLogin);
 
         rigisterView.setOnClickListener(this);
@@ -61,27 +68,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             //用户登录
             case R.id.login_btnLogin:
-                System.out.println("login_btnLogin:" + userNameView.getText().toString());
-                String userName = userNameView.getText().toString();
+                String phoneNumStr = phoneNum.getText().toString();
                 String pwd = loginPwd.getText().toString();
 
-                //为了减少与服务器的交互次数，先从本地校验密码
+                //先从本地校验密码
                 User user = userCommonService.getLoginUser();
-                if(user != null && !StringUtil.isEmpty(user.getPassword()) && !StringUtil.isEmpty(user.getUserName()))
+                if(user != null && !StringUtil.isEmpty(user.getPassword()) && !StringUtil.isEmpty(user.getPhoneNum()))
                 {
                     //用户名相等，密码不相等
-                    if(user.getUserName().equals(userName) && !user.getPassword().equals(pwd))
+                    if(user.getPhoneNum().equals(phoneNumStr) && !user.getPassword().equals(pwd))
                     {
                         Toast.makeText(LoginActivity.this,"密码错误，请重新输入密码...", Toast.LENGTH_LONG).show();
                         return;
                     }
                 }
-                TerminalInfo terminalInfo = new TerminalInfo(this);
-                String terminalId = terminalInfo.getTerminalId();
+
                 Map<String,String> map = new HashMap<String,String>();
-                map.put("userName",userName);
+                map.put("phoneNum",phoneNumStr);
                 map.put("password",pwd);
-                map.put("terminalId",terminalId);
 
                 String url = "/user/login";
                 HttpUtil httpUtil = new HttpUtil(handler,this);
@@ -101,21 +105,40 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     JSONObject jsonObject = (JSONObject) msg.obj;
                     try
                     {
-                        String token = jsonObject.getString("token");
-                        String refreshToken = jsonObject.getString("refreshToken");
+                        JSONObject result = jsonObject.getJSONObject("result");
+                        String retCode = result.getString("retcode");
+                        switch (retCode)
+                        {
+                            case ErrorCode.SUCEESS:
+                                String token = jsonObject.getString("token");
+                                String userName = jsonObject.getString("userName");
+                                //先删除user_login表中的所有数据，再插入新用户信息
+                                userCommonService.deleteDataFromSqlite(Constant.LOGIN_USER_TABLE,null);
 
-                        //先删除user_login表中的所有数据，再插入新用户信息
-                        userCommonService.deleteDataFromSqlite(Constant.LOGIN_USER_TABLE,null);
+                                User user = new User();
+                                user.setPhoneNum(phoneNum.getText().toString());
+                                user.setPassword(loginPwd.getText().toString());
+                                user.setUserToken(token);
+                                user.setUserName(userName);
 
-                        User user = new User();
-                        user.setUserName(userNameView.getText().toString());
-                        user.setPassword(loginPwd.getText().toString());
-                        user.setUserToken(token);
-                        user.setRefreshToken(refreshToken);
+                                userCommonService.insertUser(user);
+                                Toast.makeText(LoginActivity.this,"恭喜，您已登录成功", Toast.LENGTH_LONG).show();
+                                finish();
+                                break;
 
-                        userCommonService.insertUser(user);
-                        Toast.makeText(LoginActivity.this,"恭喜，您已登录成功", Toast.LENGTH_LONG).show();
-                        finish();
+                            case ErrorCode.USERPHONE_NOT_EXIST:
+                                Toast.makeText(LoginActivity.this,"您输入的用户名未注册，请重新输入用户名", Toast.LENGTH_LONG).show();
+                                break;
+
+                            case ErrorCode.PASSWORD_ERROR:
+                                Toast.makeText(LoginActivity.this,"用户名或密码错误", Toast.LENGTH_LONG).show();
+                                break;
+
+                            case ErrorCode.DEFAULT_ERROR:
+                                Toast.makeText(LoginActivity.this,"系统正在升级中，请稍后重试", Toast.LENGTH_LONG).show();
+                                break;
+                        }
+
                     }
                     catch (JSONException e)
                     {

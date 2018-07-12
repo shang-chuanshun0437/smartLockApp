@@ -8,6 +8,8 @@ public class User
 {
     private String userName;
 
+    private String phoneNum;
+
     private String userToken ;
 
     private String refreshToken ;
@@ -75,5 +77,13 @@ public class User
 
     public void setHeadPortraitPath(String headPortraitPath) {
         this.headPortraitPath = headPortraitPath;
+    }
+
+    public String getPhoneNum() {
+        return phoneNum;
+    }
+
+    public void setPhoneNum(String phoneNum) {
+        this.phoneNum = phoneNum;
     }
 }

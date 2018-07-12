@@ -38,6 +38,8 @@ public class OpenDoorHistoryActivity extends AppCompatActivity implements View.O
     private ImageView back;
     private TestBaseAdapter baseAdapter;
     private View footerview;
+
+    private int page = 0;
     //listview
     private StickyListHeadersListView stickyList;
     @Override
@@ -68,7 +70,7 @@ public class OpenDoorHistoryActivity extends AppCompatActivity implements View.O
         userCommonService = new UserCommonServiceSpi(this);
 
         //去后台获取登录历史
-        getHistory();
+        getHistory(page);
 
     }
 
@@ -105,6 +107,11 @@ public class OpenDoorHistoryActivity extends AppCompatActivity implements View.O
                                 {
                                     baseAdapter.loadDatas(historys);
                                     baseAdapter.notifyDataSetChanged();
+                                    //查询的时候，后台每页会返回30条数据，如果数据不到30条，则说明查询完毕
+                                    if(historys.length() < 30)
+                                    {
+                                        stickyList.setEnd(true);
+                                    }
                                 }
                                 break;
                             case ErrorCode.NOT_LOGIN:
@@ -121,7 +128,7 @@ public class OpenDoorHistoryActivity extends AppCompatActivity implements View.O
         }
     };
 
-    private void getHistory()
+    private void getHistory(int page)
     {
         User user = userCommonService.getLoginUser();
 
@@ -129,9 +136,10 @@ public class OpenDoorHistoryActivity extends AppCompatActivity implements View.O
 
         Map<String,String> map = new ArrayMap<String,String>();
 
-        map.put("userName",user.getUserName());
+        map.put("phoneNum",user.getPhoneNum());
         map.put("token",user.getUserToken());
         map.put("deviceNum",deviceNum);
+        map.put("page",String.valueOf(page));
 
         String url = "/query/openDoorHistory";
         httpUtil.post(map,url);
@@ -155,7 +163,7 @@ public class OpenDoorHistoryActivity extends AppCompatActivity implements View.O
         System.out.println("position:" + position + " id" + id);
         if(id == -1)
         {
-            getHistory();
+            getHistory(++page);
             //stickyList.setEnd(true);
         }
     }

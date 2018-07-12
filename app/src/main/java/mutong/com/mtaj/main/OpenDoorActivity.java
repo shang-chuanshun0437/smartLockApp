@@ -68,7 +68,7 @@ public class OpenDoorActivity extends AppCompatActivity implements View.OnClickL
         {
             for(Device device : devices)
             {
-                if(device.getUserName().equals(user.getUserName()))
+                if(device.getUserName().equals(user.getPhoneNum()))
                 {
                     titlelist.add(device.getDeviceName());
                 }

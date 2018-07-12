@@ -14,14 +14,19 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
 import mutong.com.mtaj.R;
 import mutong.com.mtaj.common.Constant;
+import mutong.com.mtaj.common.ErrorCode;
 import mutong.com.mtaj.common.NetworkService;
 import mutong.com.mtaj.common.UserCommonServiceSpi;
 import mutong.com.mtaj.repository.User;
+import mutong.com.mtaj.utils.CacheActivity;
 import mutong.com.mtaj.utils.HttpUtil;
 import mutong.com.mtaj.utils.StringUtil;
 
@@ -38,6 +43,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register);
+
+        //添加到activity的cache中，目的是注册完成后，结束该activity
+        CacheActivity.addActivity(this);
 
         phoneNumInput = (EditText)findViewById(R.id.phone_num_input);
         nextButton = (Button)findViewById(R.id.next_button);
@@ -60,35 +68,15 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 String phoneNum = checkPhoneNum();
                 if (!StringUtil.isEmpty(phoneNum))
                 {
-                    Intent intent = new Intent(this,PhoneNumVerifyCodeActivity.class);
-                    intent.putExtra("phoneNum",phoneNumInput.getText().toString());
-                    startActivity(intent);
+                    //获取验证码
+                    Map<String, String> map = new HashMap<String, String>();
+                    map.put("phoneNum",phoneNum);
+
+                    HttpUtil httpUtil = new HttpUtil(handler,this);
+                    httpUtil.post(map,"/verifyCode/getVerifyCode");
                 }
                 break;
         }
-    }
-    //和后台服务器数据交互完成注册
-    private void regist()
-    {
-        //Todo 对二维码的处理稍后再做
-
-        //校验用户名和密码是否合法
-        //请求服务器进行注册
-        /*Map<String, String> map = new HashMap<String, String>();
-        map.put("userName",phoneNum.getText().toString());
-        map.put("password",pwd.getText().toString());
-
-        HttpUtil httpUtil = new HttpUtil(handler,this);
-        httpUtil.post(map,"/user/addUser");*/
-
-        /*RequestQueue mQueue = Volley.newRequestQueue(this);
-
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST,Constant.URL_PREFIX + "user/addUser",
-                new JSONObject(map),
-                new URLResponseListener(this,handler), new URLErrorResponseListener(this));
-
-        mQueue.add(jsonObjectRequest);*/
-
     }
 
     private String checkPhoneNum()
@@ -112,17 +100,32 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             switch (msg.what)
             {
                 case 1:
-                    Toast.makeText(RegisterActivity.this,"恭喜，您已注册成功", Toast.LENGTH_LONG).show();
-                    //将用户数据存入数据库
-                    UserCommonServiceSpi userCommonService = new UserCommonServiceSpi(RegisterActivity.this);
-                    User user = new User();
+                    JSONObject jsonObject = (JSONObject)msg.obj;
+                    try
+                    {
+                        JSONObject result = jsonObject.getJSONObject("result");
+                        String retCode = result.getString("retcode");
+                        switch (retCode)
+                        {
+                            case ErrorCode.SUCEESS:
+                                Intent intent = new Intent(RegisterActivity.this,PhoneNumVerifyCodeActivity.class);
+                                intent.putExtra("phoneNum",phoneNumInput.getText().toString());
+                                startActivity(intent);
+                                break;
 
-                    //user.setUserName(phoneNum.getText().toString());
-                    //user.setPassword(pwd.getText().toString());
+                            case ErrorCode.USERNAME_EXIST:
+                                Toast.makeText(RegisterActivity.this,"该手机号已注册", Toast.LENGTH_LONG).show();
+                                break;
 
-                    userCommonService.insertUser(user);
-                    finish();
-                    break;
+                            case ErrorCode.DEFAULT_ERROR:
+                                Toast.makeText(RegisterActivity.this,"服务器正在升级中，请稍后重试", Toast.LENGTH_LONG).show();
+                                break;
+                        }
+                    }
+                    catch (JSONException e)
+                    {
+                        e.printStackTrace();
+                    }
             }
         }
     };

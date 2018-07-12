@@ -37,7 +37,7 @@ public class OpenDoorGrideViewListener implements AdapterView.OnItemClickListene
 
         for (Device device : devices)
         {
-            if(device.getUserName().equals(user.getUserName()))
+            if(device.getUserName().equals(user.getPhoneNum()))
             {
                 deviceList.add(device);
             }

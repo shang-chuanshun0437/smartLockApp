@@ -523,7 +523,7 @@ public class StickyListHeadersListView extends FrameLayout {
                 }
                 if(end && toastFlag)
                 {
-                    Toast.makeText(getContext(), "数据已加载完毕，共有" + totalItemCount + "条开门记录",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "数据已加载完毕，共有" + (totalItemCount - 1) + "条开门记录",Toast.LENGTH_SHORT).show();
                     toastFlag = false;
                 }
             }

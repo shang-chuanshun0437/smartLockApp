@@ -75,11 +75,11 @@ public class ModifyNickNameActivity extends AppCompatActivity implements View.On
                 String nickName = modifyNickName.getText().toString();
                 if (user != null )
                 {
-                    Preference preference = userCommonService.getPreference(user.getUserName());
+                    Preference preference = userCommonService.getPreference(user.getPhoneNum());
                     if(preference == null)
                     {
                         preference = new Preference();
-                        preference.setUserName(user.getUserName());
+                        preference.setUserName(user.getPhoneNum());
                         preference.setNickName(nickName);
                         userCommonService.insertPreference(preference);
                     }

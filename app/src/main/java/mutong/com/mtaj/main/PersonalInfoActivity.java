@@ -89,9 +89,9 @@ public class PersonalInfoActivity extends AppCompatActivity implements View.OnCl
         User user = userCommonService.getLoginUser();
         if (user != null)
         {
-            personalAccountEdit.setText(user.getUserName());
+            personalAccountEdit.setText(user.getPhoneNum());
 
-            Preference preference = userCommonService.getPreference(user.getUserName());
+            Preference preference = userCommonService.getPreference(user.getPhoneNum());
             if (preference != null)
             {
                 if (!StringUtil.isEmpty(preference.getNickName()))
@@ -218,12 +218,12 @@ public class PersonalInfoActivity extends AppCompatActivity implements View.OnCl
                     User user = userCommonService.getLoginUser();
                     if (user != null)
                     {
-                        Preference preference = userCommonService.getPreference(user.getUserName());
+                        Preference preference = userCommonService.getPreference(user.getPhoneNum());
 
                         if (preference == null)
                         {
                             preference = new Preference();
-                            preference.setUserName(user.getUserName());
+                            preference.setUserName(user.getPhoneNum());
                             preference.setHeadPortraitPath(mImageUri.getEncodedPath());
                             userCommonService.insertPreference(preference);
                         }
@@ -304,7 +304,7 @@ public class PersonalInfoActivity extends AppCompatActivity implements View.OnCl
                     return;
                 }
             }
-            File file = new File(dirFile,   user.getUserName() + ".jpg");
+            File file = new File(dirFile,   user.getPhoneNum() + ".jpg");
             System.out.println("file:::" + file.getAbsolutePath());
             imageUri = Uri.fromFile(file);
             mImageUri = imageUri; // 将 uri 传出，方便设置到视图中
@@ -349,7 +349,7 @@ public class PersonalInfoActivity extends AppCompatActivity implements View.OnCl
                     return;
                 }
             }
-            File file = new File(dirFile, user.getUserName() + ".jpg");
+            File file = new File(dirFile, user.getPhoneNum() + ".jpg");
             System.out.println(file.getAbsolutePath());
             try
             {

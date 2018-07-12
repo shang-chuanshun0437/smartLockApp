@@ -18,6 +18,7 @@ import mutong.com.mtaj.common.CircleImageView;
 import mutong.com.mtaj.common.UserCommonServiceSpi;
 import mutong.com.mtaj.repository.Preference;
 import mutong.com.mtaj.repository.User;
+import mutong.com.mtaj.utils.StatusBarUtil;
 import mutong.com.mtaj.utils.StringUtil;
 
 public class MePageActivity extends Fragment implements View.OnClickListener
@@ -40,6 +41,9 @@ public class MePageActivity extends Fragment implements View.OnClickListener
         view = inflater.inflate(R.layout.me_page, container, false);
 
         userCommonService = new UserCommonServiceSpi(getContext());
+
+        //设置状态栏颜色
+        StatusBarUtil.setStatusBarColor(getActivity(),R.color.mePage);
 
         headPortrait = (CircleImageView) view.findViewById(R.id.head_portrait);
         nickname = (TextView)view.findViewById(R.id.nickname);
@@ -64,9 +68,9 @@ public class MePageActivity extends Fragment implements View.OnClickListener
         User user = userCommonService.getLoginUser();
         if (user != null )
         {
-            Preference preference = userCommonService.getPreference(user.getUserName());
+            Preference preference = userCommonService.getPreference(user.getPhoneNum());
 
-            accountNumberEdit.setText(user.getUserName());
+            accountNumberEdit.setText(user.getPhoneNum());
 
             if(preference != null)
             {

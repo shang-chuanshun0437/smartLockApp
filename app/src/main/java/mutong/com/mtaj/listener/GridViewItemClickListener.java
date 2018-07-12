@@ -58,7 +58,7 @@ public class GridViewItemClickListener implements AdapterView.OnItemClickListene
                 {
                     //向后台发送获取用户设备的请求
                     Map<String,String> map = new ArrayMap<String,String>();
-                    map.put("userName",user.getUserName());
+                    map.put("phoneNum",user.getPhoneNum());
                     map.put("token",user.getUserToken());
 
                     String url = "/query/userDevices";
@@ -88,7 +88,7 @@ public class GridViewItemClickListener implements AdapterView.OnItemClickListene
         @Override
         public void handleMessage(Message msg)
         {
-            if(msg.what == Constant.CONSLE_SUCCESS)
+            if(msg.what == 1)
             {
                 JSONObject jsonObject = (JSONObject)msg.obj;
                 try
@@ -127,6 +127,11 @@ public class GridViewItemClickListener implements AdapterView.OnItemClickListene
                         case ErrorCode.NOT_LOGIN:
                             Intent intentLogin = new Intent(context, LoginActivity.class);
                             context.startActivity(intentLogin);
+                            break;
+
+                        case ErrorCode.DEFAULT_ERROR:
+                            Intent intentOpen = new Intent(context, OpenDoorActivity.class);
+                            context.startActivity(intentOpen);
                             break;
                     }
                 }

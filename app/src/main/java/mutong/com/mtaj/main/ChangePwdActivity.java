@@ -86,7 +86,7 @@ public class ChangePwdActivity extends AppCompatActivity implements View.OnClick
                 }
 
                 Map<String,String> map = new HashMap<String,String>();
-                map.put("userName",user.getUserName());
+                map.put("userName",user.getPhoneNum());
                 map.put("oldpassword",oldPwd.getText().toString());
                 map.put("newpassword",newPwd.getText().toString());
 
@@ -160,7 +160,7 @@ public class ChangePwdActivity extends AppCompatActivity implements View.OnClick
                                 finish();
                                 break;
 
-                            case ErrorCode.USERNAME_NOT_EXIST:
+                            case ErrorCode.USERPHONE_NOT_EXIST:
                                 Intent intent = new Intent(ChangePwdActivity.this,LoginActivity.class);
                                 startActivity(intent);
                                 break;

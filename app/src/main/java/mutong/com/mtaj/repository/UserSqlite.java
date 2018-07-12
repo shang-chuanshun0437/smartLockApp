@@ -67,6 +67,10 @@ public class UserSqlite extends SQLiteOpenHelper
                     String preference = "create table preference(username varchar(11) PRIMARY KEY,headportrait varchar(256),nickname varchar(32))";
                     db.execSQL(preference);
                     break;
+                case 8:
+                    String phoneNum = "alter table login_user add phonenum varchar(256)";
+                    db.execSQL(phoneNum);
+                    break;
             }
         }
     }

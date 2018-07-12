@@ -75,7 +75,7 @@ public class DeviceActivity extends AppCompatActivity implements View.OnClickLis
             HttpUtil httpUtil = new HttpUtil(handler,this);
 
             Map<String,String> map = new ArrayMap<String,String>();
-            map.put("userName",user.getUserName());
+            map.put("userName",user.getPhoneNum());
             map.put("token",user.getUserToken());
 
             String url = "/query/userDevices";

@@ -54,7 +54,7 @@ public class BindDeviceActivity extends AppCompatActivity implements View.OnClic
                 user = userCommonService.getLoginUser();
 
                 Map<String, String> map = new ArrayMap<String, String>();
-                map.put("userName",user.getUserName());
+                map.put("userName",user.getPhoneNum());
                 map.put("token",user.getUserToken());
                 map.put("deviceNum",deviceNum);
                 map.put("deviceName",deviceName);
@@ -84,11 +84,11 @@ public class BindDeviceActivity extends AppCompatActivity implements View.OnClic
 
                         Device device = new Device();
 
-                        device.setAdminName(user.getUserName());
+                        device.setAdminName(user.getPhoneNum());
                         device.setAttachedTime(attachedTime);
                         device.setDeviceName(bindDeviceName.getText().toString());
                         device.setDeviceNum(bindDeviceNum.getText().toString());
-                        device.setUserName(user.getUserName());
+                        device.setUserName(user.getPhoneNum());
                         device.setDeviceVersion("0");
                         device.setRole(0);
                         device.setBloothMac(bloothMac);
