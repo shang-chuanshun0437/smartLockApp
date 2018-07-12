@@ -32,4 +32,10 @@ public class ErrorCode
     //redis中验证码凭据不正确
     public static final String VERIFY_VOUCHER_ERROR = "100014";
 
+    //数据库中不存在该设备
+    public static final String DEVICE_NOT_EXIT = "200001";
+
+    //后台数据库中，设备的主用户和请求中传来的用户不匹配
+    public static final String MAIN_USER_MISSMATCH = "200002";
+
 }

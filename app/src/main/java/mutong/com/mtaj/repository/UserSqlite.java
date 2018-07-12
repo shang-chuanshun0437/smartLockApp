@@ -71,6 +71,32 @@ public class UserSqlite extends SQLiteOpenHelper
                     String phoneNum = "alter table login_user add phonenum varchar(256)";
                     db.execSQL(phoneNum);
                     break;
+
+                case 9:
+
+                    //删除login_user多余的字段
+                    String deleteHead = "alter table login_user rename to user";
+                    db.execSQL(deleteHead);
+
+                    String deleteNick = "create table login_user as select userName,phoneNum,userToken,refreshToken,password from user";
+                    db.execSQL(deleteNick);
+
+                    String deletePre = "drop table if exists user";
+                    db.execSQL(deletePre);
+
+                    //删除preference多余的字段
+                    String addPhone = "alter table preference add phonenum varchar(12)";
+                    db.execSQL(addPhone);
+
+                    String rename = "alter table preference rename to temp";
+                    db.execSQL(rename);
+
+                    String createPre = "create table preference as select phonenum,headportrait from temp";
+                    db.execSQL(createPre);
+
+                    String deleteTemp = "drop table if exists temp";
+                    db.execSQL(deleteTemp);
+                    break;
             }
         }
     }

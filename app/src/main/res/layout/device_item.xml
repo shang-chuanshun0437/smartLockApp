@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
-    tools:actionBarNavMode="@mipmap/zufang"
     tools:context="mutong.com.mtaj.main.MainActivity">
 
     <ImageView
@@ -13,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="16dp"
         android:src="@mipmap/device_small"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -23,9 +22,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:text="设备编号："
-        android:textSize="17dp"
+        android:textSize="17sp"
         app:layout_constraintStart_toEndOf="@+id/device_image"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -34,9 +33,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:text="11111111111"
-        android:textSize="17dp"
+        android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/device_item_num"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -45,9 +44,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="12dp"
         android:text="设备名称："
-        android:textSize="17dp"
+        android:textSize="17sp"
         app:layout_constraintStart_toEndOf="@+id/device_image"
         app:layout_constraintTop_toBottomOf="@+id/device_item_num" />
 
@@ -56,9 +55,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="13dp"
         android:text="精英公寓B3-1002"
-        android:textSize="17dp"
+        android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/device_item_name"
         app:layout_constraintTop_toBottomOf="@+id/device_item_numinput" />
 
@@ -67,43 +66,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:text="用户名："
-        android:textSize="17dp"
+        android:layout_marginTop="12dp"
+        android:text="用户数:"
+        android:textSize="17sp"
         app:layout_constraintStart_toEndOf="@+id/device_image"
         app:layout_constraintTop_toBottomOf="@+id/device_item_name" />
 
     <TextView
-        android:id="@+id/device_item_usernameinput"
+        android:id="@+id/user_num"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
-        android:text="18753137390"
-        android:textSize="17dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="13dp"
+        android:text="0"
+        android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/device_item_username"
         app:layout_constraintTop_toBottomOf="@+id/device_item_nameinput" />
-
-    <TextView
-        android:id="@+id/device_item_admin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:text="管理员："
-        android:textSize="17dp"
-        app:layout_constraintStart_toEndOf="@+id/device_image"
-        app:layout_constraintTop_toBottomOf="@+id/device_item_username" />
-
-    <TextView
-        android:id="@+id/device_item_admininput"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
-        android:text="18753137390"
-        android:textSize="17dp"
-        app:layout_constraintStart_toEndOf="@+id/device_item_admin"
-        app:layout_constraintTop_toBottomOf="@+id/device_item_usernameinput" />
 
 </android.support.constraint.ConstraintLayout>

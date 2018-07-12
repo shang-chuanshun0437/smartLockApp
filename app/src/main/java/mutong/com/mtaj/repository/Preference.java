@@ -5,30 +5,10 @@ package mutong.com.mtaj.repository;
  */
 public class Preference
 {
-    private String userName;
-
-    //用户昵称
-    private String nickName;
+    private String phoneNum;
 
     //头像保存的路径
     private String headPortraitPath;
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-
-    public String getNickName() {
-        return nickName;
-    }
-
-    public void setNickName(String nickName) {
-        this.nickName = nickName;
-    }
 
     public String getHeadPortraitPath() {
         return headPortraitPath;
@@ -36,5 +16,13 @@ public class Preference
 
     public void setHeadPortraitPath(String headPortraitPath) {
         this.headPortraitPath = headPortraitPath;
+    }
+
+    public String getPhoneNum() {
+        return phoneNum;
+    }
+
+    public void setPhoneNum(String phoneNum) {
+        this.phoneNum = phoneNum;
     }
 }

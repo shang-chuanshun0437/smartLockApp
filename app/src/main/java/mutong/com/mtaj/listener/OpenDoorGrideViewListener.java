@@ -6,10 +6,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.GridView;
+import android.widget.SimpleAdapter;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import mutong.com.mtaj.R;
 import mutong.com.mtaj.common.GridViewRowDivide;
 import mutong.com.mtaj.common.UserCommonServiceSpi;
 import mutong.com.mtaj.main.LoginActivity;
@@ -29,21 +33,12 @@ public class OpenDoorGrideViewListener implements AdapterView.OnItemClickListene
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
     {
+        TextView item = view.findViewById(R.id.mainViewTitle);
+        String deviceName = item.getText().toString();
+
+        //格局设备名称来获取设备详情
         UserCommonServiceSpi userCommonService = new UserCommonServiceSpi(context);
-        Device[] devices = userCommonService.queryDevice();
-        User user = userCommonService.getLoginUser();
-
-        List<Device> deviceList = new ArrayList<Device>();
-
-        for (Device device : devices)
-        {
-            if(device.getUserName().equals(user.getPhoneNum()))
-            {
-                deviceList.add(device);
-            }
-        }
-
-        Device device = deviceList.get(i);
+        Device device = userCommonService.queryByDeviceName(deviceName);
 
         Bundle bundle = new Bundle();
         bundle.putString("userName",device.getUserName());

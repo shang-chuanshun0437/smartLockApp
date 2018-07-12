@@ -32,14 +32,12 @@ public class DeviceItemAdapter extends ArrayAdapter
         ImageView imageView = (ImageView) view.findViewById(R.id.device_image);
         TextView deviceItemNumInput = (TextView) view.findViewById(R.id.device_item_numinput);
         TextView deviceNameInput = (TextView) view.findViewById(R.id.device_item_nameinput);
-        TextView deviceUserNameInput = (TextView) view.findViewById(R.id.device_item_usernameinput);
-        TextView deviceAdminInput = (TextView) view.findViewById(R.id.device_item_admininput);
+        TextView userNum = (TextView) view.findViewById(R.id.user_num);
 
         imageView.setImageResource(item.getImgId());
         deviceItemNumInput.setText(item.getDeviceNum());
         deviceNameInput.setText(item.getDeviceName());
-        deviceUserNameInput.setText(item.getUserName());
-        deviceAdminInput.setText(item.getAdminName());
+        userNum.setText(item.getUserNum());
 
         return view;
     }

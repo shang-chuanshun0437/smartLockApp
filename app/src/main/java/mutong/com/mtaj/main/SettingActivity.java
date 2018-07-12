@@ -89,6 +89,7 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
 
     private void initSettingItems()
     {
+        settingItems.clear();
 
         SettingItem []tempItems = new SettingItem[]{new SettingItem("修改密码",R.mipmap.forward),
                                                         new SettingItem("关于",R.mipmap.forward)};

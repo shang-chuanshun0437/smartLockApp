@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:background="@color/divide"
     tools:context="mutong.com.mtaj.main.MainActivity">
 
     <android.support.constraint.ConstraintLayout
+        android:id="@+id/constraintLayout8"
         android:layout_width="0dp"
         android:layout_height="133dp"
-        android:background="#1b82d1"
+        android:background="@color/mePage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,7 +21,7 @@
             android:id="@+id/me"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
+            android:layout_marginStart="56dp"
             android:layout_marginTop="4dp"
             android:text="我的"
             android:textColor="#FFFFFF"
@@ -96,11 +97,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="32dp"
             android:src="@mipmap/forward"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/me" />
 
 
     </android.support.constraint.ConstraintLayout>
+
+    <ListView
+        android:id="@+id/me_list"
+        android:layout_width="0dp"
+        android:layout_height="418dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="48dp"
+        android:background="#FFFFFF"
+        android:drawSelectorOnTop="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout8" />
 </android.support.constraint.ConstraintLayout>

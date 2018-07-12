@@ -7,53 +7,87 @@
     android:background="#FFFFFF"
     tools:context="mutong.com.mtaj.main.BindDeviceActivity">
 
-    <TextView
-        android:id="@+id/selected"
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/constraintLayout10"
         android:layout_width="0dp"
-        android:layout_height="29dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_weight="1"
-        android:text="绑定设备"
-        android:textAlignment="center"
-        android:textSize="20dp"
+        android:background="@color/title"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <View
-        android:id="@+id/bindDeviedividView1"
-        android:layout_width="0dp"
-        android:layout_height="5dp"
-        android:layout_marginTop="8dp"
-        android:background="#CDC5BF"
-        app:layout_constraintEnd_toEndOf="parent"
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@mipmap/back_black" />
+
+        <TextView
+            android:id="@+id/textView15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:text="添加设备"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/back"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/help"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="34dp"
+            android:layout_marginTop="8dp"
+            android:text="使用指南"
+            android:textColor="@color/colorMainGreen"
+            android:textSize="19sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </android.support.constraint.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/textView18"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="64dp"
+        android:text="设备编号:"
+        android:textSize="19sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/selected" />
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout10" />
 
     <EditText
         android:id="@+id/bindDeviceNum"
-        android:layout_width="368dp"
-        android:layout_height="44dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="48dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="64dp"
         android:layout_weight="1"
         android:background="@null"
         android:ems="11"
-        android:hint="请输入要绑定的设备编号"
-        android:maxLength="11"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
+        android:hint="请输入11位设备编号"
+        android:maxLength="13"
         android:singleLine="true"
+        android:inputType="number"
         android:textColorHint="#999999"
-        android:textSize="18sp"
+        android:textSize="19sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bindDeviedividView1">
+        app:layout_constraintHorizontal_bias="0.04"
+        app:layout_constraintStart_toEndOf="@+id/textView18"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout10">
 
         <requestFocus />
     </EditText>
@@ -63,42 +97,49 @@
         android:layout_width="342dp"
         android:layout_height="1dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:background="#CDC5BF"
+        android:layout_marginStart="16dp"
+        android:background="@color/divide"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bindDeviceNum" />
 
+    <TextView
+        android:id="@+id/textView19"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="36dp"
+        android:text="设备名称:"
+        android:textSize="19sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bindDeviedividView2" />
+
     <EditText
         android:id="@+id/bindDeviceName"
-        android:layout_width="368dp"
-        android:layout_height="45dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="0dp"
+        android:layout_height="21dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="40dp"
         android:layout_weight="1"
         android:background="@null"
         android:ems="15"
-        android:hint="给设备起个名字吧(例如:凤凰小区B3-1002)"
-        android:maxLength="15"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
+        android:hint="例如:凤凰小区B3-1002"
         android:singleLine="true"
         android:textColorHint="#999999"
-        android:textSize="18sp"
+        android:textSize="19sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bindDeviedividView2">
-    </EditText>
+        app:layout_constraintHorizontal_bias="0.03"
+        app:layout_constraintStart_toEndOf="@+id/textView19"
+        app:layout_constraintTop_toBottomOf="@+id/bindDeviedividView2"></EditText>
 
     <View
         android:id="@+id/bindDeviedividView3"
         android:layout_width="342dp"
         android:layout_height="1dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:background="#CDC5BF"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:background="@color/divide"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bindDeviceName" />
@@ -109,13 +150,13 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="68dp"
         android:text="确认绑定"
-        android:textSize="19dp"
+        android:textSize="20sp"
+        android:background="@color/colorMainGreen"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bindDeviedividView3" />
-
 
 </android.support.constraint.ConstraintLayout>

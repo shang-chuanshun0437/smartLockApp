@@ -90,14 +90,10 @@ public class PersonalInfoActivity extends AppCompatActivity implements View.OnCl
         if (user != null)
         {
             personalAccountEdit.setText(user.getPhoneNum());
-
+            personalNickNameEdit.setText(user.getUserName());
             Preference preference = userCommonService.getPreference(user.getPhoneNum());
             if (preference != null)
             {
-                if (!StringUtil.isEmpty(preference.getNickName()))
-                {
-                    personalNickNameEdit.setText(preference.getNickName());
-                }
                 if (preference.getHeadPortraitPath() != null)
                 {
                     Bitmap bitmap = BitmapFactory.decodeFile(preference.getHeadPortraitPath());
@@ -223,7 +219,7 @@ public class PersonalInfoActivity extends AppCompatActivity implements View.OnCl
                         if (preference == null)
                         {
                             preference = new Preference();
-                            preference.setUserName(user.getPhoneNum());
+                            preference.setPhoneNum(user.getPhoneNum());
                             preference.setHeadPortraitPath(mImageUri.getEncodedPath());
                             userCommonService.insertPreference(preference);
                         }

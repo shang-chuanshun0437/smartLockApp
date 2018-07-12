@@ -6,7 +6,9 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,13 +25,14 @@ import mutong.com.mtaj.common.TerminalInfo;
 import mutong.com.mtaj.common.UserCommonServiceSpi;
 import mutong.com.mtaj.repository.User;
 import mutong.com.mtaj.utils.HttpUtil;
+import mutong.com.mtaj.utils.SpaceTextWatcher;
 import mutong.com.mtaj.utils.StatusBarUtil;
 import mutong.com.mtaj.utils.StringUtil;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener
 {
     private TextView rigisterView;
-    private TextView phoneNum;
+    private EditText phoneNum;
     private TextView loginPwd;
     private Button loginBtn;
     private UserCommonServiceSpi userCommonService;
@@ -44,7 +47,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         StatusBarUtil.setBarTextLightMode(this);
 
         rigisterView = (TextView)findViewById(R.id.newUserRegist);
-        phoneNum = (TextView)findViewById(R.id.phone_num) ;
+        phoneNum = (EditText)findViewById(R.id.phone_num) ;
         loginPwd = (TextView)findViewById(R.id.pwd);
         loginBtn = (Button) findViewById(R.id.login_btnLogin);
 
@@ -52,6 +55,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         loginBtn.setOnClickListener(this);
 
         userCommonService = new UserCommonServiceSpi(this);
+
+        phoneNum.addTextChangedListener(new SpaceTextWatcher(phoneNum));
+        //EditText获取焦点并显示软键盘
+        phoneNum.setFocusable(true);
+        phoneNum.setFocusableInTouchMode(true);
+        phoneNum.requestFocus();
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
     }
 
 
@@ -68,7 +78,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             //用户登录
             case R.id.login_btnLogin:
-                String phoneNumStr = phoneNum.getText().toString();
+                String phoneNumStr = phoneNum.getText().toString().replace(" ","");
                 String pwd = loginPwd.getText().toString();
 
                 //先从本地校验密码
@@ -116,7 +126,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 userCommonService.deleteDataFromSqlite(Constant.LOGIN_USER_TABLE,null);
 
                                 User user = new User();
-                                user.setPhoneNum(phoneNum.getText().toString());
+                                user.setPhoneNum(phoneNum.getText().toString().replace(" ",""));
                                 user.setPassword(loginPwd.getText().toString());
                                 user.setUserToken(token);
                                 user.setUserName(userName);

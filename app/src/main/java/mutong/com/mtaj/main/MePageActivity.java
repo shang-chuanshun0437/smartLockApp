@@ -8,12 +8,17 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
-import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import mutong.com.mtaj.R;
+import mutong.com.mtaj.adapter.SettingAdapter;
+import mutong.com.mtaj.adapter.SettingItem;
 import mutong.com.mtaj.common.CircleImageView;
 import mutong.com.mtaj.common.UserCommonServiceSpi;
 import mutong.com.mtaj.repository.Preference;
@@ -21,7 +26,7 @@ import mutong.com.mtaj.repository.User;
 import mutong.com.mtaj.utils.StatusBarUtil;
 import mutong.com.mtaj.utils.StringUtil;
 
-public class MePageActivity extends Fragment implements View.OnClickListener
+public class MePageActivity extends Fragment implements View.OnClickListener,AdapterView.OnItemClickListener
 {
     private UserCommonServiceSpi userCommonService;
 
@@ -35,6 +40,10 @@ public class MePageActivity extends Fragment implements View.OnClickListener
 
     private TextView settings;
 
+    private ListView mePage;
+
+    //列表数据
+    private List<SettingItem> listItems = new ArrayList<SettingItem>();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -50,14 +59,18 @@ public class MePageActivity extends Fragment implements View.OnClickListener
         accountNumberEdit = (TextView)view.findViewById(R.id.account_number_edit);
         meForward = (ImageView)view.findViewById(R.id.me_forward);
         settings = (TextView) view.findViewById(R.id.me_page_settings);
+        mePage = (ListView)view.findViewById(R.id.me_list);
 
         headPortrait.setOnClickListener(this);
         nickname.setOnClickListener(this);
         accountNumberEdit.setOnClickListener(this);
         meForward.setOnClickListener(this);
         settings.setOnClickListener(this);
-        //meForwardFirst.setOnClickListener(this);
 
+        initItems();
+        SettingAdapter adapter = new SettingAdapter(getContext(),R.layout.settings_item,listItems);
+        mePage.setAdapter(adapter);
+        mePage.setOnItemClickListener(this);
         return view;
     }
 
@@ -71,14 +84,10 @@ public class MePageActivity extends Fragment implements View.OnClickListener
             Preference preference = userCommonService.getPreference(user.getPhoneNum());
 
             accountNumberEdit.setText(user.getPhoneNum());
+            nickname.setText(user.getUserName());
 
             if(preference != null)
             {
-                if (!StringUtil.isEmpty(preference.getNickName()))
-                {
-                    nickname.setText(preference.getNickName());
-                }
-
                 if(preference.getHeadPortraitPath() != null)
                 {
                     Bitmap bitmap = BitmapFactory.decodeFile(preference.getHeadPortraitPath());
@@ -121,5 +130,30 @@ public class MePageActivity extends Fragment implements View.OnClickListener
                 startActivity(intent);
                 break;
         }
+    }
+
+    private void initItems()
+    {
+        listItems.clear();
+        SettingItem []tempItems = new SettingItem[]{new SettingItem("我的设备",R.mipmap.forward),
+                new SettingItem("关于",R.mipmap.forward)};
+        for (SettingItem settingItem : tempItems)
+        {
+            listItems.add(settingItem);
+        }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+    {
+
+        switch (position)
+        {
+            case 0:
+                Intent intent = new Intent(this.getContext(),DeviceActivity.class);
+                startActivity(intent);
+                break;
+        }
+        System.out.println(view.getId() + "," + id);
     }
 }

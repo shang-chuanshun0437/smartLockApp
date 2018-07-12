@@ -169,6 +169,8 @@
             android:layout_marginTop="16dp"
             android:background="@null"
             android:hint="请输入密码"
+            android:maxLength="13"
+            android:inputType="textPassword"
             android:padding="1dp"
             android:textSize="17sp"
             app:layout_constraintEnd_toEndOf="parent"

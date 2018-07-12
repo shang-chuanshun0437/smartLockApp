@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/divide"
-    tools:context="mutong.com.mtaj.main.DeviceActivity">
+    tools:context="mutong.com.mtaj.main.MangerDeviceActivity">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintLayout9"
@@ -35,16 +35,30 @@
             android:layout_marginBottom="8dp"
             android:layout_marginStart="32dp"
             android:layout_marginTop="8dp"
-            android:text="我的设备"
+            android:text="管理设备"
             android:textSize="19sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/device_back"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/add_device"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginTop="8dp"
+            android:text="添加设备"
+            android:textSize="17sp"
+            android:textColor="@color/colorMainGreen"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </android.support.constraint.ConstraintLayout>
 
 
     <ListView
-        android:id="@+id/device_listView"
+        android:id="@+id/manger_listView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="32dp"

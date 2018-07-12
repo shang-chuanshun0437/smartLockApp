@@ -28,6 +28,7 @@ import mutong.com.mtaj.common.UserCommonServiceSpi;
 import mutong.com.mtaj.repository.User;
 import mutong.com.mtaj.utils.CacheActivity;
 import mutong.com.mtaj.utils.HttpUtil;
+import mutong.com.mtaj.utils.SpaceTextWatcher;
 import mutong.com.mtaj.utils.StringUtil;
 
 /**
@@ -50,7 +51,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         phoneNumInput = (EditText)findViewById(R.id.phone_num_input);
         nextButton = (Button)findViewById(R.id.next_button);
 
-        phoneNumInput.addTextChangedListener(textWatcher);
+        phoneNumInput.addTextChangedListener(new SpaceTextWatcher(phoneNumInput));
         nextButton.setOnClickListener(this);
         //EditText获取焦点并显示软键盘
         phoneNumInput.setFocusable(true);
@@ -127,53 +128,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                         e.printStackTrace();
                     }
             }
-        }
-    };
-
-    private TextWatcher textWatcher = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count)
-        {
-            if (s == null || s.length() == 0)
-                return;
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < s.length(); i++) {
-                if (i != 3 && i != 8 && s.charAt(i) == ' ') {
-                    continue;
-                } else {
-                    sb.append(s.charAt(i));
-                    if ((sb.length() == 4 || sb.length() == 9)
-                            && sb.charAt(sb.length() - 1) != ' ') {
-                        sb.insert(sb.length() - 1, ' ');
-                    }
-                }
-            }
-            if (!sb.toString().equals(s.toString())) {
-                int index = start + 1;
-                if (sb.charAt(start) == ' ') {
-                    if (before == 0) {
-                        index++;
-                    } else {
-                        index--;
-                    }
-                } else {
-                    if (before == 1) {
-                        index--;
-                    }
-                }
-                phoneNumInput.setText(sb.toString());
-                phoneNumInput.setSelection(index);
-            }
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-
         }
     };
 }

@@ -5,7 +5,7 @@ public class Constant
     public static int MAIN_GRID_VIEW_ROW_DIVID = 15;
 
     //sqlite版本
-    public static int DBVERSION = 8;
+    public static int DBVERSION = 9;
 
     //手机号位数
     public static int PHONUM_COUNT = 11;
@@ -51,4 +51,10 @@ public class Constant
 
     //蓝牙发送数据成功标志位
     public static final int BLE_SEND_SUCCESS = 10006;
+
+    //0 设备管理员;1 普通用户
+    public static final String MAIN = "0";
+
+    //0 设备管理员;1 普通用户
+    public static final String OTHER = "1";
 }

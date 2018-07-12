@@ -4,8 +4,7 @@ public class DeviceItem
 {
     private String deviceName;
     private String deviceNum;
-    private String userName;
-    private String adminName;
+    private String userNum;
     private int imgId;
 
     public String getDeviceName() {
@@ -24,27 +23,19 @@ public class DeviceItem
         this.deviceNum = deviceNum;
     }
 
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getAdminName() {
-        return adminName;
-    }
-
-    public void setAdminName(String adminName) {
-        this.adminName = adminName;
-    }
-
     public int getImgId() {
         return imgId;
     }
 
     public void setImgId(int imgId) {
         this.imgId = imgId;
+    }
+
+    public String getUserNum() {
+        return userNum;
+    }
+
+    public void setUserNum(String userNum) {
+        this.userNum = userNum;
     }
 }

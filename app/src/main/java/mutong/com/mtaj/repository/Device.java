@@ -18,7 +18,7 @@ public class Device
     private String deviceVersion;
 
     //0 管理员；1 普通用户
-    private int role;
+    private String role;
 
     //绑定智能锁的时间
     private String attachedTime;
@@ -48,14 +48,6 @@ public class Device
 
     public void setDeviceName(String deviceName) {
         this.deviceName = deviceName;
-    }
-
-    public int getRole() {
-        return role;
-    }
-
-    public void setRole(int role) {
-        this.role = role;
     }
 
     public String getAdminName() {
@@ -88,5 +80,13 @@ public class Device
 
     public void setBloothMac(String bloothMac) {
         this.bloothMac = bloothMac;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

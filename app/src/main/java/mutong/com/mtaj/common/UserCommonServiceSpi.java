@@ -61,6 +61,9 @@ public class UserCommonServiceSpi
     */
     public void insertUser(User user)
     {
+        //先清空login_user，只能有一个登录用户
+        deleteDataFromSqlite(Constant.LOGIN_USER_TABLE,null);
+
         SQLiteDatabase db = userSqlite.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -121,13 +124,7 @@ public class UserCommonServiceSpi
             device.setDeviceVersion(cursor.getString(cursor.getColumnIndex("version")));
             device.setAdminName(cursor.getString(cursor.getColumnIndex("adminUser")));
             device.setBloothMac(cursor.getString(cursor.getColumnIndex("bloothmac")));
-            try
-            {
-                device.setRole(Integer.valueOf(cursor.getString(cursor.getColumnIndex("role"))));
-            }
-            catch (Exception e)
-            {
-            }
+            device.setRole(cursor.getString(cursor.getColumnIndex("role")));
             device.setAttachedTime(cursor.getString(cursor.getColumnIndex("attachedtime")));
 
             devices.add(device);
@@ -137,6 +134,59 @@ public class UserCommonServiceSpi
         return devices.toArray(new Device[devices.size()]);
     }
 
+    public Device[] queryByDeviceNum(String deviceNum)
+    {
+        List<Device> devices = new ArrayList<Device>();
+
+        SQLiteDatabase db = userSqlite.getReadableDatabase();
+
+        Cursor cursor = db.query(Constant.DEVICE_USER_TABLE, null, "devicenum = ?",
+                new String[] { deviceNum }, null, null, null);
+
+        while(cursor.moveToNext())
+        {
+            Device device = new Device();
+
+            device.setUserName(cursor.getString(cursor.getColumnIndex("username")));
+            device.setDeviceNum(cursor.getString(cursor.getColumnIndex("devicenum")));
+            device.setDeviceName(cursor.getString(cursor.getColumnIndex("devicename")));
+            device.setDeviceVersion(cursor.getString(cursor.getColumnIndex("version")));
+            device.setAdminName(cursor.getString(cursor.getColumnIndex("adminUser")));
+            device.setBloothMac(cursor.getString(cursor.getColumnIndex("bloothmac")));
+            device.setRole(cursor.getString(cursor.getColumnIndex("role")));
+            device.setAttachedTime(cursor.getString(cursor.getColumnIndex("attachedtime")));
+
+            devices.add(device);
+        }
+        db.close();
+
+        return devices.toArray(new Device[devices.size()]);
+    }
+
+    public Device queryByDeviceName(String deviceName)
+    {
+        Device device = new Device();
+
+        SQLiteDatabase db = userSqlite.getReadableDatabase();
+
+        Cursor cursor = db.query(Constant.DEVICE_USER_TABLE, null, "devicename = ?",
+                new String[] { deviceName }, null, null, null);
+
+        while(cursor.moveToNext())
+        {
+            device.setUserName(cursor.getString(cursor.getColumnIndex("username")));
+            device.setDeviceNum(cursor.getString(cursor.getColumnIndex("devicenum")));
+            device.setDeviceName(cursor.getString(cursor.getColumnIndex("devicename")));
+            device.setDeviceVersion(cursor.getString(cursor.getColumnIndex("version")));
+            device.setAdminName(cursor.getString(cursor.getColumnIndex("adminUser")));
+            device.setBloothMac(cursor.getString(cursor.getColumnIndex("bloothmac")));
+            device.setRole(cursor.getString(cursor.getColumnIndex("role")));
+            device.setAttachedTime(cursor.getString(cursor.getColumnIndex("attachedtime")));
+        }
+        db.close();
+
+        return device;
+    }
     //sql为空，则清空表数据
     public void deleteDataFromSqlite(String table,String sql)
     {
@@ -155,24 +205,22 @@ public class UserCommonServiceSpi
     /*
     * 获取用户的设置信息
     **/
-    public Preference getPreference(String userName)
+    public Preference getPreference(String phonenum)
     {
         Preference preference = null;
 
         SQLiteDatabase db = userSqlite.getReadableDatabase();
 
-        Cursor cursor = db.query(Constant.PREFERENCE, null, "username = ?",
-                new String[] { userName }, null, null, null);
+        Cursor cursor = db.query(Constant.PREFERENCE, null, "phonenum = ?",
+                new String[] { phonenum }, null, null, null);
         while(cursor.moveToNext())
         {
             preference = new Preference();
 
-            String username = cursor.getString(cursor.getColumnIndex("username"));
-            String nickName = cursor.getString(cursor.getColumnIndex("nickname"));
+            String phonenumDB = cursor.getString(cursor.getColumnIndex("phonenum"));
             String headportrait = cursor.getString(cursor.getColumnIndex("headportrait"));
 
-            preference.setUserName(username);
-            preference.setNickName(nickName);
+            preference.setPhoneNum(phonenumDB);
             preference.setHeadPortraitPath(headportrait);
 
         }
@@ -189,8 +237,7 @@ public class UserCommonServiceSpi
 
         ContentValues values = new ContentValues();
 
-        values.put("username",preference.getUserName());
-        values.put("nickname",preference.getNickName());
+        values.put("phonenum",preference.getPhoneNum());
         values.put("headportrait",preference.getHeadPortraitPath());
 
         db.insert(Constant.PREFERENCE,null,values);
@@ -207,11 +254,10 @@ public class UserCommonServiceSpi
 
         ContentValues values = new ContentValues();
 
-        values.put("username",preference.getUserName());
-        values.put("nickname",preference.getNickName());
+        values.put("phonenum",preference.getPhoneNum());
         values.put("headportrait",preference.getHeadPortraitPath());
 
-        db.update(Constant.PREFERENCE,values,"username = ?",new String[]{preference.getUserName()});
+        db.update(Constant.PREFERENCE,values,"username = ?",new String[]{preference.getPhoneNum()});
         //update(String table,ContentValues values,String whereClause, String[] whereArgs)：
         db.close();
     }
