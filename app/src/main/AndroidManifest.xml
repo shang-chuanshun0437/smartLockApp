@@ -81,6 +81,10 @@
             android:name=".main.DeviceInfoActivity">
         </activity>
 
+        <activity
+            android:name=".main.ManageUsersActivity">
+        </activity>
+
         <activity android:name=".animation.animation">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

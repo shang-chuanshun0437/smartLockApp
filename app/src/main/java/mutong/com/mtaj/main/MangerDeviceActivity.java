@@ -70,7 +70,6 @@ public class MangerDeviceActivity extends AppCompatActivity implements View.OnCl
             return;
         }
         queryDevices();
-        initDeviceItems(userCommonService.queryDevice());
         deviceListView = (ListView)findViewById(R.id.manger_listView);
         backImage = (ImageView)findViewById(R.id.device_back);
         backText = (TextView)findViewById(R.id.device_text_back);
@@ -81,8 +80,8 @@ public class MangerDeviceActivity extends AppCompatActivity implements View.OnCl
         deviceListView.setOnItemClickListener(this);
         addDevice.setOnClickListener(this);
 
-        DeviceItemAdapter adapter = new DeviceItemAdapter(this,R.layout.device_item,deviceItems);
-        deviceListView.setAdapter(adapter);
+        initDeviceItems(userCommonService.queryDevice());
+
     }
 
     private void queryDevices()
@@ -100,6 +99,8 @@ public class MangerDeviceActivity extends AppCompatActivity implements View.OnCl
 
     private void initDeviceItems(Device[] devices)
     {
+        deviceItems.clear();
+
         for(Device device : devices)
         {
             //设备的管理者
@@ -114,6 +115,9 @@ public class MangerDeviceActivity extends AppCompatActivity implements View.OnCl
                 deviceItems.add(deviceItem);
             }
         }
+
+        DeviceItemAdapter adapter = new DeviceItemAdapter(this,R.layout.device_item,deviceItems);
+        deviceListView.setAdapter(adapter);
     }
 
     @Override
@@ -133,6 +137,13 @@ public class MangerDeviceActivity extends AppCompatActivity implements View.OnCl
                 startActivity(intent);
                 break;
         }
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        initDeviceItems(userCommonService.queryDevice());
     }
 
     @Override
@@ -176,12 +187,16 @@ public class MangerDeviceActivity extends AppCompatActivity implements View.OnCl
                                         dbDevice.setAdminName(device.getString("mainName"));
                                         dbDevice.setDeviceNum(device.getString("deviceNum"));
                                         dbDevice.setDeviceName(device.getString("deviceName"));
-                                        dbDevice.setBloothMac(device.getString("bloothMac"));
+                                        dbDevice.setBloothMac(device.getString("bluetoothMac"));
                                         dbDevice.setDeviceVersion(device.getString("version"));
                                         dbDevice.setRole(device.getString("userType"));
+                                        dbDevice.setAttachedTime(device.getString("associateTime"));
+                                        dbDevice.setValidDate(device.getString("validDate"));
+
                                         userCommonService.insertDevice(dbDevice);
                                     }
                                 }
+                                initDeviceItems(userCommonService.queryDevice());
                                 break;
 
                             case ErrorCode.DEFAULT_ERROR:

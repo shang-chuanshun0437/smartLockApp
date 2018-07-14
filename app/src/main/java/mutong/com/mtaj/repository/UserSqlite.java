@@ -97,6 +97,11 @@ public class UserSqlite extends SQLiteOpenHelper
                     String deleteTemp = "drop table if exists temp";
                     db.execSQL(deleteTemp);
                     break;
+
+                case 10:
+                    String validDate = "alter table device_user add validdate varchar(20)";
+                    db.execSQL(validDate);
+                    break;
             }
         }
     }

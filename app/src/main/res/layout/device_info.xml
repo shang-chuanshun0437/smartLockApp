@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/divide"
+    android:background="#FFFFFF"
     tools:context="mutong.com.mtaj.main.DeviceInfoActivity">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintLayout10"
         android:layout_width="0dp"
-        android:background="@color/title"
         android:layout_height="wrap_content"
+        android:background="@color/title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toStartOf="parent"
@@ -57,16 +57,52 @@
             app:layout_constraintTop_toTopOf="parent" />
     </android.support.constraint.ConstraintLayout>
 
-    <ListView
-        android:id="@+id/deviceinfo_list"
+    <View
+        android:id="@+id/bindDeviedividView2"
         android:layout_width="0dp"
-        android:layout_height="329dp"
-        android:layout_marginTop="24dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="1dp"
+        android:background="@color/divide"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout10" />
+
+    <ListView
+        android:id="@+id/listViewPic"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:drawSelectorOnTop="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout10" />
+        app:layout_constraintTop_toBottomOf="@+id/bindDeviedividView2" />
 
+    <View
+        android:id="@+id/bindDeviedividView3"
+        android:layout_width="0dp"
+        android:layout_height="12dp"
+        android:background="@color/divide"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/listViewPic" />
+
+    <ListView
+        android:id="@+id/deviceinfo_list"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:drawSelectorOnTop="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bindDeviedividView3" />
+
+    <View
+        android:id="@+id/bindDeviedividView4"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/divide"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/deviceinfo_list" />
 
 </android.support.constraint.ConstraintLayout>

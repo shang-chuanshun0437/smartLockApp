@@ -113,7 +113,7 @@ public class GridViewItemClickListener implements AdapterView.OnItemClickListene
                                     dbDevice.setAdminName(device.getString("mainName"));
                                     dbDevice.setDeviceNum(device.getString("deviceNum"));
                                     dbDevice.setDeviceName(device.getString("deviceName"));
-                                    dbDevice.setBloothMac(device.getString("bloothMac"));
+                                    dbDevice.setBloothMac(device.getString("bluetoothMac"));
                                     dbDevice.setDeviceVersion(device.getString("version"));
                                     dbDevice.setRole(device.getString("userType"));
                                     userCommonService.insertDevice(dbDevice);

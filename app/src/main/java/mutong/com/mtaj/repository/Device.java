@@ -26,6 +26,9 @@ public class Device
     //智能锁的bloothmac
     private String bloothMac;
 
+    //钥匙的有效期
+    private String validDate;
+
     public String getUserName() {
         return userName;
     }
@@ -88,5 +91,13 @@ public class Device
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getValidDate() {
+        return validDate;
+    }
+
+    public void setValidDate(String validDate) {
+        this.validDate = validDate;
     }
 }

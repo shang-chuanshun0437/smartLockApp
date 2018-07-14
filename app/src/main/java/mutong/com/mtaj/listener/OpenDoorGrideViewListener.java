@@ -36,12 +36,11 @@ public class OpenDoorGrideViewListener implements AdapterView.OnItemClickListene
         TextView item = view.findViewById(R.id.mainViewTitle);
         String deviceName = item.getText().toString();
 
-        //格局设备名称来获取设备详情
+        //根据设备名称来获取设备详情
         UserCommonServiceSpi userCommonService = new UserCommonServiceSpi(context);
         Device device = userCommonService.queryByDeviceName(deviceName);
 
         Bundle bundle = new Bundle();
-        bundle.putString("userName",device.getUserName());
         bundle.putString("deviceNum",device.getDeviceNum());
         bundle.putString("deviceName",device.getDeviceName());
         bundle.putString("deviceVersion",device.getDeviceVersion());
