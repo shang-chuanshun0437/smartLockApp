@@ -24,7 +24,6 @@ import mutong.com.mtaj.common.UserCommonServiceSpi;
 import mutong.com.mtaj.repository.Preference;
 import mutong.com.mtaj.repository.User;
 import mutong.com.mtaj.utils.StatusBarUtil;
-import mutong.com.mtaj.utils.StringUtil;
 
 public class MePageActivity extends Fragment implements View.OnClickListener,AdapterView.OnItemClickListener
 {
@@ -150,7 +149,7 @@ public class MePageActivity extends Fragment implements View.OnClickListener,Ada
         switch (position)
         {
             case 0:
-                Intent intent = new Intent(this.getContext(),DeviceActivity.class);
+                Intent intent = new Intent(this.getContext(),MyDeviceActivity.class);
                 startActivity(intent);
                 break;
         }

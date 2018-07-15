@@ -3,24 +3,19 @@ package mutong.com.mtaj.main;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import mutong.com.mtaj.R;
 import mutong.com.mtaj.adapter.DeviceUsersAdapter;
 import mutong.com.mtaj.adapter.DeviceUsersItem;
+import mutong.com.mtaj.common.Constant;
 import mutong.com.mtaj.common.UserCommonServiceSpi;
-import mutong.com.mtaj.listener.OpenDoorGrideViewListener;
 import mutong.com.mtaj.repository.Device;
-import mutong.com.mtaj.repository.User;
 import mutong.com.mtaj.utils.StatusBarUtil;
 import mutong.com.mtaj.utils.StringUtil;
 
@@ -77,7 +72,15 @@ public class ManageUsersActivity extends AppCompatActivity implements View.OnCli
         for (Device device : devices)
         {
             DeviceUsersItem deviceUsersItem = new DeviceUsersItem();
-            deviceUsersItem.setImgId(R.mipmap.admin);
+            if(!StringUtil.isEmpty(device.getRole()) && device.getRole().equals(Constant.OTHER))
+            {
+                deviceUsersItem.setImgId(R.mipmap.normal_user);
+            }
+            else
+            {
+                deviceUsersItem.setImgId(R.mipmap.admin);
+            }
+
             deviceUsersItem.setPhoneNum(device.getPhoneNum());
             deviceUsersItem.setNickName(device.getUserName());
             if (StringUtil.isEmpty(device.getValidDate()) || device.getValidDate().equals("null"))
@@ -90,7 +93,7 @@ public class ManageUsersActivity extends AppCompatActivity implements View.OnCli
             }
             list.add(deviceUsersItem);
         }
-        DeviceUsersAdapter adapter = new DeviceUsersAdapter(this,R.layout.device_users_item,list);
+        DeviceUsersAdapter adapter = new DeviceUsersAdapter(this,R.layout.device_manager_item,list);
         usersList.setAdapter(adapter);
     }
 }

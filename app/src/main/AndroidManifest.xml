@@ -30,10 +30,6 @@
         </activity>
 
         <activity
-            android:name=".main.DeviceActivity">
-        </activity>
-
-        <activity
             android:name=".main.BindDeviceActivity">
         </activity>
 
@@ -74,15 +70,15 @@
         </activity>
 
         <activity
-            android:name=".main.MangerDeviceActivity">
-        </activity>
-
-        <activity
             android:name=".main.DeviceInfoActivity">
         </activity>
 
         <activity
             android:name=".main.ManageUsersActivity">
+        </activity>
+
+        <activity
+            android:name=".main.MyDeviceActivity">
         </activity>
 
         <activity android:name=".animation.animation">

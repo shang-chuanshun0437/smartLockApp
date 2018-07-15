@@ -1,5 +1,7 @@
 package mutong.com.mtaj.adapter;
 
+import mutong.com.mtaj.common.CoustomRatingBar;
+
 public class DeviceItem
 {
     private String deviceName;

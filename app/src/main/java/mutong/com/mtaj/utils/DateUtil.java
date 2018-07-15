@@ -67,6 +67,30 @@ public class DateUtil
     }
 
     /**
+     * yyyyMMdd转yyyy-mm-dd
+     */
+    public static String dateTodate(String datetime)
+    {
+        if(!StringUtil.isEmpty(datetime))
+        {
+            //先获取年
+            String year = datetime.substring(0,4) + "-";
+            //获取月
+            String month = datetime.substring(4,6) + "-";
+            //获取日
+            String day = datetime.substring(6,8) + "  ";
+            //获取小时
+            String hour = datetime.substring(8,10) + ":";
+            //获取分钟
+            String minute = datetime.substring(10,12);
+
+            return year + month + day + hour + minute;
+
+        }
+        return "error";
+    }
+
+    /**
      * 验证日期字符串是否是YYYY-MM-DD格式
      */
     public static boolean isDataFormat(String str) {
