@@ -229,6 +229,7 @@ public class DeviceInfoActivity extends AppCompatActivity implements View.OnClic
                                 Device device = new Device();
 
                                 device.setUserName(userAttachedDevice.getString("userName"));
+                                device.setPhoneNum(userAttachedDevice.getString("phoneNum"));
                                 device.setAdminName(userAttachedDevice.getString("mainName"));
                                 device.setDeviceNum(userAttachedDevice.getString("deviceNum"));
                                 device.setDeviceName(userAttachedDevice.getString("deviceName"));
@@ -239,7 +240,7 @@ public class DeviceInfoActivity extends AppCompatActivity implements View.OnClic
                                 device.setValidDate(userAttachedDevice.getString("validDate"));
 
                                 //先删再插入数据
-                                userCommonService.deleteDevice(device.getUserName(),device.getDeviceNum());
+                                userCommonService.deleteDevice(device.getPhoneNum(),device.getDeviceNum());
                                 userCommonService.insertDevice(device);
                                 initPicItem();
                                 Toast.makeText(DeviceInfoActivity.this,"恭喜，添加用户成功",Toast.LENGTH_LONG).show();

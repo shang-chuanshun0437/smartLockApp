@@ -10,6 +10,8 @@ public class Device
 
     private String deviceNum;
 
+    private String phoneNum;
+
     private String deviceName;
 
     //管理员
@@ -99,5 +101,13 @@ public class Device
 
     public void setValidDate(String validDate) {
         this.validDate = validDate;
+    }
+
+    public String getPhoneNum() {
+        return phoneNum;
+    }
+
+    public void setPhoneNum(String phoneNum) {
+        this.phoneNum = phoneNum;
     }
 }

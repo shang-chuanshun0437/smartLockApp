@@ -78,7 +78,8 @@ public class ManageUsersActivity extends AppCompatActivity implements View.OnCli
         {
             DeviceUsersItem deviceUsersItem = new DeviceUsersItem();
             deviceUsersItem.setImgId(R.mipmap.admin);
-            deviceUsersItem.setPhoneNum(device.getUserName());
+            deviceUsersItem.setPhoneNum(device.getPhoneNum());
+            deviceUsersItem.setNickName(device.getUserName());
             if (StringUtil.isEmpty(device.getValidDate()) || device.getValidDate().equals("null"))
             {
                 deviceUsersItem.setValidDate("永久有效");

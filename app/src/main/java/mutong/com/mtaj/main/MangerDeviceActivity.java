@@ -104,7 +104,7 @@ public class MangerDeviceActivity extends AppCompatActivity implements View.OnCl
         for(Device device : devices)
         {
             //设备的管理者
-            if(user.getPhoneNum().equals(device.getUserName()) && !StringUtil.isEmpty(device.getRole()) && device.getRole().equals(Constant.MAIN))
+            if(user.getPhoneNum().equals(device.getPhoneNum()) && !StringUtil.isEmpty(device.getRole()) && device.getRole().equals(Constant.MAIN))
             {
                 DeviceItem deviceItem = new DeviceItem();
 
@@ -184,6 +184,7 @@ public class MangerDeviceActivity extends AppCompatActivity implements View.OnCl
 
                                         Device dbDevice = new Device();
                                         dbDevice.setUserName(device.getString("userName"));
+                                        dbDevice.setPhoneNum(device.getString("phoneNum"));
                                         dbDevice.setAdminName(device.getString("mainName"));
                                         dbDevice.setDeviceNum(device.getString("deviceNum"));
                                         dbDevice.setDeviceName(device.getString("deviceName"));

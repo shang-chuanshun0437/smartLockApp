@@ -102,6 +102,11 @@ public class UserSqlite extends SQLiteOpenHelper
                     String validDate = "alter table device_user add validdate varchar(20)";
                     db.execSQL(validDate);
                     break;
+
+                case 11:
+                    String phoneNumSql = "alter table device_user add phonenum varchar(20)";
+                    db.execSQL(phoneNumSql);
+                    break;
             }
         }
     }

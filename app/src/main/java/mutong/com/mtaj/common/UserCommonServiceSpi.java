@@ -80,6 +80,7 @@ public class UserCommonServiceSpi {
         ContentValues values = new ContentValues();
 
         values.put("username", device.getUserName());
+        values.put("phonenum", device.getPhoneNum());
         values.put("devicenum", device.getDeviceNum());
         values.put("devicename", device.getDeviceName());
         values.put("role", device.getRole());
@@ -94,9 +95,9 @@ public class UserCommonServiceSpi {
         db.close();
     }
 
-    public void deleteDevice(String userName, String deviceNum) {
+    public void deleteDevice(String phoneNum, String deviceNum) {
         SQLiteDatabase db = userSqlite.getWritableDatabase();
-        db.delete("device_user", "username=? and devicenum=?", new String[]{userName, deviceNum});
+        db.delete("device_user", "phonenum=? and devicenum=?", new String[]{phoneNum, deviceNum});
 
         db.close();
     }
@@ -111,6 +112,7 @@ public class UserCommonServiceSpi {
             Device device = new Device();
 
             device.setUserName(cursor.getString(cursor.getColumnIndex("username")));
+            device.setPhoneNum(cursor.getString(cursor.getColumnIndex("phonenum")));
             device.setDeviceNum(cursor.getString(cursor.getColumnIndex("devicenum")));
             device.setDeviceName(cursor.getString(cursor.getColumnIndex("devicename")));
             device.setDeviceVersion(cursor.getString(cursor.getColumnIndex("version")));
@@ -139,6 +141,7 @@ public class UserCommonServiceSpi {
             Device device = new Device();
 
             device.setUserName(cursor.getString(cursor.getColumnIndex("username")));
+            device.setPhoneNum(cursor.getString(cursor.getColumnIndex("phonenum")));
             device.setDeviceNum(cursor.getString(cursor.getColumnIndex("devicenum")));
             device.setDeviceName(cursor.getString(cursor.getColumnIndex("devicename")));
             device.setDeviceVersion(cursor.getString(cursor.getColumnIndex("version")));
@@ -165,6 +168,7 @@ public class UserCommonServiceSpi {
 
         while (cursor.moveToNext()) {
             device.setUserName(cursor.getString(cursor.getColumnIndex("username")));
+            device.setPhoneNum(cursor.getString(cursor.getColumnIndex("phonenum")));
             device.setDeviceNum(cursor.getString(cursor.getColumnIndex("devicenum")));
             device.setDeviceName(cursor.getString(cursor.getColumnIndex("devicename")));
             device.setDeviceVersion(cursor.getString(cursor.getColumnIndex("version")));

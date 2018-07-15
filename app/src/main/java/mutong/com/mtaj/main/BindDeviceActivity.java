@@ -113,14 +113,15 @@ public class BindDeviceActivity extends AppCompatActivity implements View.OnClic
                                 device.setAttachedTime(attachedTime);
                                 device.setDeviceName(bindDeviceName.getText().toString());
                                 device.setDeviceNum(bindDeviceNum.getText().toString().replace(" ",""));
-                                device.setUserName(user.getPhoneNum());
+                                device.setUserName(user.getUserName());
+                                device.setPhoneNum(user.getPhoneNum());
                                 device.setDeviceVersion(deviceVersion);
                                 device.setRole(Constant.MAIN);
                                 device.setBloothMac(bluetoothMac);
 
                                 UserCommonServiceSpi userCommonService = new UserCommonServiceSpi(BindDeviceActivity.this);
                                 //先删除原有的数据
-                                userCommonService.deleteDevice(device.getUserName(),device.getDeviceNum());
+                                userCommonService.deleteDevice(device.getPhoneNum(),device.getDeviceNum());
                                 //再插入新数据
                                 userCommonService.insertDevice(device);
 
