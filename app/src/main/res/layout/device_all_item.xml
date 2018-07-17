@@ -8,7 +8,7 @@
     tools:context="mutong.com.mtaj.main.MainActivity">
 
     <TextView
-        android:id="@+id/phone"
+        android:id="@+id/device_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -31,10 +31,10 @@
         android:textSize="14sp"
         app:layout_constraintEnd_toStartOf="@+id/dividView2"
         app:layout_constraintStart_toEndOf="@+id/admin"
-        app:layout_constraintTop_toBottomOf="@+id/ok" />
+        app:layout_constraintTop_toBottomOf="@+id/valid_date" />
 
     <TextView
-        android:id="@+id/ok"
+        android:id="@+id/valid_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
@@ -56,7 +56,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/admin"
-        app:layout_constraintTop_toBottomOf="@+id/nick_name" />
+        app:layout_constraintTop_toBottomOf="@+id/add_time" />
 
     <View
         android:id="@+id/dividView2"
@@ -64,11 +64,11 @@
         android:layout_height="55dp"
         android:layout_marginEnd="8dp"
         android:background="@color/divide"
-        app:layout_constraintEnd_toStartOf="@+id/cancel"
+        app:layout_constraintEnd_toStartOf="@+id/delete"
         app:layout_constraintTop_toBottomOf="@+id/dividView1" />
 
     <TextView
-        android:id="@+id/cancel"
+        android:id="@+id/delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -95,7 +95,7 @@
 
 
     <TextView
-        android:id="@+id/nick_name"
+        android:id="@+id/add_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="18dp"
@@ -103,7 +103,7 @@
         android:text="2018-07-08 11:52"
         android:textSize="17sp"
         app:layout_constraintStart_toEndOf="@+id/textView22"
-        app:layout_constraintTop_toBottomOf="@+id/phone" />
+        app:layout_constraintTop_toBottomOf="@+id/device_name" />
 
     <TextView
         android:id="@+id/textView22"
@@ -114,6 +114,6 @@
         android:text="添加时间"
         android:textSize="17sp"
         app:layout_constraintStart_toEndOf="@+id/admin"
-        app:layout_constraintTop_toBottomOf="@+id/phone" />
+        app:layout_constraintTop_toBottomOf="@+id/device_name" />
 
 </android.support.constraint.ConstraintLayout>

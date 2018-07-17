@@ -81,6 +81,21 @@
             android:name=".main.MyDeviceActivity">
         </activity>
 
+        <activity
+            android:name=".main.AddUserDialogActivity"
+            android:theme="@style/DialogActivityStyle">
+        </activity>
+
+        <activity
+            android:name=".main.ModifyDeviceNameDialogActivity"
+            android:theme="@style/DialogActivityStyle">
+        </activity>
+
+        <activity
+            android:name=".main.DeleteUserKeyDialogActivity"
+            android:theme="@style/DialogActivityStyle">
+        </activity>
+
         <activity android:name=".animation.animation">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

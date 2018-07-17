@@ -31,7 +31,7 @@ import mutong.com.mtaj.utils.CustomDialog;
 import mutong.com.mtaj.utils.StatusBarUtil;
 import mutong.com.mtaj.utils.StringUtil;
 
-public class ManageUsersActivity extends AppCompatActivity implements View.OnClickListener,AdapterView.OnItemClickListener
+public class ManageUsersActivity extends AppCompatActivity implements View.OnClickListener
 {
     private ListView usersList;
     private ImageView backView;
@@ -61,10 +61,7 @@ public class ManageUsersActivity extends AppCompatActivity implements View.OnCli
         headName = (TextView)findViewById(R.id.back_text);
 
         backView.setOnClickListener(this);
-        usersList.setOnItemClickListener(this);
-
         initItems();
-
     }
 
     @Override
@@ -111,77 +108,14 @@ public class ManageUsersActivity extends AppCompatActivity implements View.OnCli
             }
         }
 
-        DeviceUsersAdapter adapter = new DeviceUsersAdapter(this,R.layout.device_manager_item,list);
+        DeviceUsersAdapter adapter = new DeviceUsersAdapter(this,R.layout.device_manager_item,list,deviceNum);
         usersList.setAdapter(adapter);
     }
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+    public void onResume()
     {
-        final TextView delete = view.findViewById(R.id.cancel);
-        final TextView deletePhoneNum = view.findViewById(R.id.phone);
-        System.out.println("onItemClick ; " + position);
-        delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
-                User user = userCommonService.getLoginUser();
-
-                deletePhoneStr = deletePhoneNum.getText().toString().replace(" ","");
-
-                Map<String,String> map = new ArrayMap<String,String>();
-                map.put("phoneNum",user.getPhoneNum());
-                map.put("token",user.getUserToken());
-                map.put("deletePhoneNum",deletePhoneStr);
-                map.put("deviceNum",deviceNum.replace(" ",""));
-
-                CustomDialog customDialog = new CustomDialog(ManageUsersActivity.this,R.layout.dialog_delete_device,deleteHandler,null,map);
-                customDialog.showDialog();
-            }
-        });
+        super.onResume();
+        initItems();
     }
-
-    private Handler deleteHandler = new Handler()
-    {
-        @Override
-        public void handleMessage(Message msg)
-        {
-            switch (msg.what)
-            {
-                case 1:
-                    try
-                    {
-                        JSONObject jsonObject = (JSONObject) msg.obj;
-                        JSONObject resultObject = jsonObject.getJSONObject("result");
-                        String retCode = resultObject.getString("retcode");
-                        switch (retCode)
-                        {
-                            case ErrorCode.SUCEESS:
-                                User user = userCommonService.getLoginUser();
-                                userCommonService.deleteDevice(deletePhoneStr,deviceNum);
-                                System.out.println("deletePhoneStr:" + deletePhoneStr);
-                                initItems();
-                                break;
-
-                            case ErrorCode.OTHER_USERS_EXIST:
-                                Toast.makeText(ManageUsersActivity.this,"删除失败：您是设备管理员，该设备下还有其他用户",Toast.LENGTH_LONG).show();
-                                break;
-
-                            case ErrorCode.DEFAULT_ERROR:
-                                Toast.makeText(ManageUsersActivity.this,"抱歉，服务器正在升级中，请稍后重试",Toast.LENGTH_LONG).show();
-                                break;
-                        }
-                    }
-                    catch (JSONException e)
-                    {
-
-                    }
-
-                    break;
-
-                case 0 :
-                    break;
-            }
-        }
-    };
 }

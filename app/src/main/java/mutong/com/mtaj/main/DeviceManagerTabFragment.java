@@ -90,8 +90,9 @@ public class DeviceManagerTabFragment extends Fragment implements View.OnClickLi
     {
         deviceItems.clear();
 
-        if(devices != null)
+        if(devices != null && devices.length > 0)
         {
+            deviceListView.setBackgroundResource(R.color.white);
             for(Device device : devices)
             {
                 //设备的管理者
@@ -106,6 +107,10 @@ public class DeviceManagerTabFragment extends Fragment implements View.OnClickLi
                     deviceItems.add(deviceItem);
                 }
             }
+        }
+        else
+        {
+            deviceListView.setBackgroundResource(R.mipmap.no_manager_device);
         }
         DeviceItemAdapter adapter = new DeviceItemAdapter(this.getContext(),R.layout.device_item,deviceItems);
         deviceListView.setAdapter(adapter);

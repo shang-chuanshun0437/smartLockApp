@@ -1,19 +1,12 @@
 package mutong.com.mtaj.main;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
-import android.util.ArrayMap;
-import android.view.Gravity;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -23,24 +16,17 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import mutong.com.mtaj.R;
 import mutong.com.mtaj.adapter.DeviceInfoAdapter;
 import mutong.com.mtaj.adapter.DeviceInfoItem;
 import mutong.com.mtaj.adapter.DeviceInfoPicAdapter;
 import mutong.com.mtaj.adapter.DeviceInfoPicItem;
-import mutong.com.mtaj.common.Constant;
 import mutong.com.mtaj.common.ErrorCode;
 import mutong.com.mtaj.common.UserCommonServiceSpi;
 import mutong.com.mtaj.repository.Device;
-import mutong.com.mtaj.repository.User;
 import mutong.com.mtaj.utils.CustomDialog;
-import mutong.com.mtaj.utils.HttpUtil;
-import mutong.com.mtaj.utils.ScreenSizeUtil;
-import mutong.com.mtaj.utils.SpaceTextWatcher;
 import mutong.com.mtaj.utils.StatusBarUtil;
 
 public class DeviceInfoActivity extends AppCompatActivity implements View.OnClickListener,AdapterView.OnItemClickListener
@@ -57,6 +43,7 @@ public class DeviceInfoActivity extends AppCompatActivity implements View.OnClic
     private ImageView back;
     private TextView backText;
     private TextView addUser;
+    private String deviceName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -81,7 +68,7 @@ public class DeviceInfoActivity extends AppCompatActivity implements View.OnClic
 
         back = (ImageView)findViewById(R.id.back);
         backText = (TextView)findViewById(R.id.textView15);
-        addUser = (TextView)findViewById(R.id.help);
+        addUser = (TextView)findViewById(R.id.add_user);
 
         back.setOnClickListener(this);
         backText.setOnClickListener(this);
@@ -99,9 +86,11 @@ public class DeviceInfoActivity extends AppCompatActivity implements View.OnClic
             case R.id.textView15:
                 finish();
                 break;
-            case R.id.help:
-                CustomDialog customDialog = new CustomDialog(this,R.layout.dialog_adduser,handlerAddUser,deviceNum,null);
-                customDialog.showDialog();
+            case R.id.add_user:
+                //给设备添加用户
+                Intent intent = new Intent(this,AddUserDialogActivity.class);
+                intent.putExtra("deviceNum",deviceNum);
+                startActivity(intent);
                 break;
         }
     }
@@ -139,6 +128,7 @@ public class DeviceInfoActivity extends AppCompatActivity implements View.OnClic
             DeviceInfoPicItem []deviceInfoItems = new DeviceInfoPicItem[]{
                     new DeviceInfoPicItem("设备名称",devices[0].getDeviceName(),R.mipmap.forward),
                     new DeviceInfoPicItem("用户数",String.valueOf(devices.length),R.mipmap.forward)};
+            deviceName = devices[0].getDeviceName();
 
             for (DeviceInfoPicItem deviceInfoItem : deviceInfoItems)
             {
@@ -157,8 +147,10 @@ public class DeviceInfoActivity extends AppCompatActivity implements View.OnClic
         {
             case 0:
                 //修改设备名称
-                CustomDialog customDialog = new CustomDialog(this,R.layout.dialog_normal,handler,deviceNum,null);
-                customDialog.showDialog();
+                Intent modifyNameIntent = new Intent(this,ModifyDeviceNameDialogActivity.class);
+                modifyNameIntent.putExtra("deviceName",deviceName);
+                modifyNameIntent.putExtra("deviceNum",deviceNum);
+                startActivity(modifyNameIntent);
                 break;
             case 1:
                 //查看设备下的用户详情,用户数
@@ -176,95 +168,4 @@ public class DeviceInfoActivity extends AppCompatActivity implements View.OnClic
         initPicItem();
     }
 
-    private Handler handler = new Handler()
-    {
-        @Override
-        public void handleMessage(Message msg)
-        {
-            switch (msg.what)
-            {
-                case 1:
-                    JSONObject jsonObject = (JSONObject) msg.obj;
-                    try
-                    {
-                        JSONObject result = jsonObject.getJSONObject("result");
-                        String retCode = result.getString("retcode");
-                        switch (retCode)
-                        {
-                            case ErrorCode.SUCEESS:
-                                String deviceName = jsonObject.getString("deviceName");
-                                //写入sqlite
-                                Device [] devices = userCommonService.queryByDeviceNum(deviceNum);
-                                if (devices != null && devices.length > 0)
-                                {
-                                    devices[0].setDeviceName(deviceName);
-                                    userCommonService.updateDevice(devices[0]);
-                                }
-                                initPicItem();
-                                Toast.makeText(DeviceInfoActivity.this,"恭喜，设备名称修改成功",Toast.LENGTH_LONG).show();
-                                break;
-                        }
-                    }
-                    catch (JSONException e)
-                    {
-
-                    }
-            }
-        }
-    };
-
-    private Handler handlerAddUser = new Handler()
-    {
-        @Override
-        public void handleMessage(Message msg)
-        {
-            switch (msg.what)
-            {
-                case 1:
-                    JSONObject jsonObject = (JSONObject) msg.obj;
-                    try
-                    {
-                        JSONObject result = jsonObject.getJSONObject("result");
-                        String retCode = result.getString("retcode");
-                        switch (retCode)
-                        {
-                            case ErrorCode.SUCEESS:
-                                JSONObject userAttachedDevice = jsonObject.getJSONObject("userAttachedDevice");
-                                //写入sqlite
-                                Device device = new Device();
-
-                                device.setUserName(userAttachedDevice.getString("userName"));
-                                device.setPhoneNum(userAttachedDevice.getString("phoneNum"));
-                                device.setAdminName(userAttachedDevice.getString("mainName"));
-                                device.setDeviceNum(userAttachedDevice.getString("deviceNum"));
-                                device.setDeviceName(userAttachedDevice.getString("deviceName"));
-                                device.setBloothMac(userAttachedDevice.getString("bluetoothMac"));
-                                device.setDeviceVersion(userAttachedDevice.getString("version"));
-                                device.setRole(userAttachedDevice.getString("userType"));
-                                device.setAttachedTime(userAttachedDevice.getString("associateTime"));
-                                device.setValidDate(userAttachedDevice.getString("validDate"));
-
-                                //先删再插入数据
-                                userCommonService.deleteDevice(device.getPhoneNum(),device.getDeviceNum());
-                                userCommonService.insertDevice(device);
-                                initPicItem();
-                                Toast.makeText(DeviceInfoActivity.this,"恭喜，添加用户成功",Toast.LENGTH_LONG).show();
-                                break;
-
-                            case ErrorCode.MAIN_USER_MISSMATCH:
-                                Toast.makeText(DeviceInfoActivity.this,"您的账号不具备管理员权限",Toast.LENGTH_LONG).show();
-                                break;
-
-                            case ErrorCode.USERPHONE_NOT_EXIST:
-                                Toast.makeText(DeviceInfoActivity.this,"您添加的用户还没有注册",Toast.LENGTH_LONG).show();
-                                break;
-                        }
-                    }
-                    catch (JSONException e)
-                    {
-
-                    }
-            }
-        }
-    };
 }

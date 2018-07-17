@@ -1,5 +1,6 @@
 package mutong.com.mtaj.utils;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Handler;
@@ -21,7 +22,7 @@ import mutong.com.mtaj.repository.User;
 /**
  * 自定义对话框
  */
-public class CustomDialog
+public class CustomDialog extends Activity
 {
     private Dialog dialog;
     private Context context;

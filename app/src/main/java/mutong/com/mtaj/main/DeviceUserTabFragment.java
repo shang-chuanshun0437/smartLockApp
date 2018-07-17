@@ -38,7 +38,7 @@ import mutong.com.mtaj.utils.DateUtil;
 import mutong.com.mtaj.utils.HttpUtil;
 import mutong.com.mtaj.utils.StringUtil;
 
-public class DeviceUserTabFragment extends Fragment implements AdapterView.OnItemClickListener
+public class DeviceUserTabFragment extends Fragment
 {
     //初始化设备数据
     private List<DeviceUsersItem> list = new ArrayList<DeviceUsersItem>();
@@ -74,7 +74,6 @@ public class DeviceUserTabFragment extends Fragment implements AdapterView.OnIte
         queryDevices();
 
         deviceListView = (ListView) view.findViewById(R.id.manger_listView);
-        deviceListView.setOnItemClickListener(this);
 
         initDeviceItems(userCommonService.queryDevice());
 
@@ -101,34 +100,12 @@ public class DeviceUserTabFragment extends Fragment implements AdapterView.OnIte
         initDeviceItems(userCommonService.queryDevice());
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-    {
-        final TextView delete = view.findViewById(R.id.cancel);
-        final TextView deviceName = view.findViewById(R.id.phone);
-        System.out.println("onItemClick ; " + position);
-        delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
-                device = userCommonService.queryByDeviceName(deviceName.getText().toString());
-                Map<String,String> map = new ArrayMap<String,String>();
-                map.put("phoneNum",user.getPhoneNum());
-                map.put("token",user.getUserToken());
-                map.put("deletePhoneNum",user.getPhoneNum());
-                map.put("deviceNum",device.getDeviceNum());
-
-                CustomDialog customDialog = new CustomDialog(context,R.layout.dialog_delete_device,deleteHandler,null,map);
-                customDialog.showDialog();
-            }
-        });
-    }
-
     private void initDeviceItems(Device [] devices)
     {
         list.clear();
-        if (devices != null)
+        if (devices != null && devices.length > 0)
         {
+            deviceListView.setBackgroundResource(R.color.white);
             for (Device device : devices)
             {
                 if(user.getPhoneNum().equals(device.getPhoneNum()))
@@ -157,8 +134,12 @@ public class DeviceUserTabFragment extends Fragment implements AdapterView.OnIte
                 }
             }
         }
+        else
+        {
+            deviceListView.setBackgroundResource(R.mipmap.no_device);
+        }
 
-        DeviceUsersAdapter adapter = new DeviceUsersAdapter(this.getContext(),R.layout.device_all_item,list);
+        DeviceUsersAdapter adapter = new DeviceUsersAdapter(this.getContext(),R.layout.device_all_item,list,null);
         deviceListView.setAdapter(adapter);
     }
 
@@ -223,49 +204,5 @@ public class DeviceUserTabFragment extends Fragment implements AdapterView.OnIte
             }
         }
     };
-
-    private Handler deleteHandler = new Handler()
-    {
-        @Override
-        public void handleMessage(Message msg)
-        {
-            switch (msg.what)
-            {
-                case 1:
-                    try
-                    {
-                        JSONObject jsonObject = (JSONObject) msg.obj;
-                        JSONObject resultObject = jsonObject.getJSONObject("result");
-                        String retCode = resultObject.getString("retcode");
-                        switch (retCode)
-                        {
-                            case ErrorCode.SUCEESS:
-                                User user = userCommonService.getLoginUser();
-                                userCommonService.deleteDevice(user.getPhoneNum(),device.getDeviceNum());
-                                initDeviceItems(userCommonService.queryDevice());
-                                break;
-
-                            case ErrorCode.OTHER_USERS_EXIST:
-                                Toast.makeText(DeviceUserTabFragment.this.getContext(),"删除失败：您是设备管理员，该设备下还有其他用户",Toast.LENGTH_LONG).show();
-                                break;
-
-                            case ErrorCode.DEFAULT_ERROR:
-                                Toast.makeText(DeviceUserTabFragment.this.getContext(),"抱歉，服务器正在升级中，请稍后重试",Toast.LENGTH_LONG).show();
-                                break;
-                        }
-                    }
-                    catch (JSONException e)
-                    {
-
-                    }
-
-                    break;
-
-                case 0 :
-                    break;
-            }
-        }
-    };
-
 }
 

@@ -2,6 +2,7 @@ package mutong.com.mtaj.main;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -32,6 +33,8 @@ public class MyDeviceActivity extends AppCompatActivity implements View.OnClickL
     String []tabTitles = new String[]{"所有设备","我管理的设备"};
     private Fragment[] fragmentArrays = new Fragment[2];
 
+
+    private ConstraintLayout layout;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -42,6 +45,9 @@ public class MyDeviceActivity extends AppCompatActivity implements View.OnClickL
         StatusBarUtil.setStatusBarColor(this,R.color.mePage);
         //设置状态栏黑色文字
         StatusBarUtil.setBarTextLightMode(this);
+
+        layout = (ConstraintLayout)findViewById(R.id.mydevice);
+        layout.setBackgroundResource(R.mipmap.no_device);
 
         userCommonService = new UserCommonServiceSpi(this);
         User user = userCommonService.getLoginUser();
@@ -89,6 +95,7 @@ public class MyDeviceActivity extends AppCompatActivity implements View.OnClickL
     protected void onResume()
     {
         super.onResume();
+        System.out.println("mydeviceActivity:onResume");
     }
 
     @Override

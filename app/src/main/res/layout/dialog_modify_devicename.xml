@@ -14,7 +14,7 @@
         android:layout_marginEnd="147dp"
         android:layout_marginStart="147dp"
         android:layout_marginTop="16dp"
-        android:text="添加用户"
+        android:text="修改设备名称"
         android:textSize="17sp"
         android:textColor="@color/colorMainGreen"
         app:layout_constraintEnd_toEndOf="parent"
@@ -22,21 +22,19 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/phone"
+        android:id="@+id/device_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
-        android:hint="请输入用户手机号"
-        android:textColorHint="@color/divide"
-        android:maxLength="13"
-        android:padding="5dp"
-        android:textColor="#000000"
-        android:textSize="16sp"
-        android:singleLine="true"
+        android:layout_marginEnd="64dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="24dp"
         android:background="@null"
-        android:inputType="number"
+        android:hint="请输入设备名称"
+        android:padding="5dp"
+        android:singleLine="true"
+        android:textColor="#000000"
+        android:textColorHint="@color/divide"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView16" />
@@ -45,31 +43,13 @@
         android:id="@+id/dividView5"
         android:layout_width="0dp"
         android:layout_height="1dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginStart="32dp"
+        android:layout_marginEnd="64dp"
+        android:layout_marginStart="64dp"
         android:layout_marginTop="4dp"
         android:background="@color/divide"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/phone" />
-
-    <EditText
-        android:id="@+id/valid_date"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="14dp"
-        android:background="@null"
-        android:hint="输入有效期:例如 2088-10-10"
-        android:maxLength="10"
-        android:singleLine="true"
-        android:textColor="#000000"
-        android:textColorHint="@color/divide"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dividView5" />
+        app:layout_constraintTop_toBottomOf="@+id/device_name" />
 
     <TextView
         android:id="@+id/ok"
@@ -90,12 +70,12 @@
         android:id="@+id/dividView1"
         android:layout_width="0dp"
         android:layout_height="1dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="32dp"
         android:background="@color/divide"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/valid_date" />
+        app:layout_constraintTop_toBottomOf="@+id/dividView5" />
 
     <View
         android:id="@+id/dividView2"
