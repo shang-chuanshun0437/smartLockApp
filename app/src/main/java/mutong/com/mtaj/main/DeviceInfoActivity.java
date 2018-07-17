@@ -77,10 +77,6 @@ public class DeviceInfoActivity extends AppCompatActivity implements View.OnClic
 
         picList.setOnItemClickListener(this);
 
-        initItems();
-        DeviceInfoAdapter adapter = new DeviceInfoAdapter(this,R.layout.deviceinfo_item,list);
-        deviceInfoList.setAdapter(adapter);
-
         initPicItem();
 
         back = (ImageView)findViewById(R.id.back);
@@ -104,7 +100,7 @@ public class DeviceInfoActivity extends AppCompatActivity implements View.OnClic
                 finish();
                 break;
             case R.id.help:
-                CustomDialog customDialog = new CustomDialog(this,R.layout.dialog_adduser,handlerAddUser,deviceNum);
+                CustomDialog customDialog = new CustomDialog(this,R.layout.dialog_adduser,handlerAddUser,deviceNum,null);
                 customDialog.showDialog();
                 break;
         }
@@ -116,31 +112,40 @@ public class DeviceInfoActivity extends AppCompatActivity implements View.OnClic
 
         Device[] devices = userCommonService.queryByDeviceNum(deviceNum);
 
-        DeviceInfoItem []deviceInfoItems = new DeviceInfoItem[]{
-                new DeviceInfoItem("设备编号",deviceNum),
-                new DeviceInfoItem("硬件版本",devices[0].getDeviceVersion()),
-                new DeviceInfoItem("蓝牙MAC",devices[0].getBloothMac())};
-
-        for (DeviceInfoItem deviceInfoItem : deviceInfoItems)
+        if (devices != null && devices.length > 0)
         {
-            list.add(deviceInfoItem);
+            DeviceInfoItem []deviceInfoItems = new DeviceInfoItem[]{
+                    new DeviceInfoItem("设备编号",deviceNum),
+                    new DeviceInfoItem("硬件版本",devices[0].getDeviceVersion()),
+                    new DeviceInfoItem("蓝牙MAC",devices[0].getBloothMac())};
+
+            for (DeviceInfoItem deviceInfoItem : deviceInfoItems)
+            {
+                list.add(deviceInfoItem);
+            }
         }
+        DeviceInfoAdapter adapter = new DeviceInfoAdapter(this,R.layout.deviceinfo_item,list);
+        deviceInfoList.setAdapter(adapter);
     }
 
     private void initPicItem()
     {
+        initItems();
         listPic.clear();
-
         Device[] devices = userCommonService.queryByDeviceNum(deviceNum);
 
-        DeviceInfoPicItem []deviceInfoItems = new DeviceInfoPicItem[]{
-                new DeviceInfoPicItem("设备名称",devices[0].getDeviceName(),R.mipmap.forward),
-                new DeviceInfoPicItem("用户数",String.valueOf(devices.length),R.mipmap.forward)};
-
-        for (DeviceInfoPicItem deviceInfoItem : deviceInfoItems)
+        if (devices != null && devices.length > 0)
         {
-            listPic.add(deviceInfoItem);
+            DeviceInfoPicItem []deviceInfoItems = new DeviceInfoPicItem[]{
+                    new DeviceInfoPicItem("设备名称",devices[0].getDeviceName(),R.mipmap.forward),
+                    new DeviceInfoPicItem("用户数",String.valueOf(devices.length),R.mipmap.forward)};
+
+            for (DeviceInfoPicItem deviceInfoItem : deviceInfoItems)
+            {
+                listPic.add(deviceInfoItem);
+            }
         }
+
         DeviceInfoPicAdapter adapter = new DeviceInfoPicAdapter(this,R.layout.deviceinfo_item_pic,listPic);
         picList.setAdapter(adapter);
     }
@@ -152,7 +157,7 @@ public class DeviceInfoActivity extends AppCompatActivity implements View.OnClic
         {
             case 0:
                 //修改设备名称
-                CustomDialog customDialog = new CustomDialog(this,R.layout.dialog_normal,handler,deviceNum);
+                CustomDialog customDialog = new CustomDialog(this,R.layout.dialog_normal,handler,deviceNum,null);
                 customDialog.showDialog();
                 break;
             case 1:

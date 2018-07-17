@@ -1,5 +1,6 @@
 package mutong.com.mtaj.main;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -32,6 +33,7 @@ import mutong.com.mtaj.common.ErrorCode;
 import mutong.com.mtaj.common.UserCommonServiceSpi;
 import mutong.com.mtaj.repository.Device;
 import mutong.com.mtaj.repository.User;
+import mutong.com.mtaj.utils.CustomDialog;
 import mutong.com.mtaj.utils.DateUtil;
 import mutong.com.mtaj.utils.HttpUtil;
 import mutong.com.mtaj.utils.StringUtil;
@@ -40,10 +42,12 @@ public class DeviceUserTabFragment extends Fragment implements AdapterView.OnIte
 {
     //初始化设备数据
     private List<DeviceUsersItem> list = new ArrayList<DeviceUsersItem>();
+    private Context context;
 
     private ListView deviceListView;
     private UserCommonServiceSpi userCommonService;
     private User user;
+    private Device device;
 
     public static DeviceUserTabFragment newInstance()
     {
@@ -57,6 +61,7 @@ public class DeviceUserTabFragment extends Fragment implements AdapterView.OnIte
         View view = inflater.inflate(R.layout.device_manager_fragment, container, false);
         userCommonService = new UserCommonServiceSpi(this.getContext());
         user = userCommonService.getLoginUser();
+        context = this.getContext();
 
         if(user == null)
         {
@@ -99,43 +104,62 @@ public class DeviceUserTabFragment extends Fragment implements AdapterView.OnIte
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id)
     {
-        TextView deviceNumText = view.findViewById(R.id.device_item_numinput);
-        System.out.println("position:" + position);
+        final TextView delete = view.findViewById(R.id.cancel);
+        final TextView deviceName = view.findViewById(R.id.phone);
+        System.out.println("onItemClick ; " + position);
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                device = userCommonService.queryByDeviceName(deviceName.getText().toString());
+                Map<String,String> map = new ArrayMap<String,String>();
+                map.put("phoneNum",user.getPhoneNum());
+                map.put("token",user.getUserToken());
+                map.put("deletePhoneNum",user.getPhoneNum());
+                map.put("deviceNum",device.getDeviceNum());
 
+                CustomDialog customDialog = new CustomDialog(context,R.layout.dialog_delete_device,deleteHandler,null,map);
+                customDialog.showDialog();
+            }
+        });
     }
 
     private void initDeviceItems(Device [] devices)
     {
         list.clear();
-        for (Device device : devices)
+        if (devices != null)
         {
-            if(user.getPhoneNum().equals(device.getPhoneNum()))
+            for (Device device : devices)
             {
-                DeviceUsersItem deviceUsersItem = new DeviceUsersItem();
-                if(!StringUtil.isEmpty(device.getRole()) && device.getRole().equals(Constant.OTHER))
+                if(user.getPhoneNum().equals(device.getPhoneNum()))
                 {
-                    deviceUsersItem.setImgId(R.mipmap.normal_user);
-                }
-                else
-                {
-                    deviceUsersItem.setImgId(R.mipmap.admin);
-                }
+                    DeviceUsersItem deviceUsersItem = new DeviceUsersItem();
+                    if(!StringUtil.isEmpty(device.getRole()) && device.getRole().equals(Constant.OTHER))
+                    {
+                        deviceUsersItem.setImgId(R.mipmap.normal_user);
+                    }
+                    else
+                    {
+                        deviceUsersItem.setImgId(R.mipmap.admin);
+                    }
 
-                deviceUsersItem.setPhoneNum(device.getDeviceName());
-                deviceUsersItem.setNickName(DateUtil.dateTodate(device.getAttachedTime().substring(0,12)));
-                if (StringUtil.isEmpty(device.getValidDate()) || device.getValidDate().equals("null"))
-                {
-                    deviceUsersItem.setValidDate("永久有效");
+                    deviceUsersItem.setPhoneNum(device.getDeviceName());
+                    deviceUsersItem.setNickName(DateUtil.dateTodate(device.getAttachedTime().substring(0,12)));
+                    if (StringUtil.isEmpty(device.getValidDate()) || device.getValidDate().equals("null"))
+                    {
+                        deviceUsersItem.setValidDate("永久有效");
+                    }
+                    else
+                    {
+                        deviceUsersItem.setValidDate(device.getValidDate());
+                    }
+                    list.add(deviceUsersItem);
                 }
-                else
-                {
-                    deviceUsersItem.setValidDate(device.getValidDate());
-                }
-                list.add(deviceUsersItem);
             }
-            DeviceUsersAdapter adapter = new DeviceUsersAdapter(this.getContext(),R.layout.device_user_item,list);
-            deviceListView.setAdapter(adapter);
         }
+
+        DeviceUsersAdapter adapter = new DeviceUsersAdapter(this.getContext(),R.layout.device_all_item,list);
+        deviceListView.setAdapter(adapter);
     }
 
     private Handler handler = new Handler()
@@ -199,5 +223,49 @@ public class DeviceUserTabFragment extends Fragment implements AdapterView.OnIte
             }
         }
     };
+
+    private Handler deleteHandler = new Handler()
+    {
+        @Override
+        public void handleMessage(Message msg)
+        {
+            switch (msg.what)
+            {
+                case 1:
+                    try
+                    {
+                        JSONObject jsonObject = (JSONObject) msg.obj;
+                        JSONObject resultObject = jsonObject.getJSONObject("result");
+                        String retCode = resultObject.getString("retcode");
+                        switch (retCode)
+                        {
+                            case ErrorCode.SUCEESS:
+                                User user = userCommonService.getLoginUser();
+                                userCommonService.deleteDevice(user.getPhoneNum(),device.getDeviceNum());
+                                initDeviceItems(userCommonService.queryDevice());
+                                break;
+
+                            case ErrorCode.OTHER_USERS_EXIST:
+                                Toast.makeText(DeviceUserTabFragment.this.getContext(),"删除失败：您是设备管理员，该设备下还有其他用户",Toast.LENGTH_LONG).show();
+                                break;
+
+                            case ErrorCode.DEFAULT_ERROR:
+                                Toast.makeText(DeviceUserTabFragment.this.getContext(),"抱歉，服务器正在升级中，请稍后重试",Toast.LENGTH_LONG).show();
+                                break;
+                        }
+                    }
+                    catch (JSONException e)
+                    {
+
+                    }
+
+                    break;
+
+                case 0 :
+                    break;
+            }
+        }
+    };
+
 }
 

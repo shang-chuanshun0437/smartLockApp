@@ -1,6 +1,7 @@
 package mutong.com.mtaj.adapter;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +33,7 @@ public class DeviceUsersAdapter extends ArrayAdapter
         TextView phoneNum = (TextView) view.findViewById(R.id.phone);
         TextView validDate = (TextView) view.findViewById(R.id.ok);
         TextView nickName = (TextView) view.findViewById(R.id.nick_name);
+        final TextView delete = (TextView)view.findViewById(R.id.cancel);
 
         imageView.setImageResource(item.getImgId());
         phoneNum.setText(item.getPhoneNum());

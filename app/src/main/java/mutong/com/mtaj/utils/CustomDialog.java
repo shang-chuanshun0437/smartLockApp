@@ -30,13 +30,15 @@ public class CustomDialog
     private View view;
     private UserCommonServiceSpi userCommonService;
     private String deviceNum;
+    private Map<String, String> map;
 
-    public CustomDialog(Context context,int resource,Handler handler,String deviceNum)
+    public CustomDialog(Context context,int resource,Handler handler,String deviceNum,Map<String, String> map)
     {
         this.context = context;
         this.resource = resource;
         this.handler = handler;
         this.deviceNum = deviceNum;
+        this.map = map;
 
         userCommonService = new UserCommonServiceSpi(context);
 
@@ -112,6 +114,28 @@ public class CustomDialog
 
                     HttpUtil httpUtil = new HttpUtil(handler,context);
                     httpUtil.post(map,"/device/bindDevice4User");
+                    dialog.dismiss();
+                }
+            });
+        }
+
+        if (resource == R.layout.dialog_delete_device)
+        {
+            TextView cancel = (TextView) view.findViewById(R.id.cancel);
+            TextView confirm = (TextView) view.findViewById(R.id.ok);
+
+            cancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+            confirm.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    HttpUtil httpUtil = new HttpUtil(handler,context);
+                    httpUtil.post(map,"/device/deleteDevice");
                     dialog.dismiss();
                 }
             });

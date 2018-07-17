@@ -8,36 +8,28 @@
     tools:context="mutong.com.mtaj.main.MainActivity">
 
     <TextView
-        android:id="@+id/textView17"
+        android:id="@+id/phone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
-        android:text="设备名称"
-        android:textSize="17sp"
-        app:layout_constraintStart_toEndOf="@+id/admin"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/phone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="18dp"
-        android:layout_marginTop="16dp"
         android:text="未知设备"
-        android:textSize="17sp"
-        app:layout_constraintStart_toEndOf="@+id/textView17"
+        android:textSize="18sp"
+        android:textColor="#000000"
+        app:layout_constraintStart_toEndOf="@+id/admin"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView20"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="41dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="4dp"
         android:text="钥匙有效期"
         android:textColor="#000000"
-        android:textSize="15sp"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toStartOf="@+id/dividView2"
         app:layout_constraintStart_toEndOf="@+id/admin"
         app:layout_constraintTop_toBottomOf="@+id/ok" />
 
@@ -45,11 +37,13 @@
         android:id="@+id/ok"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="6dp"
         android:text="2018-12-19"
         android:textColor="@color/mePage"
-        android:textSize="19sp"
+        android:textSize="17sp"
+        app:layout_constraintEnd_toStartOf="@+id/dividView2"
         app:layout_constraintStart_toEndOf="@+id/admin"
         app:layout_constraintTop_toBottomOf="@+id/dividView1" />
 
@@ -68,7 +62,7 @@
         android:id="@+id/dividView2"
         android:layout_width="1dp"
         android:layout_height="55dp"
-        android:layout_marginEnd="40dp"
+        android:layout_marginEnd="8dp"
         android:background="@color/divide"
         app:layout_constraintEnd_toStartOf="@+id/cancel"
         app:layout_constraintTop_toBottomOf="@+id/dividView1" />
@@ -77,8 +71,12 @@
         android:id="@+id/cancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="40dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:paddingBottom="10dp"
+        android:paddingLeft="40dp"
+        android:paddingRight="40dp"
+        android:paddingTop="10dp"
         android:text="删除钥匙"
         android:textColor="@color/colorMainGreen"
         android:textSize="17sp"
@@ -116,6 +114,6 @@
         android:text="添加时间"
         android:textSize="17sp"
         app:layout_constraintStart_toEndOf="@+id/admin"
-        app:layout_constraintTop_toBottomOf="@+id/textView17" />
+        app:layout_constraintTop_toBottomOf="@+id/phone" />
 
 </android.support.constraint.ConstraintLayout>

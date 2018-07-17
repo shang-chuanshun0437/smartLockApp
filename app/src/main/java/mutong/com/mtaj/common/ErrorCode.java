@@ -38,4 +38,7 @@ public class ErrorCode
     //后台数据库中，设备的主用户和请求中传来的用户不匹配
     public static final String MAIN_USER_MISSMATCH = "200002";
 
+    //设备的管理员删除自己，该设备下有其他用户
+    public static final String OTHER_USERS_EXIST = "200003";
+
 }

@@ -85,9 +85,9 @@ public class CoustomRatingBar extends LinearLayout {
         starEmptyDrawable = mTypedArray.getDrawable(R.styleable.RatingBar_starEmpty);
         starFillDrawable = mTypedArray.getDrawable(R.styleable.RatingBar_starFill);
         //starImageSize = mTypedArray.getDimension(R.styleable.RatingBar_starImageSize, 60);
-        starImageWidth = mTypedArray.getDimension(R.styleable.RatingBar_starImageWidth, 40);
-        starImageHeight = mTypedArray.getDimension(R.styleable.RatingBar_starImageHeight, 40);
-        starImagePadding = mTypedArray.getDimension(R.styleable.RatingBar_starImagePadding, 2);
+        starImageWidth = mTypedArray.getDimension(R.styleable.RatingBar_starImageWidth, 30);
+        starImageHeight = mTypedArray.getDimension(R.styleable.RatingBar_starImageHeight, 30);
+        starImagePadding = mTypedArray.getDimension(R.styleable.RatingBar_starImagePadding, 1);
         starCount = mTypedArray.getInteger(R.styleable.RatingBar_starCount, 5);
         starNum = mTypedArray.getInteger(R.styleable.RatingBar_starNum, 1);
         mClickable = mTypedArray.getBoolean(R.styleable.RatingBar_clickable, false);

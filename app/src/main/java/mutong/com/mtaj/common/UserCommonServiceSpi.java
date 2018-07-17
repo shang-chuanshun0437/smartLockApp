@@ -245,7 +245,7 @@ public class UserCommonServiceSpi {
         values.put("phonenum", preference.getPhoneNum());
         values.put("headportrait", preference.getHeadPortraitPath());
 
-        db.update(Constant.PREFERENCE, values, "username = ?", new String[]{preference.getPhoneNum()});
+        db.update(Constant.PREFERENCE, values, "phonenum = ?", new String[]{preference.getPhoneNum()});
         //update(String table,ContentValues values,String whereClause, String[] whereArgs)：
         db.close();
     }

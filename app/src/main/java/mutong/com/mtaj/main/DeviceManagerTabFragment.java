@@ -90,21 +90,23 @@ public class DeviceManagerTabFragment extends Fragment implements View.OnClickLi
     {
         deviceItems.clear();
 
-        for(Device device : devices)
+        if(devices != null)
         {
-            //设备的管理者
-            if(user.getPhoneNum().equals(device.getPhoneNum()) && !StringUtil.isEmpty(device.getRole()) && device.getRole().equals(Constant.MAIN))
+            for(Device device : devices)
             {
-                DeviceItem deviceItem = new DeviceItem();
+                //设备的管理者
+                if(user.getPhoneNum().equals(device.getPhoneNum()) && !StringUtil.isEmpty(device.getRole()) && device.getRole().equals(Constant.MAIN))
+                {
+                    DeviceItem deviceItem = new DeviceItem();
 
-                deviceItem.setImgId(R.mipmap.device_small);
-                deviceItem.setDeviceName(device.getDeviceName());
-                deviceItem.setDeviceNum(device.getDeviceNum());
-                deviceItem.setUserNum(String.valueOf(userCommonService.queryByDeviceNum(device.getDeviceNum()).length));
-                deviceItems.add(deviceItem);
+                    deviceItem.setImgId(R.mipmap.device_small);
+                    deviceItem.setDeviceName(device.getDeviceName());
+                    deviceItem.setDeviceNum(device.getDeviceNum());
+                    deviceItem.setUserNum(String.valueOf(userCommonService.queryByDeviceNum(device.getDeviceNum()).length));
+                    deviceItems.add(deviceItem);
+                }
             }
         }
-
         DeviceItemAdapter adapter = new DeviceItemAdapter(this.getContext(),R.layout.device_item,deviceItems);
         deviceListView.setAdapter(adapter);
     }
@@ -127,7 +129,22 @@ public class DeviceManagerTabFragment extends Fragment implements View.OnClickLi
     public void onResume()
     {
         super.onResume();
+        System.out.println("onResume");
         initDeviceItems(userCommonService.queryDevice());
+    }
+
+    @Override
+    public void onStart()
+    {
+        super.onStart();
+        System.out.println("onStart");
+    }
+
+    @Override
+    public void onPause()
+    {
+        super.onPause();
+        System.out.println("onPause");
     }
 
     @Override
