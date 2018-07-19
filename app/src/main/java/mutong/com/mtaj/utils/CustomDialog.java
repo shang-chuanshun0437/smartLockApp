@@ -16,32 +16,28 @@ import java.util.HashMap;
 import java.util.Map;
 
 import mutong.com.mtaj.R;
+import mutong.com.mtaj.common.Constant;
 import mutong.com.mtaj.common.UserCommonServiceSpi;
 import mutong.com.mtaj.repository.User;
 
 /**
  * 自定义对话框
  */
-public class CustomDialog extends Activity
+public class CustomDialog
 {
     private Dialog dialog;
     private Context context;
     private int resource;
     private Handler handler;
     private View view;
-    private UserCommonServiceSpi userCommonService;
-    private String deviceNum;
-    private Map<String, String> map;
+    private String msg;
 
-    public CustomDialog(Context context,int resource,Handler handler,String deviceNum,Map<String, String> map)
+    public CustomDialog(Context context,int resource,Handler handler,String msg)
     {
         this.context = context;
         this.resource = resource;
         this.handler = handler;
-        this.deviceNum = deviceNum;
-        this.map = map;
-
-        userCommonService = new UserCommonServiceSpi(context);
+        this.msg = msg;
 
         initDialog();
     }
@@ -51,7 +47,7 @@ public class CustomDialog extends Activity
         {
             TextView cancel = (TextView) view.findViewById(R.id.cancel);
             final TextView confirm = (TextView) view.findViewById(R.id.ok);
-            final EditText dialogDeviceName = (EditText) view.findViewById(R.id.device_name);
+            final TextView versionDes = (TextView) view.findViewById(R.id.versiondes);
 
             cancel.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -62,85 +58,12 @@ public class CustomDialog extends Activity
             confirm.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String deviceName = dialogDeviceName.getText().toString();
-                    User user = userCommonService.getLoginUser();
-
-                    Map<String, String> map = new HashMap<String, String>();
-                    map.put("phoneNum",user.getPhoneNum());
-                    map.put("token",user.getUserToken());
-                    map.put("deviceNum",deviceNum);
-                    map.put("deviceName",deviceName);
-
-                    HttpUtil httpUtil = new HttpUtil(handler,context);
-                    httpUtil.post(map,"/modify/modifyDeviceName");
+                    handler.sendEmptyMessage(Constant.DOWNLOAD_APK);
                     dialog.dismiss();
                 }
             });
         }
 
-        if (resource == R.layout.dialog_adduser)
-        {
-            TextView cancel = (TextView) view.findViewById(R.id.cancel);
-            TextView confirm = (TextView) view.findViewById(R.id.ok);
-            final EditText phone = (EditText)view.findViewById(R.id.phone);
-            final EditText validDate = (EditText)view.findViewById(R.id.valid_date);
-            phone.addTextChangedListener(new SpaceTextWatcher(phone));
-
-            cancel.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dialog.dismiss();
-                }
-            });
-            confirm.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String phoneStr = phone.getText().toString().replace(" ","");
-                    String validDateStr = validDate.getText().toString();
-
-                    //校验输入的日期是否正确
-                    if(!StringUtil.isEmpty(validDateStr) && !DateUtil.isDataFormat(validDateStr))
-                    {
-                        Toast.makeText(context,"有效期格式输入错误，正确的格式:2099.12.12",Toast.LENGTH_LONG).show();
-                        return;
-                    }
-                    User user = userCommonService.getLoginUser();
-
-                    Map<String, String> map = new HashMap<String, String>();
-                    map.put("phoneNum",user.getPhoneNum());
-                    map.put("token",user.getUserToken());
-                    map.put("deviceNum",deviceNum);
-                    map.put("bindPhoneNum",phoneStr);
-                    map.put("validDate",validDateStr);
-
-                    HttpUtil httpUtil = new HttpUtil(handler,context);
-                    httpUtil.post(map,"/device/bindDevice4User");
-                    dialog.dismiss();
-                }
-            });
-        }
-
-        if (resource == R.layout.dialog_delete_device)
-        {
-            TextView cancel = (TextView) view.findViewById(R.id.cancel);
-            TextView confirm = (TextView) view.findViewById(R.id.ok);
-
-            cancel.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dialog.dismiss();
-                }
-            });
-            confirm.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    HttpUtil httpUtil = new HttpUtil(handler,context);
-                    httpUtil.post(map,"/device/deleteDevice");
-                    dialog.dismiss();
-                }
-            });
-        }
         dialog.show();
     }
 

@@ -1,5 +1,6 @@
 package mutong.com.mtaj.main;
 
+import android.Manifest;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTabHost;
@@ -10,6 +11,7 @@ import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
 
 import mutong.com.mtaj.R;
+import mutong.com.mtaj.utils.PermissionUtils;
 
 public class MainActivity extends FragmentActivity {
     // 定义FragmentTabHost对象
@@ -29,6 +31,7 @@ public class MainActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         initView();
 
     }

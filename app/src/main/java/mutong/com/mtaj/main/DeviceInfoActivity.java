@@ -23,10 +23,8 @@ import mutong.com.mtaj.adapter.DeviceInfoAdapter;
 import mutong.com.mtaj.adapter.DeviceInfoItem;
 import mutong.com.mtaj.adapter.DeviceInfoPicAdapter;
 import mutong.com.mtaj.adapter.DeviceInfoPicItem;
-import mutong.com.mtaj.common.ErrorCode;
 import mutong.com.mtaj.common.UserCommonServiceSpi;
 import mutong.com.mtaj.repository.Device;
-import mutong.com.mtaj.utils.CustomDialog;
 import mutong.com.mtaj.utils.StatusBarUtil;
 
 public class DeviceInfoActivity extends AppCompatActivity implements View.OnClickListener,AdapterView.OnItemClickListener

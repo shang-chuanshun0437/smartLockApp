@@ -3,76 +3,23 @@
     <string name="skip">3</string>
     <string name="skip_text">s跳过</string>
 
-    <string name="permission_name_calendar">Calendar</string>
-    <string name="permission_name_camera">Camera</string>
-    <string name="permission_name_contacts">Contacts</string>
+    <string name="permission_name_calendar">日历</string>
+    <string name="permission_name_camera">相机</string>
+    <string name="permission_name_contacts">读取联系人</string>
     <string name="permission_name_location">地理位置</string>
     <string name="permission_name_microphone">Microphone</string>
     <string name="permission_name_phone">Phone</string>
     <string name="permission_name_sensors">Body Sensors</string>
-    <string name="permission_name_sms">SMS</string>
-    <string name="permission_name_storage">Storage</string>
+    <string name="permission_name_sms">短信</string>
+    <string name="permission_name_storage">存储--读写手机存储</string>
 
-    <string name="message_permission_always_failed">为了搜索附近的蓝牙，牧童安居需要以下权限:\n\n%1$s</string>
+    <string name="message_permission_always_failed">   应用程序需要如下权限:\n\n%1$s</string>
     <string name="title_dialog">权限申请:</string>
     <string name="setting">设置</string>
     <string name="cancel">取消</string>
     <string name="message_setting_comeback">The user comes back from the settings page.</string>
-    <string name="message_permission_rationale">Grant the following permissions to continue the program:\n\n%1$s</string>
+    <string name="message_permission_rationale">请授予如下权限:\n\n%1$s</string>
     <string name="resume">Resume</string>
-
-    <string-array name="opendoorhistory">
-        <item>201706021701</item>
-        <item>201706021701</item>
-        <item>201706021701</item>
-
-        <item>201807031701</item>
-        <item>201807031701</item>
-
-        <item>201807041701</item>
-        <item>201807041701</item>
-
-        <item>201807051701</item>
-        <item>201807051701</item>
-        <item>201807051701</item>
-        <item>201807061701</item>
-        <item>201807061701</item>
-        <item>201807061701</item>
-        <item>201807061701</item>
-        <item>201807061701</item>
-        <item>201807061701</item>
-        <item>201807061701</item>
-        <item>201807061701</item>
-
-    </string-array>
-
-    <string-array name="opendoorhistory2">
-
-        <item>201807061701</item>
-        <item>201807061701</item>
-        <item>201807061701</item>
-        <item>201807061701</item>
-
-        <item>201807081701</item>
-        <item>201807081701</item>
-        <item>201807081701</item>
-        <item>201807081701</item>
-        <item>201807081701</item>
-        <item>201807081701</item>
-        <item>201807081701</item>
-        <item>201807081701</item>
-        <item>201807081701</item>
-
-        <item>201807091701</item>
-        <item>201807091701</item>
-        <item>201807091701</item>
-        <item>201807091701</item>
-        <item>201807091701</item>
-        <item>201807091701</item>
-        <item>201807091701</item>
-        <item>201807091701</item>
-    </string-array>
-
 
     <string name="restore">Restore</string>
     <string name="update">Update</string>

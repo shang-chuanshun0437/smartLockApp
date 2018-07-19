@@ -28,27 +28,6 @@ import mutong.com.mtaj.common.Constant;
 
 public class PermissionUtils
 {
-    //申请位置权限
-    public static void coarseLocation(final Context context)
-    {
-        Activity activity = (Activity)context;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-        {
-            //判断是否具有权限
-            if (ContextCompat.checkSelfPermission(activity,
-                    Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
-            {
-                //判断是否需要向用户解释为什么需要申请该权限
-                if (activity.shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_COARSE_LOCATION))
-                {
-                    System.out.println("自Android 6.0开始需要打开位置权限才可以搜索到Ble设备");
-                }
-                //请求权限
-                activity.requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
-                        Constant.REQUEST_COARSE_LOCATION);
-            }
-        }
-    }
     //申请定位权限
     public static void location(final Context context)
     {
@@ -129,7 +108,6 @@ public class PermissionUtils
                     @Override
                     public void onAction()
                     {
-                        Toast.makeText(context, R.string.message_setting_comeback, Toast.LENGTH_SHORT).show();
                     }
                 })
                 .start();

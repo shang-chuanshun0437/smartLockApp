@@ -23,11 +23,8 @@ import mutong.com.mtaj.R;
 import mutong.com.mtaj.adapter.DeviceUsersAdapter;
 import mutong.com.mtaj.adapter.DeviceUsersItem;
 import mutong.com.mtaj.common.Constant;
-import mutong.com.mtaj.common.ErrorCode;
 import mutong.com.mtaj.common.UserCommonServiceSpi;
 import mutong.com.mtaj.repository.Device;
-import mutong.com.mtaj.repository.User;
-import mutong.com.mtaj.utils.CustomDialog;
 import mutong.com.mtaj.utils.StatusBarUtil;
 import mutong.com.mtaj.utils.StringUtil;
 
@@ -85,25 +82,26 @@ public class ManageUsersActivity extends AppCompatActivity implements View.OnCli
             for (Device device : devices)
             {
                 DeviceUsersItem deviceUsersItem = new DeviceUsersItem();
+                int imageId;
+
                 if(!StringUtil.isEmpty(device.getRole()) && device.getRole().equals(Constant.OTHER))
                 {
-                    deviceUsersItem.setImgId(R.mipmap.normal_user);
+                    imageId = StringUtil.isEmpty(device.getValidDate()) || device.getValidDate().equals("null")
+                            ? R.mipmap.userever : R.mipmap.uservalid;
+
                 }
                 else
                 {
-                    deviceUsersItem.setImgId(R.mipmap.admin);
+                    imageId = R.mipmap.evcer;
                 }
+
+                String validDate = StringUtil.isEmpty(device.getValidDate()) || device.getValidDate().equals("null")
+                        ? "永久有效" : device.getValidDate();
 
                 deviceUsersItem.setPhoneNum(device.getPhoneNum());
                 deviceUsersItem.setNickName(device.getUserName());
-                if (StringUtil.isEmpty(device.getValidDate()) || device.getValidDate().equals("null"))
-                {
-                    deviceUsersItem.setValidDate("永久有效");
-                }
-                else
-                {
-                    deviceUsersItem.setValidDate(device.getValidDate());
-                }
+                deviceUsersItem.setImgId(imageId);
+                deviceUsersItem.setValidDate(validDate);
                 list.add(deviceUsersItem);
             }
         }

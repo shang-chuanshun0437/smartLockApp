@@ -1,6 +1,7 @@
 package mutong.com.mtaj.main;
 
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.GridView;
@@ -25,6 +26,7 @@ public class OpenDoorActivity extends AppCompatActivity implements View.OnClickL
 {
     private GridView openDoorGridView;
     private ImageView backView;
+    private ConstraintLayout layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,7 @@ public class OpenDoorActivity extends AppCompatActivity implements View.OnClickL
         //设置状态栏黑色文字
         StatusBarUtil.setBarTextLightMode(this);
 
+        layout = (ConstraintLayout)findViewById(R.id.opendoor);
         openDoorGridView = (GridView) findViewById(R.id.openDoorGridView);
         backView = (ImageView)findViewById(R.id.back);
 
@@ -49,10 +52,24 @@ public class OpenDoorActivity extends AppCompatActivity implements View.OnClickL
         String []from = {"icon","title"};
         int []to = {R.id.mainViewIcon,R.id.mainViewTitle};
 
-        SimpleAdapter simpleAdapter = new SimpleAdapter(this,getData(), R.layout.door_gridview_item, from,to);
+        List<Map<String,Object>> dataMap = getData();
 
-        openDoorGridView.setAdapter(simpleAdapter);
-        openDoorGridView.setOnItemClickListener(new OpenDoorGrideViewListener(this));
+        if (dataMap == null || dataMap.size() == 0)
+        {
+            layout.setBackgroundResource(R.mipmap.nondata);
+            openDoorGridView.setVisibility(View.GONE);
+        }
+        else
+        {
+            layout.setBackgroundResource(0);
+            layout.setBackgroundColor(getResources().getColor(R.color.divide));
+            openDoorGridView.setVisibility(View.VISIBLE);
+            SimpleAdapter simpleAdapter = new SimpleAdapter(this,dataMap, R.layout.door_gridview_item, from,to);
+
+            openDoorGridView.setAdapter(simpleAdapter);
+            openDoorGridView.setOnItemClickListener(new OpenDoorGrideViewListener(this));
+        }
+
     }
 
     private List<Map<String,Object>> getData()

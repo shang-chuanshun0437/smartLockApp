@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mutong.com.mtaj.R;
+import mutong.com.mtaj.utils.ScreenSizeUtil;
 
 /**
  * Created by Administrator on 2018/7/10.
@@ -46,9 +47,11 @@ public class VerificationCodeInput extends LinearLayout implements TextWatcher, 
     private boolean        focus           = false;
     private List<EditText> mEditTextList   = new ArrayList<>();
     private int            currentPosition = 0;
+    private Context context;
 
     public VerificationCodeInput(Context context, AttributeSet attrs) {
         super(context, attrs);
+        this.context = context;
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.vericationCodeInput);
         box = a.getInt(R.styleable.vericationCodeInput_box, 6);
 
@@ -80,7 +83,9 @@ public class VerificationCodeInput extends LinearLayout implements TextWatcher, 
     private void initViews() {
         for (int i = 0; i < box; i++) {
             EditText editText = new EditText(getContext());
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(boxWidth, boxHeight);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                    (int)(ScreenSizeUtil.getInstance(context).getScreenWidth()*0.11),
+                    (int)(ScreenSizeUtil.getInstance(context).getScreenHeight()*0.11*0.56));
             layoutParams.bottomMargin = childVPadding;
             layoutParams.topMargin = childVPadding;
             layoutParams.leftMargin = childHPadding;

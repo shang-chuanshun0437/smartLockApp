@@ -57,4 +57,7 @@ public class Constant
 
     //0 设备管理员;1 普通用户
     public static final String OTHER = "1";
+
+    //开始更新下载最新版的app
+    public static final int DOWNLOAD_APK = 10;
 }

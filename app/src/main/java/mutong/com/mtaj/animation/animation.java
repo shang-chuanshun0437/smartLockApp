@@ -1,5 +1,6 @@
 package mutong.com.mtaj.animation;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Handler;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 
 import mutong.com.mtaj.R;
 import mutong.com.mtaj.main.MainActivity;
+import mutong.com.mtaj.utils.PermissionUtils;
 
 public class animation extends AppCompatActivity {
 

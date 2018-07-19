@@ -33,7 +33,6 @@ import mutong.com.mtaj.common.ErrorCode;
 import mutong.com.mtaj.common.UserCommonServiceSpi;
 import mutong.com.mtaj.repository.Device;
 import mutong.com.mtaj.repository.User;
-import mutong.com.mtaj.utils.CustomDialog;
 import mutong.com.mtaj.utils.DateUtil;
 import mutong.com.mtaj.utils.HttpUtil;
 import mutong.com.mtaj.utils.StringUtil;
@@ -111,25 +110,24 @@ public class DeviceUserTabFragment extends Fragment
                 if(user.getPhoneNum().equals(device.getPhoneNum()))
                 {
                     DeviceUsersItem deviceUsersItem = new DeviceUsersItem();
+                    int imgId;
+
                     if(!StringUtil.isEmpty(device.getRole()) && device.getRole().equals(Constant.OTHER))
                     {
-                        deviceUsersItem.setImgId(R.mipmap.normal_user);
+                        imgId = StringUtil.isEmpty(device.getValidDate()) ? R.mipmap.userever : R.mipmap.uservalid;
                     }
                     else
                     {
-                        deviceUsersItem.setImgId(R.mipmap.admin);
+                        imgId = R.mipmap.evcer;
                     }
 
+                    String validate = StringUtil.isEmpty(device.getValidDate()) || device.getValidDate().equals("null")
+                            ? "永久有效" : device.getValidDate();
+
+                    deviceUsersItem.setImgId(imgId);
                     deviceUsersItem.setPhoneNum(device.getDeviceName());
                     deviceUsersItem.setNickName(DateUtil.dateTodate(device.getAttachedTime().substring(0,12)));
-                    if (StringUtil.isEmpty(device.getValidDate()) || device.getValidDate().equals("null"))
-                    {
-                        deviceUsersItem.setValidDate("永久有效");
-                    }
-                    else
-                    {
-                        deviceUsersItem.setValidDate(device.getValidDate());
-                    }
+                    deviceUsersItem.setValidDate(validate);
                     list.add(deviceUsersItem);
                 }
             }
