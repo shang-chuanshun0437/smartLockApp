@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mutong.com.mtaj.R;
+import mutong.com.mtaj.adapter.MePageAdapter;
+import mutong.com.mtaj.adapter.MePageItem;
 import mutong.com.mtaj.adapter.SettingAdapter;
 import mutong.com.mtaj.adapter.SettingItem;
 import mutong.com.mtaj.common.CircleImageView;
@@ -42,7 +44,7 @@ public class MePageActivity extends Fragment implements View.OnClickListener,Ada
     private ListView mePage;
 
     //列表数据
-    private List<SettingItem> listItems = new ArrayList<SettingItem>();
+    private List<MePageItem> listItems = new ArrayList<MePageItem>();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -67,7 +69,7 @@ public class MePageActivity extends Fragment implements View.OnClickListener,Ada
         settings.setOnClickListener(this);
 
         initItems();
-        SettingAdapter adapter = new SettingAdapter(getContext(),R.layout.settings_item,listItems);
+        MePageAdapter adapter = new MePageAdapter(getContext(),R.layout.mepage_item,listItems);
         mePage.setAdapter(adapter);
         mePage.setOnItemClickListener(this);
         return view;
@@ -134,9 +136,9 @@ public class MePageActivity extends Fragment implements View.OnClickListener,Ada
     private void initItems()
     {
         listItems.clear();
-        SettingItem []tempItems = new SettingItem[]{new SettingItem("我的设备",R.mipmap.forward),
-                new SettingItem("关于",R.mipmap.forward)};
-        for (SettingItem settingItem : tempItems)
+        MePageItem []tempItems = new MePageItem[]{new MePageItem("我的设备",R.mipmap.walk_anjian,R.mipmap.forward),
+                new MePageItem("联系我们",R.mipmap.talk_service,R.mipmap.forward)};
+        for (MePageItem settingItem : tempItems)
         {
             listItems.add(settingItem);
         }

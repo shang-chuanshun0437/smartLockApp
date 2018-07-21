@@ -17,6 +17,7 @@ import mutong.com.mtaj.adapter.SettingAdapter;
 import mutong.com.mtaj.adapter.SettingItem;
 import mutong.com.mtaj.common.UserCommonServiceSpi;
 import mutong.com.mtaj.repository.User;
+import mutong.com.mtaj.utils.StatusBarUtil;
 
 public class AboutAppActivity extends AppCompatActivity implements View.OnClickListener
 {
@@ -28,6 +29,11 @@ public class AboutAppActivity extends AppCompatActivity implements View.OnClickL
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.aboutapp);
+
+        //设置状态栏颜色
+        StatusBarUtil.setStatusBarColor(this,R.color.white);
+        //设置状态栏黑色文字
+        StatusBarUtil.setBarTextLightMode(this);
 
         back = (ImageView)findViewById(R.id.about_back);
         about = (TextView)findViewById(R.id.about);

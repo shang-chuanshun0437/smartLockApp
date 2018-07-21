@@ -21,6 +21,7 @@ import java.io.File;
 import java.lang.ref.WeakReference;
 
 import mutong.com.mtaj.main.AndroidOPermissionActivity;
+import mutong.com.mtaj.utils.PermissionUtils;
 
 public class AppDownloadManager
 {
@@ -32,6 +33,8 @@ public class AppDownloadManager
     private long mReqId;
     private OnUpdateListener mUpdateListener;
     private Context context;
+    //apk下载文件的路径
+    private String downloadApkPath;
 
     public AppDownloadManager(Context context)
     {
@@ -49,8 +52,13 @@ public class AppDownloadManager
     public void downloadApk(String apkUrl, String title, String desc)
     {
         // fix bug : 装不了新版本，在下载之前应该删除已有文件
-        File apkFile = new File(weakReference.get().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), "mutong.apk");
+        //确定apk下载的绝对路径
+        String dirPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
 
+        dirPath = dirPath.endsWith(File.separator) ? dirPath : dirPath + File.separator;
+        downloadApkPath = dirPath + "mutong.apk";
+
+        File apkFile = new File(downloadApkPath);
         if (apkFile != null && apkFile.exists()) {
             apkFile.delete();
         }
@@ -148,37 +156,39 @@ public class AppDownloadManager
         @Override
         public void onReceive(final Context context, final Intent intent)
         {
-            boolean haveInstallPermission;
-            // 兼容Android 8.0
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+            try
             {
-                //先获取是否有安装未知来源应用的权限
-                haveInstallPermission = context.getPackageManager().canRequestPackageInstalls();
-                if (!haveInstallPermission) {//没有权限
-                    // 弹窗，并去设置页面授权
-                    final AndroidOInstallPermissionListener listener = new AndroidOInstallPermissionListener() {
-                        @Override
-                        public void permissionSuccess() {
+                boolean haveInstallPermission;
+                // 兼容Android 8.0
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+                {
+                    //先获取是否有安装未知来源应用的权限
+                    haveInstallPermission = context.getPackageManager().canRequestPackageInstalls();
+                    if (!haveInstallPermission)
+                    {
+                        //没有权限，并去设置页面授权
+                        PermissionUtils.requestPermission(context,Manifest.permission.REQUEST_INSTALL_PACKAGES);
+                        haveInstallPermission = context.getPackageManager().canRequestPackageInstalls();
+                        if(!haveInstallPermission)
+                        {
+                            Toast.makeText(context,"您未授权，升级失败",Toast.LENGTH_LONG).show();
+                        }
+                        else
+                        {
                             installApk(context, intent);
                         }
 
-                        @Override
-                        public void permissionFail() {
-                            Toast.makeText(context, "授权失败，无法安装应用",Toast.LENGTH_LONG).show();
-                        }
-                    };
-
-                    AndroidOPermissionActivity.sListener = listener;
-                    Intent intent1 = new Intent(context, AndroidOPermissionActivity.class);
-                    context.startActivity(intent1);
-
+                    } else {
+                        installApk(context, intent);
+                    }
                 } else {
                     installApk(context, intent);
                 }
-            } else {
-                installApk(context, intent);
             }
-
+           catch (Exception e)
+           {
+               Toast.makeText(context,"安装出问题:" + e.getMessage(),Toast.LENGTH_LONG).show();
+           }
         }
     }
 
@@ -193,7 +203,7 @@ public class AppDownloadManager
 
         Uri uri;
         Intent intentInstall = new Intent();
-        intentInstall.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intentInstall.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intentInstall.setAction(Intent.ACTION_VIEW);
 
         if (completeDownLoadId == mReqId) {
@@ -203,15 +213,10 @@ public class AppDownloadManager
                 File apkFile = queryDownloadedApk(context, completeDownLoadId);
                 uri = Uri.fromFile(apkFile);
             } else { // Android 7.0 以上
-                uri = FileProvider.getUriForFile(context,
-                        "package_name.fileProvider",
-                        new File(context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), "app_name.apk"));
+                File apkFile = new File(Uri.parse(downloadApkPath).getPath());
+                uri = FileProvider.getUriForFile(context, "mutong.com.mtaj.main.fileProvider", apkFile);
                 intentInstall.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
             }
-
-            // 安装应用
-            System.out.println("下载完成了");
-
             intentInstall.setDataAndType(uri, "application/vnd.android.package-archive");
             context.startActivity(intentInstall);
         }

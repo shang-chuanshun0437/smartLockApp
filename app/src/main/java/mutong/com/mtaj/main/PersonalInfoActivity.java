@@ -28,12 +28,14 @@ import android.widget.Toast;
 import java.io.File;
 import java.io.FileOutputStream;
 
+import mutong.com.mtaj.BuildConfig;
 import mutong.com.mtaj.R;
 import mutong.com.mtaj.common.CircleImageView;
 import mutong.com.mtaj.common.PhotoPopupWindow;
 import mutong.com.mtaj.common.UserCommonServiceSpi;
 import mutong.com.mtaj.repository.Preference;
 import mutong.com.mtaj.repository.User;
+import mutong.com.mtaj.utils.PermissionUtils;
 import mutong.com.mtaj.utils.StringUtil;
 
 public class PersonalInfoActivity extends AppCompatActivity implements View.OnClickListener
@@ -120,16 +122,17 @@ public class PersonalInfoActivity extends AppCompatActivity implements View.OnCl
                 break;
             case R.id.personal_head:
             case R.id.circleImageView:
-                mPhotoPopupWindow = new PhotoPopupWindow(PersonalInfoActivity.this, new View.OnClickListener() {
+                mPhotoPopupWindow = new PhotoPopupWindow(PersonalInfoActivity.this,
+                        new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         // 权限申请
                         if (ContextCompat.checkSelfPermission(PersonalInfoActivity.this,
                                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                                != PackageManager.PERMISSION_GRANTED) {
+                                != PackageManager.PERMISSION_GRANTED)
+                        {
                             //权限还没有授予，需要在这里写申请权限的代码
-                            ActivityCompat.requestPermissions(PersonalInfoActivity.this,
-                                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 200);
+                            PermissionUtils.requestPermission(PersonalInfoActivity.this,Manifest.permission.WRITE_EXTERNAL_STORAGE);
                         } else {
                             // 如果权限已经申请过，直接进行图片选择
                             mPhotoPopupWindow.dismiss();
@@ -145,21 +148,22 @@ public class PersonalInfoActivity extends AppCompatActivity implements View.OnCl
                     }
                 }, new View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
-                        // 权限申请
-                        if (ContextCompat.checkSelfPermission(PersonalInfoActivity.this,
-                                Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
-                                || ContextCompat.checkSelfPermission(PersonalInfoActivity.this,
-                                Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                                != PackageManager.PERMISSION_GRANTED) {
-                            // 权限还没有授予，需要在这里写申请权限的代码
-                            ActivityCompat.requestPermissions(PersonalInfoActivity.this,
-                                    new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 300);
-                        } else {
-                            // 权限已经申请，直接拍照
-                            mPhotoPopupWindow.dismiss();
-                            imageCapture();
-                        }
+                    public void onClick(View v)
+                    {
+                            // 权限申请
+                            if (ContextCompat.checkSelfPermission(PersonalInfoActivity.this,
+                                    Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
+                                    || ContextCompat.checkSelfPermission(PersonalInfoActivity.this,
+                                    Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                                    != PackageManager.PERMISSION_GRANTED)
+                            {
+                                // 权限还没有授予，需要在这里写申请权限的代码
+                                PermissionUtils.requestPermission(PersonalInfoActivity.this,Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                            } else {
+                                // 权限已经申请，直接拍照
+                                mPhotoPopupWindow.dismiss();
+                                imageCapture();
+                            }
                     }
                 });
                 View rootView = LayoutInflater.from(PersonalInfoActivity.this)
@@ -176,19 +180,21 @@ public class PersonalInfoActivity extends AppCompatActivity implements View.OnCl
     private void imageCapture()
     {
         Intent intent;
-        Uri pictureUri;
+        Uri pictureUri = null;
         File pictureFile = new File(Environment.getExternalStorageDirectory(), IMAGE_FILE_NAME);
         // 判断当前系统
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            pictureUri = FileProvider.getUriForFile(this,
-                    "com.chen.lister.testchangeicon.fileProvider", pictureFile);
+
+            pictureUri = FileProvider.getUriForFile(this,"mutong.com.mtaj.main.fileProvider", pictureFile);
+
         } else {
             intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             pictureUri = Uri.fromFile(pictureFile);
         }
         // 去拍照
+
         intent.putExtra(MediaStore.EXTRA_OUTPUT, pictureUri);
         startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
     }

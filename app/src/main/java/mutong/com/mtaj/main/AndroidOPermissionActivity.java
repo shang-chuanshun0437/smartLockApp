@@ -17,6 +17,7 @@ import android.support.v7.app.AlertDialog;
 
 import mutong.com.mtaj.R;
 import mutong.com.mtaj.common.AppDownloadManager;
+import mutong.com.mtaj.utils.PermissionUtils;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -35,9 +36,8 @@ public class AndroidOPermissionActivity extends Activity
         super.onCreate(savedInstanceState);
 
         // 弹窗
-
         if (Build.VERSION.SDK_INT >= 26) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.REQUEST_INSTALL_PACKAGES}, INSTALL_PACKAGES_REQUESTCODE);
+            PermissionUtils.requestPermission(this,Manifest.permission.REQUEST_INSTALL_PACKAGES);
         } else {
             finish();
         }
@@ -67,7 +67,7 @@ public class AndroidOPermissionActivity extends Activity
     private void showDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.app_name);
-        builder.setMessage("为了正常升级应用，请点击设置按钮，允许安装未知来源应用，本功能只限用于版本升级");
+        builder.setMessage("为了正常升级应用，请允许安装未知来源应用，本功能只限用于版本升级");
         builder.setPositiveButton("设置", new DialogInterface.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override

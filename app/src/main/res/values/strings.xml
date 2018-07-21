@@ -12,6 +12,7 @@
     <string name="permission_name_sensors">Body Sensors</string>
     <string name="permission_name_sms">短信</string>
     <string name="permission_name_storage">存储--读写手机存储</string>
+    <string name="permission_name_install">安装未知应用</string>
 
     <string name="message_permission_always_failed">   应用程序需要如下权限:\n\n%1$s</string>
     <string name="title_dialog">权限申请:</string>

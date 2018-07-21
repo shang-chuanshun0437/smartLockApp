@@ -108,13 +108,12 @@
     <ListView
         android:id="@+id/me_list"
         android:layout_width="0dp"
-        android:layout_height="418dp"
-        android:layout_marginBottom="16dp"
-        android:layout_marginTop="48dp"
+        android:layout_height="49dp"
+        android:layout_marginTop="16dp"
         android:background="#FFFFFF"
         android:drawSelectorOnTop="true"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout8" />
 </android.support.constraint.ConstraintLayout>

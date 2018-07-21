@@ -62,6 +62,8 @@ public final class Permission {
     public static final String READ_EXTERNAL_STORAGE = "android.permission.READ_EXTERNAL_STORAGE";
     public static final String WRITE_EXTERNAL_STORAGE = "android.permission.WRITE_EXTERNAL_STORAGE";
 
+    public static final String REQUEST_INSTALL_PACKAGES = "android.permission.REQUEST_INSTALL_PACKAGES";
+
     public static final class Group {
         public static final String[] CALENDAR = new String[]{
                 Permission.READ_CALENDAR,
@@ -206,6 +208,12 @@ public final class Permission {
                     }
                     break;
                 }
+                case REQUEST_INSTALL_PACKAGES:
+                    String message = context.getString(R.string.permission_name_install);
+                    if (!textList.contains(message)) {
+                        textList.add(message);
+                    }
+                    break;
             }
         }
         return textList;
