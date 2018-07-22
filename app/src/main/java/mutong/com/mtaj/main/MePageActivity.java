@@ -27,7 +27,7 @@ import mutong.com.mtaj.repository.Preference;
 import mutong.com.mtaj.repository.User;
 import mutong.com.mtaj.utils.StatusBarUtil;
 
-public class MePageActivity extends Fragment implements View.OnClickListener,AdapterView.OnItemClickListener
+public class MePageActivity extends Fragment implements View.OnClickListener
 {
     private UserCommonServiceSpi userCommonService;
 
@@ -42,9 +42,12 @@ public class MePageActivity extends Fragment implements View.OnClickListener,Ada
     private TextView settings;
 
     private ListView mePage;
+    private ListView helpList;
 
     //列表数据
     private List<MePageItem> listItems = new ArrayList<MePageItem>();
+    private List<MePageItem> helpDatas = new ArrayList<MePageItem>();
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -61,6 +64,7 @@ public class MePageActivity extends Fragment implements View.OnClickListener,Ada
         meForward = (ImageView)view.findViewById(R.id.me_forward);
         settings = (TextView) view.findViewById(R.id.me_page_settings);
         mePage = (ListView)view.findViewById(R.id.me_list);
+        helpList = (ListView)view.findViewById(R.id.help_list);
 
         headPortrait.setOnClickListener(this);
         nickname.setOnClickListener(this);
@@ -69,9 +73,7 @@ public class MePageActivity extends Fragment implements View.OnClickListener,Ada
         settings.setOnClickListener(this);
 
         initItems();
-        MePageAdapter adapter = new MePageAdapter(getContext(),R.layout.mepage_item,listItems);
-        mePage.setAdapter(adapter);
-        mePage.setOnItemClickListener(this);
+
         return view;
     }
 
@@ -137,24 +139,46 @@ public class MePageActivity extends Fragment implements View.OnClickListener,Ada
     {
         listItems.clear();
         MePageItem []tempItems = new MePageItem[]{new MePageItem("我的设备",R.mipmap.walk_anjian,R.mipmap.forward),
-                new MePageItem("联系我们",R.mipmap.talk_service,R.mipmap.forward)};
+                new MePageItem("租房合约",R.mipmap.contract,R.mipmap.forward)};
         for (MePageItem settingItem : tempItems)
         {
             listItems.add(settingItem);
         }
-    }
+        MePageAdapter adapter = new MePageAdapter(getContext(),R.layout.mepage_item,listItems);
+        mePage.setAdapter(adapter);
+        mePage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                switch (position)
+                {
+                    case 0://我的设备
+                        Intent intent = new Intent(MePageActivity.this.getContext(),MyDeviceActivity.class);
+                        startActivity(intent);
+                        break;
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-    {
+                    case 1://租房合约
+                        Intent contractIntent = new Intent(MePageActivity.this.getContext(),ContractInfoActivity.class);
+                        startActivity(contractIntent);
+                        break;
+                }
+            }
+        });
 
-        switch (position)
+        helpDatas.clear();
+        MePageItem []helpItems = new MePageItem[]{new MePageItem("帮助信息",R.mipmap.help,R.mipmap.forward),
+                new MePageItem("联系我们",R.mipmap.talk_service,R.mipmap.forward)};
+        for (MePageItem settingItem : helpItems)
         {
-            case 0:
-                Intent intent = new Intent(this.getContext(),MyDeviceActivity.class);
-                startActivity(intent);
-                break;
+            helpDatas.add(settingItem);
         }
-        System.out.println(view.getId() + "," + id);
+        MePageAdapter adapterHelp = new MePageAdapter(getContext(),R.layout.mepage_item,helpDatas);
+        helpList.setAdapter(adapterHelp);
+        helpList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+        });
     }
+
 }

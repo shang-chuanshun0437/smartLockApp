@@ -36,6 +36,7 @@ import mutong.com.mtaj.common.UserCommonServiceSpi;
 import mutong.com.mtaj.repository.Preference;
 import mutong.com.mtaj.repository.User;
 import mutong.com.mtaj.utils.PermissionUtils;
+import mutong.com.mtaj.utils.StatusBarUtil;
 import mutong.com.mtaj.utils.StringUtil;
 
 public class PersonalInfoActivity extends AppCompatActivity implements View.OnClickListener
@@ -64,6 +65,11 @@ public class PersonalInfoActivity extends AppCompatActivity implements View.OnCl
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.personal_info);
+
+        //设置状态栏颜色
+        StatusBarUtil.setStatusBarColor(this,R.color.title);
+        //设置状态栏黑色文字
+        StatusBarUtil.setBarTextLightMode(this);
 
         userCommonService = new UserCommonServiceSpi(this);
 

@@ -4,14 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#EBEBEB"
+    android:background="#FFFFFF"
     tools:context="mutong.com.mtaj.main.MainActivity">
 
 
     <android.support.constraint.ConstraintLayout
+        android:id="@+id/constraintLayout11"
         android:layout_width="0dp"
-        android:layout_height="55dp"
-        android:background="#1b82d1"
+        android:layout_height="wrap_content"
+        android:background="@color/title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,9 +24,9 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:text="个人信息"
-            android:textColor="#FFFFFF"
+            android:textColor="#000000"
             android:textSize="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/personal_back"
@@ -37,21 +38,29 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
-            android:src="@mipmap/back"
+            android:src="@mipmap/back_black"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/personal_info_text" />
     </android.support.constraint.ConstraintLayout>
+
+    <View
+        android:id="@+id/dividView8"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/divide"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout11" />
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintLayout2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="88dp"
         android:background="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/dividView8">
 
         <TextView
             android:id="@+id/personal_head"
@@ -81,7 +90,7 @@
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:layout_marginTop="8dp"
-            android:background="#EBEBEB"
+            android:background="@color/divide"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -114,7 +123,7 @@
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:layout_marginTop="8dp"
-            android:background="#EBEBEB"
+            android:background="@color/divide"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/personal_account" />
 
@@ -145,34 +154,10 @@
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:layout_marginTop="12dp"
-            android:background="#EBEBEB"
+            android:background="@color/divide"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/personal_nickname" />
-
-        <TextView
-            android:id="@+id/open_door_log"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="10dp"
-            android:text="开锁历史"
-            android:textSize="18dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/dividView3"
-            app:layout_constraintVertical_bias="0.0" />
-
-        <ImageView
-            android:id="@+id/imageView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="24dp"
-            android:layout_marginTop="8dp"
-            android:src="@mipmap/forward"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/dividView3" />
 
     </android.support.constraint.ConstraintLayout>
 

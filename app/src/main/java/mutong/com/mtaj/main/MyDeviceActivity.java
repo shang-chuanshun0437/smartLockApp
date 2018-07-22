@@ -42,7 +42,7 @@ public class MyDeviceActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.my_device);
 
         //设置状态栏颜色
-        StatusBarUtil.setStatusBarColor(this,R.color.mePage);
+        StatusBarUtil.setStatusBarColor(this,R.color.title);
         //设置状态栏黑色文字
         StatusBarUtil.setBarTextLightMode(this);
 

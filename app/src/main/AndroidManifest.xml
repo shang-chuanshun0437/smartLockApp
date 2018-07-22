@@ -82,6 +82,10 @@
         </activity>
 
         <activity
+            android:name=".main.ContractInfoActivity">
+        </activity>
+
+        <activity
             android:name=".main.AddUserDialogActivity"
             android:theme="@style/DialogActivityStyle">
         </activity>

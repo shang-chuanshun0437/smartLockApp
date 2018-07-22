@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/divide"
+    android:background="@color/white"
     tools:context="mutong.com.mtaj.main.MainActivity">
 
     <android.support.constraint.ConstraintLayout
@@ -102,18 +102,45 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/me" />
 
-
     </android.support.constraint.ConstraintLayout>
+
+    <View
+        android:id="@+id/bindDeviedividView2"
+        android:layout_width="0dp"
+        android:layout_height="10dp"
+        android:background="@color/divide"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout8" />
 
     <ListView
         android:id="@+id/me_list"
         android:layout_width="0dp"
-        android:layout_height="49dp"
-        android:layout_marginTop="16dp"
+        android:layout_height="wrap_content"
         android:background="#FFFFFF"
         android:drawSelectorOnTop="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout8" />
+        app:layout_constraintTop_toBottomOf="@+id/bindDeviedividView2" />
+
+    <View
+        android:id="@+id/bindDeviedividView12"
+        android:layout_width="0dp"
+        android:layout_height="10dp"
+        android:background="@color/divide"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/me_list" />
+
+    <ListView
+        android:id="@+id/help_list"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:drawSelectorOnTop="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bindDeviedividView12" />
 </android.support.constraint.ConstraintLayout>
