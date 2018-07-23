@@ -37,6 +37,7 @@
             android:layout_marginStart="32dp"
             android:layout_marginTop="8dp"
             android:text="我的设备"
+            android:textColor="#000000"
             android:textSize="19sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/device_back"

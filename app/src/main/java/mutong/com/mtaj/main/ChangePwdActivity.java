@@ -6,24 +6,17 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.TooManyListenersException;
 
 import mutong.com.mtaj.R;
-import mutong.com.mtaj.adapter.SettingAdapter;
-import mutong.com.mtaj.adapter.SettingItem;
 import mutong.com.mtaj.common.ErrorCode;
 import mutong.com.mtaj.common.UserCommonServiceSpi;
 import mutong.com.mtaj.repository.User;

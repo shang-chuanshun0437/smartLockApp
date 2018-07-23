@@ -20,12 +20,14 @@
             android:id="@+id/login_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:text="欢迎登录"
             android:textColor="#000000"
             android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.084"
             app:layout_constraintStart_toEndOf="@+id/back_view"
@@ -38,11 +40,22 @@
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_marginBottom="8dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:background="@mipmap/back_black"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </android.support.constraint.ConstraintLayout>
+
+    <View
+        android:id="@+id/bindDeviedividView10"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/divide"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
 
     <ImageView
         android:id="@+id/imageView2"
@@ -50,12 +63,12 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="32dp"
         android:background="@mipmap/showicon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/bindDeviedividView10" />
 
 
     <Button
@@ -132,6 +145,7 @@
             android:background="@null"
             android:ems="15"
             android:hint="请输入手机号"
+            android:maxLength="13"
             android:inputType="number"
             android:textSize="17sp"
             app:layout_constraintEnd_toEndOf="parent"

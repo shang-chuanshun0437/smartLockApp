@@ -19,8 +19,6 @@ import java.util.List;
 import mutong.com.mtaj.R;
 import mutong.com.mtaj.adapter.MePageAdapter;
 import mutong.com.mtaj.adapter.MePageItem;
-import mutong.com.mtaj.adapter.SettingAdapter;
-import mutong.com.mtaj.adapter.SettingItem;
 import mutong.com.mtaj.common.CircleImageView;
 import mutong.com.mtaj.common.UserCommonServiceSpi;
 import mutong.com.mtaj.repository.Preference;

@@ -58,10 +58,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         phoneNum.addTextChangedListener(new SpaceTextWatcher(phoneNum));
         //EditText获取焦点并显示软键盘
-        phoneNum.setFocusable(true);
+        /*phoneNum.setFocusable(true);
         phoneNum.setFocusableInTouchMode(true);
         phoneNum.requestFocus();
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);*/
     }
 
 
@@ -92,6 +92,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         return;
                     }
                 }
+
+                //校验手机号和密码长度
+                checkAccountPwd(phoneNumStr,pwd);
 
                 Map<String,String> map = new HashMap<String,String>();
                 map.put("phoneNum",phoneNumStr);
@@ -158,4 +161,25 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }
         }
     };
+
+    public void checkAccountPwd(String account,String pwd)
+    {
+        if (StringUtil.isEmpty(account) || StringUtil.isEmpty(pwd))
+        {
+            Toast.makeText(this,"账号或密码不能为空",Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        if (account.length() != 11)
+        {
+            Toast.makeText(this,"请输入11为的手机号",Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        if(pwd.length() > 48 || pwd.length() < 8)
+        {
+            Toast.makeText(this,"请输入8~48位的密码",Toast.LENGTH_LONG).show();
+            return;
+        }
+    }
 }

@@ -29,6 +29,7 @@ import mutong.com.mtaj.repository.User;
 import mutong.com.mtaj.utils.CacheActivity;
 import mutong.com.mtaj.utils.HttpUtil;
 import mutong.com.mtaj.utils.SpaceTextWatcher;
+import mutong.com.mtaj.utils.StatusBarUtil;
 import mutong.com.mtaj.utils.StringUtil;
 
 /**
@@ -44,6 +45,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register);
+
+        //设置状态栏颜色
+        StatusBarUtil.setStatusBarColor(this,R.color.title);
+        //设置状态栏黑色文字
+        StatusBarUtil.setBarTextLightMode(this);
 
         //添加到activity的cache中，目的是注册完成后，结束该activity
         CacheActivity.addActivity(this);

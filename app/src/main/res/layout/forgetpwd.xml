@@ -36,9 +36,9 @@
             android:layout_marginBottom="8dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:text="注册"
+            android:text="找回密码"
             android:textColor="@color/black"
-            android:textSize="20dp"
+            android:textSize="19sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/back"
             app:layout_constraintTop_toTopOf="parent" />
@@ -53,14 +53,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout6" />
 
-    <TextView
+    <EditText
         android:id="@+id/place_belonging"
-        android:layout_width="wrap_content"
+        android:layout_width="212dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="30dp"
-        android:text="手机号归属地"
-        android:textSize="19sp"
+        android:background="@null"
+        android:hint="请输入手机号"
+        android:singleLine="true"
+        android:maxLines="1"
+        android:inputType="phone|number"
+        android:maxLength="13"
+        android:textSize="17sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/divide1" />
 
@@ -68,9 +73,14 @@
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="48dp"
-        android:layout_marginTop="34dp"
-        android:text="中国"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="28dp"
+        android:gravity="center"
+        android:paddingBottom="5dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingTop="5dp"
+        android:text="获取验证码"
         android:textColor="@color/colorMainGreen"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/divide1" />
@@ -87,30 +97,29 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/place_belonging" />
 
-    <TextView
-        android:id="@+id/textView86"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="18dp"
-        android:text="+86"
-        android:textSize="17sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divide" />
-
+    <View
+        android:id="@+id/divide3"
+        android:layout_width="1dp"
+        android:layout_height="36dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginTop="24dp"
+        android:background="@color/divide"
+        app:layout_constraintBottom_toTopOf="@+id/divide"
+        app:layout_constraintEnd_toStartOf="@+id/textView4"
+        app:layout_constraintTop_toBottomOf="@+id/divide1" />
     <EditText
         android:id="@+id/phone_num_input"
         android:layout_width="273dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
-        android:inputType="phone|number"
-        android:maxLength="13"
         android:background="@null"
-        android:textSize="19sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView86"
+        android:hint="请输入验证码"
+        android:singleLine="true"
+        android:maxLines="1"
+        android:inputType="number"
+        android:textSize="17sp"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/divide" />
 
     <View
@@ -125,18 +134,45 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/phone_num_input" />
 
+    <View
+        android:id="@+id/divide20"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="4dp"
+        android:background="@color/divide"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView25" />
+
     <Button
         android:id="@+id/next_button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="48dp"
         android:background="@color/colorMainGreen"
-        android:text="下一步"
+        android:text="确认修改"
         android:textSize="19sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divide20" />
+
+    <EditText
+        android:id="@+id/textView25"
+        android:layout_width="272dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:background="@null"
+        android:singleLine="true"
+        android:maxLines="1"
+        android:hint="请输入新密码"
+        android:textSize="17sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/divide2" />
 
